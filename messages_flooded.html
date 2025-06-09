@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>我的信息 - 螺旋论坛</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">论坛</div>
+            <div>用户小A <a href="messages_flooded.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
+        </header>
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="#">我的关注</a>
+            <a href="#">我的主页</a>
+            <a href="messages_flooded.html" class="active">我的信息</a>
+        </nav>
+        <main>
+            <div class="chat-layout">
+                <div class="contact-list">
+                    <h2>私信列表 <button onclick="alert('已全部设为已读！')">一键已读</button></h2>
+                    <a href="chat_with_troll.html">
+                        <div class="contact-item">
+                            <img src="https://via.placeholder.com/40/000/FFF?text=剑" alt="avatar" class="contact-avatar">
+                            <div class="contact-info">
+                                <div class="name">sohnwhnalqq9912_xlk</div>
+                                <div class="preview">像你这种阴暗老鼠就只敢躲在...</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="chat_with_user21.html">
+                        <div class="contact-item">
+                            <img src="https://via.placeholder.com/40/ccc/000?text=?" alt="avatar" class="contact-avatar">
+                            <div class="contact-info">
+                                <div class="name">用户21</div>
+                                <div class="preview">很抱歉，冒昧打扰……我失忆了...</div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- 剧本第一幕结尾需要的谩骂/求饶信息 -->
+                    <div class="contact-item"><img src="https://via.placeholder.com/40" class="contact-avatar"><div class="contact-info"><div class="name">陌生人1</div><div class="preview">求求你放过我吧大哥！</div></div></div>
+                    <div class="contact-item"><img src="https://via.placeholder.com/40" class="contact-avatar"><div class="contact-info"><div class="name">陌生人2</div><div class="preview">有种别删，我一定找到你！</div></div></div>
+                    <div class="contact-item"><img src="https://via.placeholder.com/40" class="contact-avatar"><div class="contact-info"><div class="name">陌生人3</div><div class="preview">我错了，我再也不敢了...</div></div></div>
+                    <!-- 可以复制粘贴更多条来填满屏幕 -->
+                </div>
+                <div class="chat-window" style="text-align: center; padding-top: 100px;">
+                    <h2>点击左侧联系人开始对话</h2>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        function showNotifications() { document.getElementById('msg-badge').style.display = 'inline-block'; }
+        // 如果需要，可以在这里自动触发99+
+        // showNotifications();
+    </script>
+</body>
+</html>
