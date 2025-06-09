@@ -85,3 +85,48 @@ nav a.active { color: var(--primary-color); background-color: #e7f3ff; font-weig
     text-underline-offset: 3px;
     color: var(--text-muted);
 }
+
+/* --- 输入框和发送按钮样式 --- */
+.chat-input-area {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 10px;
+}
+.chat-input {
+    flex-grow: 1;
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-family: 'Noto Sans SC', sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.chat-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+.send-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.send-button:hover {
+    background-color: #0056b3;
+}
+.send-button.disabled {
+    background-color: #a0c7ff;
+    cursor: not-allowed;
+}
