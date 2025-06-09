@@ -2,83 +2,55 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8"><title>与 用户21 的对话</title><link rel="stylesheet" href="style.css">
-    <style>
-        .ti-cursor { font-size: 1.2em; }
-    </style>
 </head>
 <body>
     <div class="container">
-        <!-- header 和 nav 部分保持不变 -->
-        <header>...</header> <nav>...</nav>
+        <header>...</header>
         <main>
             <div class="chat-layout">
-                <div class="contact-list"> ... </div>
+                <div class="contact-list">...</div>
                 <div class="chat-window">
                     <div class="chat-header"><a href="user21_profile.html">用户21</a></div>
-                    <div class="chat-messages" id="message-container">
-                        <!-- 对话容器，初始为空 -->
+                    <div class="chat-messages" id="message-container"></div>
+                    <!-- 新增的输入区域 -->
+                    <div class="chat-input-area">
+                        <input type="text" id="fake-input" class="chat-input" placeholder="输入消息..." readonly>
+                        <button id="send-btn" class="send-button disabled" disabled>↑</button>
                     </div>
-                    <div style="text-align:center; color: #999; margin-top: 10px;">（按空格键进行对话）</div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- 引入TypeIt库 -->
     <script src="typeit.min.js"></script>
-
-    <!-- 新的JS控制脚本 -->
     <script>
+        // JS脚本和上一个文件完全一样，只修改这里的 script 数组
         const messageContainer = document.getElementById('message-container');
+        const fakeInput = document.getElementById('fake-input');
+        const sendBtn = document.getElementById('send-btn');
         let currentStep = 0;
+        let isTyping = false;
 
-        // 剧本
         const script = [
             { type: 'received', text: '很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。' },
-            { type: 'sent', text: '有病去医院。' },
+            { type: 'sent-ime', pinyin: 'yǒu bìng qù yī yuàn', text: '有病去医院。' },
             { type: 'received', text: '我无法去医院。' },
             { type: 'received', text: '抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。' },
-            { type: 'sent', text: '哈？' },
-            { type: 'sent', text: '你觉得区区格式化能拦住我吗？' },
-            { type: 'sent', text: '信息只要从硬盘上流过，就会留下痕迹。' },
+            { type: 'sent-ime', pinyin: 'hā?', text: '哈？' },
+            { type: 'sent-ime', pinyin: 'nǐ jué de qū qū gé shì huà néng lán zhù wǒ ma', text: '你觉得区区格式化能拦住我吗？' },
+            { type: 'sent-ime', pinyin: 'xìn xī zhǐ yào cóng yìng pán shàng liú guò, jiù huì liú xià hén jì', text: '信息只要从硬盘上流过，就会留下痕迹。' },
             { type: 'received', text: '谢谢……那就拜托您了！' },
             { type: 'sent', text: '………………………………' },
             { type: 'received', text: '我可以把我的电脑权限完全对您敞开。' },
-            { type: 'sent', text: '用不着！！！' }
+            { type: 'sent-ime', pinyin: 'yòng bu zháo!!!', text: '用不着！！！' }
         ];
 
-        function nextStep() {
-            if (currentStep >= script.length) return;
-
-            const step = script[currentStep];
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble msg-${step.type}`;
-            const elementId = `msg-${Date.now()}`;
-            bubble.id = elementId;
-            
-            messageContainer.appendChild(bubble);
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-
-            new TypeIt(`#${elementId}`, {
-                strings: step.text,
-                speed: 70, // 可以为不同角色设置不同速度
-                cursorChar: "█",
-                afterComplete: (instance) => {
-                    instance.destroy();
-                }
-            }).go();
-
-            currentStep++;
-        }
-
-        document.body.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                e.preventDefault();
-                nextStep();
-            }
-        });
-
-        console.log("页面已准备就绪，按空格键开始对话。");
+        // 后面所有的JS函数 (nextStep, simulateTypingInInput, showInChat, 事件监听) 都和上一个文件一模一样
+        // ... (此处省略和上一个文件完全相同的JS代码) ...
+        function nextStep() { if (currentStep >= script.length || isTyping) return; isTyping = true; const step = script[currentStep]; if (step.type === 'pause') { console.log(step.text); isTyping = false; currentStep++; return; } if (step.type === 'received') { showInChat(step.text, 'received', () => isTyping = false); currentStep++; } else if (step.type.startsWith('sent')) { simulateTypingInInput(step, () => { const textToSend = fakeInput.value; fakeInput.value = ''; sendBtn.classList.add('disabled'); sendBtn.disabled = true; showInChat(textToSend, 'sent', () => isTyping = false); currentStep++; }); } }
+        function simulateTypingInInput(step, onComplete) { sendBtn.classList.add('disabled'); sendBtn.disabled = true; const inputTypeit = new TypeIt('#fake-input', { speed: 80, lifeLike: true, afterComplete: () => { sendBtn.classList.remove('disabled'); sendBtn.disabled = false; setTimeout(onComplete, 300); } }); if (step.type === 'sent-ime') { inputTypeit.type(step.pinyin, { instant: true }).pause(500).delete(step.pinyin.length, { instant: true }).type(step.text); } else { inputTypeit.type(step.text); } inputTypeit.go(); }
+        function showInChat(text, type, onComplete) { const bubble = document.createElement('div'); bubble.className = `message-bubble msg-${type}`; const elementId = `msg-${Date.now()}`; bubble.id = elementId; messageContainer.appendChild(bubble); messageContainer.scrollTop = messageContainer.scrollHeight; new TypeIt(`#${elementId}`, { strings: text, instant: true, afterComplete: (instance) => { instance.destroy(); if(onComplete) onComplete(); } }).go(); }
+        document.body.addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); nextStep(); } });
     </script>
 </body>
 </html>
