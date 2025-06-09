@@ -13,22 +13,27 @@
         </header>
         <main>
             <div class="chat-layout">
-                <!-- 左侧联系人列表 -->
+                <!-- 【修复】HTML结构保持稳定，不再由JS生成 -->
                 <div class="contact-list" id="contact-list-container">
                     <h2>私信列表 <button onclick="alert('已全部设为已读！')">一键已读</button></h2>
                     <div class="contact-item" data-contact-id="troll">
                         <img src="https://via.placeholder.com/48/000/FFF?text=剑" alt="avatar" class="contact-avatar">
-                        <div class="contact-info"><div class="name">sohnwhnalqq9912_xlk</div><div class="preview"></div></div>
+                        <div class="contact-info">
+                            <div class="name">sohnwhnalqq9912_xlk</div>
+                            <div class="preview">...</div>
+                        </div>
                     </div>
                     <div class="contact-item" data-contact-id="user21">
                         <img src="https://via.placeholder.com/48/ccc/000?text=?" alt="avatar" class="contact-avatar">
-                        <div class="contact-info"><div class="name">用户21</div><div class="preview"></div></div>
+                        <div class="contact-info">
+                            <div class="name">用户21</div>
+                            <div class="preview">...</div>
+                        </div>
                     </div>
                     <div class="contact-item"><img src="https://via.placeholder.com/48" class="contact-avatar"><div class="contact-info"><div class="name">陌生人1</div><div class="preview">求求你放过我吧大哥！</div></div></div>
                     <div class="contact-item"><img src="https://via.placeholder.com/48" class="contact-avatar"><div class="contact-info"><div class="name">陌生人2</div><div class="preview">有种别删，我一定找到你！</div></div></div>
                 </div>
                 
-                <!-- 右侧内容容器 -->
                 <div id="chat-content-area" class="chat-window" style="align-items: center; justify-content: center;">
                     <h2 style="color: #999;">点击左侧联系人开始对话</h2>
                 </div>
@@ -36,34 +41,25 @@
         </main>
     </div>
 
-    <!-- TypeIt库保持不变 -->
     <script src="typeit.min.js"></script>
     <script>
-        // --- 数据中心 (保持不变) ---
-        const chatData = { /* ... 之前的数据 ... */ };
-        chatData.troll = {
-            name: 'sohnwhnalqq9912_xlk', profileLink: '#',
-            replies: [
-                '像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。',
-                '刚注册的新号，你开。','大哥我错了！！！','求求你别发了，我给你磕头了！'
-            ]
+        // --- 数据中心 ---
+        const chatData = {
+            troll: { /* ... 数据 ... */ },
+            user21: { /* ... 数据 ... */ }
         };
-        chatData.user21 = {
-            name: '用户21', profileLink: 'user21_profile.html',
-            replies: [
-                '很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。',
-                '我无法去医院。','抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。',
-                '谢谢……那就拜托您了！','我可以把我的电脑权限完全对您敞开。'
-            ]
-        };
+        chatData.troll = { name: 'sohnwhnalqq9912_xlk', profileLink: '#', replies: ['像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。','刚注册的新号，你开。','大哥我错了！！！','求求你别发了，我给你磕头了！'] };
+        chatData.user21 = { name: '用户21', profileLink: 'user21_profile.html', replies: ['很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。','我无法去医院。','抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。','谢谢……那就拜托您了！','我可以把我的电脑权限完全对您敞开。'] };
 
         const contentArea = document.getElementById('chat-content-area');
         const contactItems = document.querySelectorAll('.contact-item');
+        let activeContactId = null;
         let activeBotReplies = null;
         let botReplyIndex = 0;
 
         function loadChat(contactId) {
             botReplyIndex = 0;
+            activeContactId = contactId;
             const data = chatData[contactId];
             if (!data) return;
             activeBotReplies = data.replies;
@@ -74,7 +70,6 @@
                 <div class="chat-messages" id="message-container"></div>
                 <div class="typing-indicator-bubble" id="typing-indicator"><span></span><span></span><span></span></div>
                 <div class="chat-input-area">
-                    <!-- 【关键修复】移除了 readonly 属性 -->
                     <input type="text" id="real-input" class="chat-input" placeholder="输入消息后按 Enter...">
                     <button id="send-btn" class="send-button">↑</button>
                 </div>
@@ -94,25 +89,22 @@
             const input = document.getElementById('real-input');
             const text = input.value.trim();
             if (text === '' || input.disabled) return;
-
+            
             showInChat(text, 'sent');
             input.value = '';
-
+            
             triggerBotReply();
         }
 
         function triggerBotReply() {
             if (!activeBotReplies || botReplyIndex >= activeBotReplies.length) return;
-
             const input = document.getElementById('real-input');
             const sendBtn = document.getElementById('send-btn');
             const typingIndicator = document.getElementById('typing-indicator');
             const replyText = activeBotReplies[botReplyIndex];
 
-            // 【关键修复】使用 disabled 属性来控制输入状态
             input.disabled = true;
-            sendBtn.classList.add('disabled');
-            sendBtn.disabled = true;
+            sendBtn.classList.add('disabled'); sendBtn.disabled = true;
             typingIndicator.style.display = 'flex';
             document.getElementById('message-container').scrollTop = document.getElementById('message-container').scrollHeight;
 
@@ -120,17 +112,14 @@
             setTimeout(() => {
                 typingIndicator.style.display = 'none';
                 showInChat(replyText, 'received');
-                
-                // 【关键修复】轮到用户时，解除禁用
                 input.disabled = false;
-                input.focus(); // 自动聚焦，方便连续输入
-                sendBtn.classList.remove('disabled');
-                sendBtn.disabled = false;
-
+                input.focus();
+                sendBtn.classList.remove('disabled'); sendBtn.disabled = false;
                 botReplyIndex++;
             }, typingDelay);
         }
 
+        // 【功能增强】showInChat 现在会更新左侧预览
         function showInChat(text, type) {
             const messageContainer = document.getElementById('message-container');
             const bubble = document.createElement('div');
@@ -138,16 +127,33 @@
             bubble.textContent = text;
             messageContainer.appendChild(bubble);
             messageContainer.scrollTop = messageContainer.scrollHeight;
+
+            // 更新左侧预览
+            updatePreview(activeContactId, text);
         }
 
-        contactItems.forEach(item => {
-            const contactId = item.dataset.contactId;
-            if (contactId) {
-                const preview = chatData[contactId]?.replies[0] || '';
-                item.querySelector('.preview').textContent = preview.substring(0, 15) + '...';
-                item.addEventListener('click', () => loadChat(contactId));
+        // 【新增函数】用于更新预览信息
+        function updatePreview(contactId, text) {
+            const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
+            if (contactItem) {
+                const previewEl = contactItem.querySelector('.preview');
+                previewEl.textContent = text.substring(0, 15) + '...';
             }
-        });
+        }
+
+        // --- 初始绑定和设置 ---
+        function initializeContacts() {
+            contactItems.forEach(item => {
+                const contactId = item.dataset.contactId;
+                if (contactId && chatData[contactId]) {
+                    // 初始化时，显示第一句回复作为预览
+                    updatePreview(contactId, chatData[contactId].replies[0]);
+                    item.addEventListener('click', () => loadChat(contactId));
+                }
+            });
+        }
+        
+        initializeContacts(); // 页面加载时执行初始化
     </script>
 </body>
 </html>
