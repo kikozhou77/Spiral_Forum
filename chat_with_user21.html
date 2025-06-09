@@ -2,31 +2,83 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8"><title>与 用户21 的对话</title><link rel="stylesheet" href="style.css">
+    <style>
+        .ti-cursor { font-size: 1.2em; }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>...</header><nav>...</nav>
+        <!-- header 和 nav 部分保持不变 -->
+        <header>...</header> <nav>...</nav>
         <main>
             <div class="chat-layout">
-                <div class="contact-list"> <!-- 可以复制messages_flooded.html里的联系人列表过来，并把用户21高亮 --> </div>
+                <div class="contact-list"> ... </div>
                 <div class="chat-window">
                     <div class="chat-header"><a href="user21_profile.html">用户21</a></div>
-                    <div class="chat-messages">
-                        <div class="message-bubble msg-received">很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。</div>
-                        <div class="message-bubble msg-sent">有病去医院。</div>
-                        <div class="message-bubble msg-received">我无法去医院。</div>
-                        <div class="message-bubble msg-received">抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。</div>
-                        <div class="message-bubble msg-sent">哈？</div>
-                        <div class="message-bubble msg-sent">你觉得区区格式化能拦住我吗？</div>
-                        <div class="message-bubble msg-sent">信息只要从硬盘上流过，就会留下痕迹。</div>
-                        <div class="message-bubble msg-received">谢谢……那就拜托您了！</div>
-                        <div class="message-bubble msg-sent">………………………………</div>
-                        <div class="message-bubble msg-received">我可以把我的电脑权限完全对您敞开。</div>
-                        <div class="message-bubble msg-sent">用不着！！！</div>
+                    <div class="chat-messages" id="message-container">
+                        <!-- 对话容器，初始为空 -->
                     </div>
+                    <div style="text-align:center; color: #999; margin-top: 10px;">（按空格键进行对话）</div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- 引入TypeIt库 -->
+    <script src="typeit.min.js"></script>
+
+    <!-- 新的JS控制脚本 -->
+    <script>
+        const messageContainer = document.getElementById('message-container');
+        let currentStep = 0;
+
+        // 剧本
+        const script = [
+            { type: 'received', text: '很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。' },
+            { type: 'sent', text: '有病去医院。' },
+            { type: 'received', text: '我无法去医院。' },
+            { type: 'received', text: '抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。' },
+            { type: 'sent', text: '哈？' },
+            { type: 'sent', text: '你觉得区区格式化能拦住我吗？' },
+            { type: 'sent', text: '信息只要从硬盘上流过，就会留下痕迹。' },
+            { type: 'received', text: '谢谢……那就拜托您了！' },
+            { type: 'sent', text: '………………………………' },
+            { type: 'received', text: '我可以把我的电脑权限完全对您敞开。' },
+            { type: 'sent', text: '用不着！！！' }
+        ];
+
+        function nextStep() {
+            if (currentStep >= script.length) return;
+
+            const step = script[currentStep];
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble msg-${step.type}`;
+            const elementId = `msg-${Date.now()}`;
+            bubble.id = elementId;
+            
+            messageContainer.appendChild(bubble);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+
+            new TypeIt(`#${elementId}`, {
+                strings: step.text,
+                speed: 70, // 可以为不同角色设置不同速度
+                cursorChar: "█",
+                afterComplete: (instance) => {
+                    instance.destroy();
+                }
+            }).go();
+
+            currentStep++;
+        }
+
+        document.body.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                nextStep();
+            }
+        });
+
+        console.log("页面已准备就绪，按空格键开始对话。");
+    </script>
 </body>
 </html>
