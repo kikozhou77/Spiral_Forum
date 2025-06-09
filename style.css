@@ -1,0 +1,66 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #f6f8fa;
+    color: #24292f;
+}
+header, nav, main {
+    width: 90%;
+    max-width: 980px;
+    margin: 15px auto;
+    background-color: #ffffff;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    padding: 16px;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo { font-size: 2em; font-weight: bold; }
+.welcome-message { color: #57606a; }
+nav {
+    display: flex;
+    gap: 20px;
+    background: none;
+    border: none;
+    padding: 0 16px;
+    border-bottom: 1px solid #d0d7de;
+}
+nav a {
+    text-decoration: none;
+    color: #57606a;
+    padding: 8px 16px;
+    font-weight: 600;
+}
+nav a.active {
+    color: #24292f;
+    border-bottom: 2px solid #fd8c73;
+}
+nav .post-button {
+    margin-left: auto;
+    background-color: #2da44e;
+    color: white;
+    border-radius: 6px;
+    border: 1px solid rgba(27, 31, 36, 0.15);
+}
+.post-list-item {
+    border-bottom: 1px solid #d0d7de;
+    padding: 15px 0;
+}
+.post-list-item:last-child { border-bottom: none; }
+.post-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #0969da;
+    text-decoration: none;
+}
+.post-meta {
+    font-size: 0.9em;
+    color: #57606a;
+    margin-top: 5px;
+}
+#comments-section {
+    margin-top: 20px;
+}
