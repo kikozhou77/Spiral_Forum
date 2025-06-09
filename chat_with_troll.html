@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"><title>与 sohnwhnalqq9912_xlk 的对话</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>...</header> <!-- 省略，和上面一样 -->
+        <nav><a href="index.html">首页</a><a href="messages_flooded.html" class="active">我的信息</a></nav>
+        <main>
+            <div class="chat-layout">
+                <div class="contact-list"> <!-- 省略，和上面一样 --> </div>
+                <div class="chat-window">
+                    <div class="chat-header">sohnwhnalqq9912_xlk</div>
+                    <div class="chat-messages">
+                        <div class="message-bubble msg-received">像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。</div>
+                        <div class="message-bubble msg-sent">信不信我把你开了。</div>
+                        <div class="message-bubble msg-received">刚注册的新号，你开。</div>
+                        <div class="typing-indicator" id="troll-typing">正在输入中...</div>
+                        <!-- 以下是小A开盒后发送的内容 -->
+                        <div class="message-bubble msg-sent">张伟</div>
+                        <div class="message-bubble msg-sent">23岁，家住幸福小区3栋401</div>
+                        <div class="message-bubble msg-sent">你昨天刚买的螺蛳粉，今天应该到了吧？</div>
+                        <div class="message-bubble msg-sent">你最近总是在看二手车网站，想买高尔夫？</div>
+                        <div class="message-bubble msg-received">大哥我错了！！！</div>
+                        <div class="message-bubble msg-received">求求你别发了，我给你磕头了！</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // 在控制台输入 toggleTyping() 来控制“正在输入中”的显示/隐藏
+        function toggleTyping() {
+            const indicator = document.getElementById('troll-typing');
+            indicator.style.display = (indicator.style.display === 'block') ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
