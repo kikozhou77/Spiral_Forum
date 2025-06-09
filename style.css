@@ -130,3 +130,29 @@ nav a.active { color: var(--primary-color); background-color: #e7f3ff; font-weig
     background-color: #a0c7ff;
     cursor: not-allowed;
 }
+
+/* --- “对方正在输入”提示样式 --- */
+.typing-indicator-bubble {
+    display: none; /* 默认隐藏 */
+    align-self: flex-start;
+    padding: 12px 18px;
+    background-color: var(--received-bubble-bg);
+    border-radius: 20px;
+    border-top-left-radius: 5px;
+}
+.typing-indicator-bubble span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--text-muted);
+    margin: 0 1px;
+    animation: typing-dots 1.5s infinite;
+}
+.typing-indicator-bubble span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator-bubble span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing-dots {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+}
