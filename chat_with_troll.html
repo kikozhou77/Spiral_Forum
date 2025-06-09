@@ -1,41 +1,104 @@
-// 与喷子的对话框 (chat_with_troll.html)
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8"><title>与 sohnwhnalqq9912_xlk 的对话</title><link rel="stylesheet" href="style.css">
+    <style>
+        /* 让光标更逼真 */
+        .ti-cursor { font-size: 1.2em; }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>...</header> <!-- 省略，和上面一样 -->
-        <nav><a href="index.html">首页</a><a href="messages_flooded.html" class="active">我的信息</a></nav>
+        <!-- header 和 nav 部分保持不变 -->
+        <header>...</header> <nav>...</nav>
         <main>
             <div class="chat-layout">
-                <div class="contact-list"> <!-- 省略，和上面一样 --> </div>
+                <div class="contact-list"> ... </div>
                 <div class="chat-window">
                     <div class="chat-header">sohnwhnalqq9912_xlk</div>
-                    <div class="chat-messages">
-                        <div class="message-bubble msg-received">像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。</div>
-                        <div class="message-bubble msg-sent">信不信我把你开了。</div>
-                        <div class="message-bubble msg-received">刚注册的新号，你开。</div>
-                        <div class="typing-indicator" id="troll-typing">正在输入中...</div>
-                        <!-- 以下是小A开盒后发送的内容 -->
-                        <div class="message-bubble msg-sent">张伟</div>
-                        <div class="message-bubble msg-sent">23岁，家住幸福小区3栋401</div>
-                        <div class="message-bubble msg-sent">你昨天刚买的螺蛳粉，今天应该到了吧？</div>
-                        <div class="message-bubble msg-sent">你最近总是在看二手车网站，想买高尔夫？</div>
-                        <div class="message-bubble msg-received">大哥我错了！！！</div>
-                        <div class="message-bubble msg-received">求求你别发了，我给你磕头了！</div>
+                    <div class="chat-messages" id="message-container">
+                        <!-- 对话容器，初始为空 -->
                     </div>
+                    <div style="text-align:center; color: #999; margin-top: 10px;">（按空格键进行对话）</div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- 引入TypeIt库 -->
+    <script src="typeit.min.js"></script>
+
+    <!-- 新的JS控制脚本 -->
     <script>
-        // 在控制台输入 toggleTyping() 来控制“正在输入中”的显示/隐藏
-        function toggleTyping() {
-            const indicator = document.getElementById('troll-typing');
-            indicator.style.display = (indicator.style.display === 'block') ? 'none' : 'block';
+        const messageContainer = document.getElementById('message-container');
+        let currentStep = 0;
+
+        // 剧本：将所有对话内容存放在这里
+        // 'type' 表示消息来源 ('sent' 或 'received')
+        // 'text' 是消息内容
+        const script = [
+            { type: 'received', text: '像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。' },
+            { type: 'sent', text: '信不信我把你开了。' },
+            { type: 'received', text: '刚注册的新号，你开。' },
+            // 这里可以插入一个特殊的步骤来表现“黑客操作”的停顿
+            { type: 'pause', text: '--- 现在切换到黑客操作界面 ---' }, 
+            { type: 'sent', text: '张伟' },
+            { type: 'sent', text: '23岁，家住幸福小区3栋401' },
+            { type: 'sent', text: '你昨天刚买的螺蛳粉，今天应该到了吧？' },
+            { type: 'sent', text: '你最近总是在看二手车网站，想买高尔夫？' },
+            { type: 'received', text: '大哥我错了！！！' },
+            { type: 'received', text: '求求你别发了，我给你磕头了！' }
+        ];
+
+        function nextStep() {
+            if (currentStep >= script.length) return;
+
+            const step = script[currentStep];
+
+            // 如果是暂停步骤，就在控制台打印提示，方便拍摄，然后直接进入下一步
+            if (step.type === 'pause') {
+                console.log(step.text);
+                currentStep++;
+                // 自动触发下一步，或者等待下一次按键
+                // nextStep(); 
+                return;
+            }
+
+            // 1. 创建对话气泡的容器
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble msg-${step.type}`;
+            
+            // 2. 创建一个独一无二的ID给TypeIt使用
+            const elementId = `msg-${Date.now()}`;
+            bubble.id = elementId;
+
+            // 3. 将空的气泡添加到聊天窗口
+            messageContainer.appendChild(bubble);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+
+            // 4. 使用TypeIt在这个新气泡里打字
+            new TypeIt(`#${elementId}`, {
+                strings: step.text,
+                speed: 50, // 打字速度，可以调整
+                cursorChar: "█", // 光标样式
+                afterComplete: (instance) => {
+                    instance.destroy(); // 打完字后销毁光标
+                }
+            }).go();
+
+            currentStep++;
         }
+
+        // 绑定键盘事件
+        document.body.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault(); // 防止按空格导致页面滚动
+                nextStep();
+            }
+        });
+
+        // 初始提示
+        console.log("页面已准备就绪，按空格键开始对话。");
     </script>
 </body>
 </html>
