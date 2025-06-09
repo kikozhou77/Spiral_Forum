@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>螺旋论坛 - 寻找志同道合的朋友</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">论坛</div>
+        <div class="welcome-message">
+            欢迎来到螺旋论坛！<br>
+            在这里可以找到志同道合的朋友
+        </div>
+        <div class="user-info" id="user-info">
+            <!-- 用户登录信息将由 Giscus 自动处理 -->
+        </div>
+    </header>
+
+    <nav>
+        <a href="#" class="active">首页</a>
+        <a href="#">我的关注</a>
+        <a href="#">我的主页</a>
+        <a href="#">我的信息</a>
+        <a href="https://github.com/kikozhou77/Spiral_Forum/issues/new/choose" target="_blank" class="post-button">我要发帖！</a>
+    </nav>
+
+    <main>
+        <div class="content">
+            <h2>热门话题</h2>
+            <div id="post-list">
+                <!-- 帖子列表将由JS动态加载 -->
+                <p>正在加载帖子列表...</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <!-- Giscus 评论/发帖系统将在这里加载 -->
+        <div id="comments-section"></div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
