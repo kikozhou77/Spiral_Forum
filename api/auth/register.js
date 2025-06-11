@@ -1,9 +1,5 @@
 // 文件: /api/auth/register.js
-import { MongoClient } from 'mongodb';
-
-// 从Vercel的环境变量中读取数据库连接字符串
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+import clientPromise from '../../lib/mongodb'; // 【关键修改】导入我们自己的连接器
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -11,31 +7,38 @@ export default async function handler(req, res) {
     }
 
     try {
-        await client.connect();
-        const database = client.db('spiral_forum'); // 数据库名，可以自定义
-        const users = database.collection('users'); // 表名，可以自定义
+        // 【关键修改】直接从连接池获取客户端和数据库实例
+        const client = await clientPromise;
+        const db = client.db('spiral_forum');
+        const users = db.collection('users');
 
         const { username, password } = req.body;
 
-        // 检查用户名是否已存在
+        if (!username || !password) {
+            return res.status(400).json({ message: 'Username and password are required' });
+        }
+
         const existingUser = await users.findOne({ username });
         if (existingUser) {
             return res.status(400).json({ message: 'Username already exists' });
         }
 
-        // 【重要】在真实项目中，密码必须加密！这里为了简化，暂时存储明文
+        // 【重要】在真实项目中，密码必须加密！
+        // 为了安全，我们来安装并使用bcryptjs
+        // const bcrypt = require('bcryptjs');
+        // const hashedPassword = await bcrypt.hash(password, 10);
+        
         const result = await users.insertOne({
             username,
-            password, // 真实项目需要加密： const hashedPassword = await bcrypt.hash(password, 10);
+            password, // 在这里使用 hashedPassword
             createdAt: new Date(),
         });
 
         res.status(201).json({ message: 'User created successfully', userId: result.insertedId });
 
     } catch (error) {
-        console.error(error);
+        console.error('API Error:', error);
         res.status(500).json({ message: 'Internal Server Error' });
-    } finally {
-        await client.close();
     }
+    // 【注意】在这里我们不再手动关闭连接，因为/lib/mongodb.js会管理它
 }
