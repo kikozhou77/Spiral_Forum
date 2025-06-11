@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8"><title>用户21的主页</title><link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>用户21的主页 - 螺旋论坛</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <header>...</header><nav>...</nav>
+        <!-- 【关键修改】替换为完整的header -->
+        <header>
+            <div class="logo">螺旋论坛</div>
+            <!-- 这里可以显示小A的信息，因为是小A在浏览这个页面 -->
+            <div>用户小A | <a href="messages.html">私信</a></div>
+        </header>
+
+        <!-- 【关键修改】替换为完整的nav，并包含返回对话的逻辑 -->
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="my_follows.html">我的关注</a>
+            <a href="my_profile.html">我的主页</a>
+            <!-- 这个“我的信息”链接是返回对话页的关键 -->
+            <a href="messages.html" class="active">我的信息</a> 
+            <a href="post_detail.html" class="post-button">我要发帖！</a>
+        </nav>
+
         <main>
             <div class="profile-header">
                 <img src="https://via.placeholder.com/120/ccc/000?text=?" alt="avatar" class="profile-avatar">
@@ -19,7 +37,7 @@
                 <div class="stat-item"><div class="number">0</div><div class="label">发帖数</div></div>
                 <div class="stat-item"><div class="number">1</div><div class="label">回复数</div></div>
             </div>
-            <hr>
+            <hr style="margin: 30px 0;">
             <h2>动态</h2>
             <p>空空如也</p>
         </main>
