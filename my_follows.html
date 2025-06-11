@@ -7,10 +7,12 @@
 </head>
 <body>
     <div class="container">
+        <!-- 【关键修改】统一Logo和Header -->
         <header>
-            <div class="logo">论坛</div>
-            <div>用户小A | <a href="messages.html">私信</a></div>
+            <div class="logo">螺旋论坛</div>
+            <div>用户小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
         </header>
+
         <nav>
             <a href="index.html">首页</a>
             <a href="my_follows.html" class="active">我的关注</a>
@@ -18,10 +20,29 @@
             <a href="messages.html">我的信息</a>
             <a href="post_detail.html" class="post-button">我要发帖！</a>
         </nav>
+        
         <main>
-            <h2>我的关注</h2>
-            <p>您还没有关注任何用户。</p>
+            <!-- 【关键修改】添加关注的用户 -->
+            <h2>关注的用户</h2>
+
+            <div class="contact-item" style="cursor: default; margin-bottom: 15px;">
+                <img src="https://via.placeholder.com/48/ffc107/000?text=K" alt="avatar" class="contact-avatar">
+                <div class="contact-info">
+                    <div class="name">Kevin Mitnick</div>
+                    <div class="preview">传奇黑客，社交工程学大师 (已故)</div>
+                </div>
+            </div>
+
+            <div class="contact-item" style="cursor: default; margin-bottom: 15px;">
+                <img src="https://via.placeholder.com/48/6f42c1/FFF?text=暗" alt="avatar" class="contact-avatar">
+                <div class="contact-info">
+                    <div class="name">暗网传说</div>
+                    <div class="preview">一个分享各种“内部消息”的匿名者</div>
+                </div>
+            </div>
+            
             <hr style="margin: 30px 0;">
+
             <h3>关注的版块</h3>
             <div class="contact-item" style="cursor: default;">
                 <img src="https://via.placeholder.com/48/28a745/FFF?text=T" alt="avatar" class="contact-avatar">
@@ -37,5 +58,15 @@
             </div>
         </main>
     </div>
+
+    <!-- 添加通知脚本以保持一致性 -->
+    <script>
+        function showNotifications() {
+            const badge = document.getElementById('msg-badge');
+            if (badge) {
+                badge.style.display = 'inline-block';
+            }
+        }
+    </script>
 </body>
 </html>
