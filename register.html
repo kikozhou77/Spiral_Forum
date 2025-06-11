@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>注册 - 螺旋论坛</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header><div class="logo">螺旋论坛</div></header>
+        <main>
+            <h2>创建新账户</h2>
+            <form id="register-form">
+                <input type="text" id="username" placeholder="用户名" required style="display: block; width: 300px; padding: 10px; margin-bottom: 10px;">
+                <input type="password" id="password" placeholder="密码" required style="display: block; width: 300px; padding: 10px; margin-bottom: 20px;">
+                <button type="submit" class="post-button">注册</button>
+            </form>
+            <p id="message"></p>
+        </main>
+    </div>
+
+    <script>
+        const form = document.getElementById('register-form');
+        const messageEl = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // 阻止表单默认提交
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageEl.textContent = '注册成功！';
+                    messageEl.style.color = 'green';
+                } else {
+                    messageEl.textContent = `注册失败: ${data.message}`;
+                    messageEl.style.color = 'red';
+                }
+            } catch (error) {
+                messageEl.textContent = '网络错误，请稍后重试。';
+                messageEl.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>
