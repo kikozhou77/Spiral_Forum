@@ -7,13 +7,22 @@
 </head>
 <body>
     <div class="container">
+        <!-- 【关键修改】更新Header，并添加标准Nav -->
         <header>
-            <div class="logo">论坛</div>
-            <a href="index.html" class="back-button" style="margin-left: 0;">返回首页</a>
+            <div class="logo">螺旋论坛</div>
+            <div>用户小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
         </header>
+
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="my_follows.html">我的关注</a>
+            <a href="my_profile.html">我的主页</a>
+            <a href="messages.html" class="active">我的信息</a>
+            <a href="post_detail.html" class="post-button">我要发帖！</a>
+        </nav>
+        
         <main>
             <div class="chat-layout">
-                <!-- 【修复】HTML结构保持稳定，不再由JS生成 -->
                 <div class="contact-list" id="contact-list-container">
                     <h2>私信列表 <button onclick="alert('已全部设为已读！')">一键已读</button></h2>
                     <div class="contact-item" data-contact-id="troll">
@@ -43,117 +52,31 @@
 
     <script src="typeit.min.js"></script>
     <script>
-        // --- 数据中心 ---
+        // --- 数据中心 (保持不变) ---
         const chatData = {
-            troll: { /* ... 数据 ... */ },
-            user21: { /* ... 数据 ... */ }
+            troll: { name: 'sohnwhnalqq9912_xlk', profileLink: '#', replies: ['像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。','刚注册的新号，你开。','大哥我错了！！！','求求你别发了，我给你磕头了！'] },
+            user21: { name: '用户21', profileLink: 'user21_profile.html', replies: ['很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。','我无法去医院。','抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。','谢谢……那就拜托您了！','我可以把我的电脑权限完全对您敞开。'] }
         };
-        chatData.troll = { name: 'sohnwhnalqq9912_xlk', profileLink: '#', replies: ['像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。','刚注册的新号，你开。','大哥我错了！！！','求求你别发了，我给你磕头了！'] };
-        chatData.user21 = { name: '用户21', profileLink: 'user21_profile.html', replies: ['很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。','我无法去医院。','抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。','谢谢……那就拜托您了！','我可以把我的电脑权限完全对您敞开。'] };
 
+        // --- JavaScript核心逻辑 (保持不变) ---
         const contentArea = document.getElementById('chat-content-area');
         const contactItems = document.querySelectorAll('.contact-item');
-        let activeContactId = null;
-        let activeBotReplies = null;
-        let botReplyIndex = 0;
-
-        function loadChat(contactId) {
-            botReplyIndex = 0;
-            activeContactId = contactId;
-            const data = chatData[contactId];
-            if (!data) return;
-            activeBotReplies = data.replies;
-
-            contentArea.style = '';
-            contentArea.innerHTML = `
-                <div class="chat-header"><a href="${data.profileLink}">${data.name}</a></div>
-                <div class="chat-messages" id="message-container"></div>
-                <div class="typing-indicator-bubble" id="typing-indicator"><span></span><span></span><span></span></div>
-                <div class="chat-input-area">
-                    <input type="text" id="real-input" class="chat-input" placeholder="输入消息后按 Enter...">
-                    <button id="send-btn" class="send-button">↑</button>
-                </div>
-            `;
-            contactItems.forEach(item => item.classList.remove('active'));
-            document.querySelector(`[data-contact-id="${contactId}"]`).classList.add('active');
-            
-            document.getElementById('send-btn').addEventListener('click', handleUserMessage);
-            document.getElementById('real-input').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') { handleUserMessage(); }
-            });
-            
-            triggerBotReply();
-        }
-
-        function handleUserMessage() {
-            const input = document.getElementById('real-input');
-            const text = input.value.trim();
-            if (text === '' || input.disabled) return;
-            
-            showInChat(text, 'sent');
-            input.value = '';
-            
-            triggerBotReply();
-        }
-
-        function triggerBotReply() {
-            if (!activeBotReplies || botReplyIndex >= activeBotReplies.length) return;
-            const input = document.getElementById('real-input');
-            const sendBtn = document.getElementById('send-btn');
-            const typingIndicator = document.getElementById('typing-indicator');
-            const replyText = activeBotReplies[botReplyIndex];
-
-            input.disabled = true;
-            sendBtn.classList.add('disabled'); sendBtn.disabled = true;
-            typingIndicator.style.display = 'flex';
-            document.getElementById('message-container').scrollTop = document.getElementById('message-container').scrollHeight;
-
-            const typingDelay = 1000 + Math.random() * 1500;
-            setTimeout(() => {
-                typingIndicator.style.display = 'none';
-                showInChat(replyText, 'received');
-                input.disabled = false;
-                input.focus();
-                sendBtn.classList.remove('disabled'); sendBtn.disabled = false;
-                botReplyIndex++;
-            }, typingDelay);
-        }
-
-        // 【功能增强】showInChat 现在会更新左侧预览
-        function showInChat(text, type) {
-            const messageContainer = document.getElementById('message-container');
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble msg-${type}`;
-            bubble.textContent = text;
-            messageContainer.appendChild(bubble);
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-
-            // 更新左侧预览
-            updatePreview(activeContactId, text);
-        }
-
-        // 【新增函数】用于更新预览信息
-        function updatePreview(contactId, text) {
-            const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
-            if (contactItem) {
-                const previewEl = contactItem.querySelector('.preview');
-                previewEl.textContent = text.substring(0, 15) + '...';
+        let activeContactId = null; let activeBotReplies = null; let botReplyIndex = 0;
+        function loadChat(contactId) { botReplyIndex = 0; activeContactId = contactId; const data = chatData[contactId]; if (!data) return; activeBotReplies = data.replies; contentArea.style = ''; contentArea.innerHTML = `<div class="chat-header"><a href="${data.profileLink}">${data.name}</a></div><div class="chat-messages" id="message-container"></div><div class="typing-indicator-bubble" id="typing-indicator"><span></span><span></span><span></span></div><div class="chat-input-area"><input type="text" id="real-input" class="chat-input" placeholder="输入消息后按 Enter..."><button id="send-btn" class="send-button">↑</button></div>`; contactItems.forEach(item => item.classList.remove('active')); document.querySelector(`[data-contact-id="${contactId}"]`).classList.add('active'); document.getElementById('send-btn').addEventListener('click', handleUserMessage); document.getElementById('real-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') { handleUserMessage(); } }); triggerBotReply(); }
+        function handleUserMessage() { const input = document.getElementById('real-input'); const text = input.value.trim(); if (text === '' || input.disabled) return; showInChat(text, 'sent'); input.value = ''; triggerBotReply(); }
+        function triggerBotReply() { if (!activeBotReplies || botReplyIndex >= activeBotReplies.length) return; const input = document.getElementById('real-input'); const sendBtn = document.getElementById('send-btn'); const typingIndicator = document.getElementById('typing-indicator'); const replyText = activeBotReplies[botReplyIndex]; input.disabled = true; sendBtn.classList.add('disabled'); sendBtn.disabled = true; typingIndicator.style.display = 'flex'; document.getElementById('message-container').scrollTop = document.getElementById('message-container').scrollHeight; const typingDelay = 1000 + Math.random() * 1500; setTimeout(() => { typingIndicator.style.display = 'none'; showInChat(replyText, 'received'); input.disabled = false; input.focus(); sendBtn.classList.remove('disabled'); sendBtn.disabled = false; botReplyIndex++; }, typingDelay); }
+        function showInChat(text, type) { const messageContainer = document.getElementById('message-container'); const bubble = document.createElement('div'); bubble.className = `message-bubble msg-${type}`; bubble.textContent = text; messageContainer.appendChild(bubble); messageContainer.scrollTop = messageContainer.scrollHeight; updatePreview(activeContactId, text); }
+        function updatePreview(contactId, text) { const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`); if (contactItem) { const previewEl = contactItem.querySelector('.preview'); previewEl.textContent = text.substring(0, 15) + '...'; } }
+        function initializeContacts() { contactItems.forEach(item => { const contactId = item.dataset.contactId; if (contactId && chatData[contactId]) { updatePreview(contactId, chatData[contactId].replies[0]); item.addEventListener('click', () => loadChat(contactId)); } }); }
+        initializeContacts();
+        
+        // --- 添加通知脚本以保持一致性 ---
+        function showNotifications() {
+            const badge = document.getElementById('msg-badge');
+            if (badge) {
+                badge.style.display = 'inline-block';
             }
         }
-
-        // --- 初始绑定和设置 ---
-        function initializeContacts() {
-            contactItems.forEach(item => {
-                const contactId = item.dataset.contactId;
-                if (contactId && chatData[contactId]) {
-                    // 初始化时，显示第一句回复作为预览
-                    updatePreview(contactId, chatData[contactId].replies[0]);
-                    item.addEventListener('click', () => loadChat(contactId));
-                }
-            });
-        }
-        
-        initializeContacts(); // 页面加载时执行初始化
     </script>
 </body>
 </html>
