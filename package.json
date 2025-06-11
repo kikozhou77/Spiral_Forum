@@ -1,0 +1,10 @@
+{
+  "name": "spiral-forum-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API for Spiral Forum",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {}
+}
