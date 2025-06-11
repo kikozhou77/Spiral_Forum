@@ -7,10 +7,12 @@
 </head>
 <body>
     <div class="container">
+        <!-- 【关键修改】统一Logo和Header -->
         <header>
-            <div class="logo">论坛</div>
-            <div>用户小A | <a href="messages.html">私信</a></div>
+            <div class="logo">螺旋论坛</div>
+            <div>用户小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
         </header>
+
         <nav>
             <a href="index.html">首页</a>
             <a href="my_follows.html">我的关注</a>
@@ -18,6 +20,7 @@
             <a href="messages.html">我的信息</a>
             <a href="post_detail.html" class="post-button">我要发帖！</a>
         </nav>
+        
         <main>
             <div class="profile-header">
                 <img src="https://via.placeholder.com/120/007bff/FFF?text=A" alt="avatar" class="profile-avatar">
@@ -43,5 +46,15 @@
             </div>
         </main>
     </div>
+    
+    <!-- 添加通知脚本以保持一致性 -->
+    <script>
+        function showNotifications() {
+            const badge = document.getElementById('msg-badge');
+            if (badge) {
+                badge.style.display = 'inline-block';
+            }
+        }
+    </script>
 </body>
 </html>
