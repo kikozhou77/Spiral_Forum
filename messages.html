@@ -130,8 +130,8 @@ function loadChat(contactId) {
   inputArea.className = 'chat-input-area';
   inputArea.innerHTML = `
     <input type="text" id="real-input" class="chat-input" placeholder="输入消息后按 Enter...">
-    <button id="send-btn" class="send-button">↑</button>`;
-
+    <button id="send-btn" class="send-button">↑</button>
+  `;
   contentArea.appendChild(inputArea);
 
   document.getElementById('send-btn').addEventListener('click', handleUserMessage);
@@ -139,21 +139,21 @@ function loadChat(contactId) {
     if (e.key === 'Enter') handleUserMessage();
   });
 
-  chatState[contactId] = { hasDividerInserted: false };
+  if (!chatHistory[contactId]) chatHistory[contactId] = [];
+  chatState[contactId] = { shouldInsertDivider: true };
 
-  if (!(contactId in chatHistory)) {
-    chatHistory[contactId] = [];
+  if (chatHistory[contactId].length === 0) {
     simulateBotReply(contactId);
   }
 }
 
 function insertDividerIfNeeded() {
   const state = chatState[activeContactId];
-  if (!state.hasDividerInserted) {
+  if (state && state.shouldInsertDivider) {
     const divider = document.createElement('hr');
     divider.className = 'chat-divider';
     document.getElementById('message-container').appendChild(divider);
-    state.hasDividerInserted = true;
+    state.shouldInsertDivider = false;
   }
 }
 
@@ -170,11 +170,10 @@ function handleUserMessage() {
   bubble.textContent = text;
   const msgBox = document.getElementById('message-container');
   msgBox.appendChild(bubble);
+  msgBox.scrollTop = msgBox.scrollHeight;
 
   chatHistory[activeContactId].push({ text, type: 'sent' });
   updatePreview(activeContactId, text);
-
-  msgBox.scrollTop = msgBox.scrollHeight;
 
   simulateBotReply(activeContactId);
 }
@@ -186,16 +185,19 @@ function simulateBotReply(contactId) {
   if (replyIndex >= replies.length) return;
 
   setTimeout(() => {
+    if (activeContactId !== contactId) return;
     insertDividerIfNeeded();
+
     const text = replies[replyIndex];
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble msg-received';
     bubble.textContent = text;
     const msgBox = document.getElementById('message-container');
     msgBox.appendChild(bubble);
+    msgBox.scrollTop = msgBox.scrollHeight;
+
     chatHistory[contactId].push({ text, type: 'received' });
     updatePreview(contactId, text);
-    msgBox.scrollTop = msgBox.scrollHeight;
   }, 1000);
 }
 
