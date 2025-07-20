@@ -59,6 +59,27 @@
       font-weight: bold;
       color: red;
     }
+
+    .hidden-button {
+      background: none;
+      border: none;
+      color: transparent;
+      font-size: 1em;
+      padding: 5px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* 悬停时显示 */
+    .hidden-button:hover {
+      opacity: 1;
+      color: #dc3545;
+    }
+
+    .unread-input {
+      display: none; /* 隐藏未读输入框 */
+    }
   </style>
 </head>
 <body>
@@ -80,7 +101,7 @@
     <div class="chat-layout">
       <div class="contact-list" id="contact-list-container">
         <h2>私信列表 
-          <button onclick="markAllAsRead()">一键已读</button>
+          <button id="all-unread-button" onclick="markAllAsRead()">一键已读</button>
         </h2>
         <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
           <img src="https://via.placeholder.com/48/000/FFF?text=剑" class="contact-avatar">
@@ -88,6 +109,10 @@
             <div class="name">sohnwhnalqq9912_xlk</div>
             <div class="preview">...</div>
             <div class="unread-count" id="unread-troll">未读: 3</div>
+            <!-- 隐蔽按钮 -->
+            <button class="hidden-button" onclick="toggleUnreadInput('troll')">修改未读</button>
+            <!-- 隐藏的输入框 -->
+            <input type="number" id="unread-input-troll" class="unread-input" value="3" min="0" onchange="updateUnread('troll')">
           </div>
         </div>
         <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
@@ -96,6 +121,10 @@
             <div class="name">用户21</div>
             <div class="preview">...</div>
             <div class="unread-count" id="unread-user21">未读: 5</div>
+            <!-- 隐蔽按钮 -->
+            <button class="hidden-button" onclick="toggleUnreadInput('user21')">修改未读</button>
+            <!-- 隐藏的输入框 -->
+            <input type="number" id="unread-input-user21" class="unread-input" value="5" min="0" onchange="updateUnread('user21')">
           </div>
         </div>
       </div>
@@ -108,7 +137,6 @@
 </div>
 
 <script>
-// 初始化聊天数据
 const chatData = {
   troll: {
     name: 'sohnwhnalqq9912_xlk',
@@ -186,8 +214,8 @@ const chatData = {
   }
 };
 
-// 存储每个用户的聊天历史和未读消息数量
 const chatHistory = {};
+const chatState = {};
 const unreadMessages = {
   troll: 3,
   user21: 5
@@ -195,7 +223,6 @@ const unreadMessages = {
 
 let activeContactId = null;
 
-// 加载聊天
 function loadChat(contactId) {
   activeContactId = contactId;
   const data = chatData[contactId];
@@ -238,8 +265,8 @@ function loadChat(contactId) {
     if (e.key === 'Enter') handleUserMessage();
   });
 
-  // 更新未读消息数量
-  document.getElementById('unread-' + contactId).textContent = `未读: ${unreadMessages[contactId]}`;
+  // 更新未读数量
+  document.getElementById('unread-' + contactId).textContent = `未读: ${unreadMessages[contactId] > 99 ? '99+' : unreadMessages[contactId]}`;
 
   if (!chatHistory[contactId]) chatHistory[contactId] = [];
   chatState[contactId] = { shouldInsertDivider: true };
@@ -249,51 +276,50 @@ function loadChat(contactId) {
   }
 }
 
-// 标记所有消息为已读
+function updateUnread(contactId) {
+  const unreadInput = document.getElementById('unread-input-' + contactId);
+  const unreadCount = parseInt(unreadInput.value, 10);
+
+  // 确保未读消息数量不为负数
+  if (isNaN(unreadCount) || unreadCount < 0) {
+    unreadInput.value = 0;
+  }
+
+  unreadMessages[contactId] = unreadCount;
+
+  // 更新未读数量显示
+  document.getElementById('unread-' + contactId).textContent = `未读: ${unreadMessages[contactId] > 99 ? '99+' : unreadMessages[contactId]}`;
+}
+
+function toggleUnreadInput(contactId) {
+  const inputField = document.getElementById('unread-input-' + contactId);
+  const button = document.querySelector(`.contact-item[data-contact-id="${contactId}"] .hidden-button`);
+
+  // 切换显示与隐藏
+  if (inputField.style.display === 'none') {
+    inputField.style.display = 'inline-block';
+    button.textContent = '保存未读';
+  } else {
+    inputField.style.display = 'none';
+    button.textContent = '修改未读';
+    // 更新未读数量
+    updateUnread(contactId);
+  }
+}
+
 function markAllAsRead() {
+  let totalUnread = 0;
   for (const contactId in unreadMessages) {
+    totalUnread += unreadMessages[contactId];
     unreadMessages[contactId] = 0;
     document.getElementById('unread-' + contactId).textContent = `未读: 0`;
   }
+
+  // 更新一键已读按钮显示
+  const allUnreadButton = document.getElementById('all-unread-button');
+  allUnreadButton.textContent = `一键已读 (${totalUnread > 99 ? '99+' : totalUnread})`;
 }
 
-// 插入分隔线
-function insertDividerIfNeeded() {
-  const state = chatState[activeContactId];
-  if (state && state.shouldInsertDivider) {
-    const divider = document.createElement('hr');
-    divider.className = 'chat-divider';
-    document.getElementById('message-container').appendChild(divider);
-    state.shouldInsertDivider = false;
-  }
-}
-
-// 发送消息
-function handleUserMessage() {
-  const input = document.getElementById('real-input');
-  const text = input.value.trim();
-  if (!text) {
-    simulateBotReply(activeContactId);
-    return;
-  }
-  input.value = '';
-
-  insertDividerIfNeeded();
-
-  const bubble = document.createElement('div');
-  bubble.className = 'message-bubble msg-sent';
-  bubble.textContent = text;
-  const msgBox = document.getElementById('message-container');
-  msgBox.appendChild(bubble);
-  msgBox.scrollTop = msgBox.scrollHeight;
-
-  chatHistory[activeContactId].push({ text, type: 'sent' });
-  updatePreview(activeContactId, text);
-
-  simulateBotReply(activeContactId);
-}
-
-// 模拟bot回复
 function simulateBotReply(contactId) {
   const replies = chatData[contactId]?.replies || [];
   const history = chatHistory[contactId];
