@@ -1,57 +1,158 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>帖子详情 - 螺旋论坛</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>发帖 - 螺旋论坛</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .post-container {
+      margin: 20px;
+    }
+
+    .post-title {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .post-content {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-height: 100px;
+    }
+
+    .comment-section {
+      margin-top: 20px;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+    }
+
+    .comment {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .comment-author {
+      font-weight: bold;
+    }
+
+    .comment-content {
+      margin-top: 5px;
+    }
+
+    .reply-input {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .reply-button {
+      margin-top: 10px;
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 【关键修改】替换为完整的header和nav -->
-        <header>
-            <div class="logo">螺旋论坛</div>
-            <div>用户小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
-        </header>
+  <div class="container">
+    <header>
+      <div class="logo">螺旋论坛</div>
+      <div>用户小A | <a href="messages.html">私信</a></div>
+    </header>
 
-        <nav>
-            <a href="index.html">首页</a>
-            <a href="my_follows.html">我的关注</a>
-            <a href="my_profile.html">我的主页</a>
-            <a href="messages.html">我的信息</a>
-            <!-- "我要发帖"按钮作为导航的一部分 -->
-            <a href="post_detail.html" class="post-button">我要发帖！</a>
-        </nav>
-        
-        <main>
-            <div class="post-main">
-                <h1>网络时代，人已经没有任何私密性可言。</h1>
-                <p>作者：小A</p>
-                <p>对于我这样的电脑高手来说，只要一台电脑，我能知道他的一切。</p>
-            </div>
-            <div class="comments-section">
-                <h2>评论区</h2>
-                <div class="comment"><div class="comment-avatar"></div><div class="comment-body"><div class="author">键盘侠</div><div class="content">吹牛不打草稿，有种来开我啊！</div></div></div>
-                <div class="comment"><div class="comment-avatar"></div><div class="comment-body"><div class="author">普法先锋</div><div class="content">根据《网络安全法》...你的行为已经违法了！</div></div></div>
-                <div class="comment"><div class="comment-avatar"></div><div class="comment-body"><div class="author">小白求带</div><div class="content">大神！收徒吗？学费好商量！</div></div></div>
-                <div class="comment"><div class="comment-avatar"></div><div class="comment-body"><div class="author">反开盒斗士</div><div class="content">呵呵，等着吧，我马上就给你反开了。</div></div></div>
-                <div class="comment comment-reply"><div class="comment-avatar"></div><div class="comment-body"><div class="author">小A</div><div class="content">你试试。</div></div></div>
-                <!-- 关键评论 -->
-                <div class="comment"><img src="https://via.placeholder.com/40/ccc/000?text=?" class="comment-avatar"><div class="comment-body"><div class="author">用户21</div><div class="content">我可以请求您的帮忙吗？</div></div></div>
-                <div class="comment comment-reply"><div class="comment-avatar"></div><div class="comment-body"><div class="author">小A</div><div class="content">没有帮忙的义务。</div></div></div>
-            </div>
-        </main>
-    </div>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="my_follows.html">我的关注</a>
+      <a href="my_profile.html">我的主页</a>
+      <a href="messages.html">我的信息</a>
+      <a href="post_detail.html" class="active">我要发帖！</a>
+    </nav>
 
-    <!-- 别忘了这个页面也需要控制99+通知的脚本 -->
-    <script>
-        function showNotifications() {
-            const badge = document.getElementById('msg-badge');
-            if (badge) {
-                badge.style.display = 'inline-block';
-            }
-        }
-        // 如果剧情需要一进入这个页面就有通知，可以在这里调用
-        // showNotifications();
-    </script>
+    <main>
+      <!-- 发帖输入区 -->
+      <div class="post-container">
+        <h2>我要发帖</h2>
+        <input type="text" id="post-title" placeholder="请输入帖子标题" class="post-title-input">
+        <br>
+        <textarea id="post-content" placeholder="请输入帖子内容" class="post-content"></textarea>
+        <br>
+        <button id="submit-post" class="submit-post-button">发布帖子</button>
+      </div>
+
+      <!-- 发帖后的帖子显示区域 -->
+      <div id="post-display" class="post-container">
+        <!-- 发帖内容将动态插入这里 -->
+      </div>
+
+      <!-- 评论区 -->
+      <div id="comment-section" class="comment-section">
+        <h3>评论区</h3>
+        <textarea id="comment-input" class="reply-input" placeholder="在此评论..."></textarea>
+        <button id="comment-button" class="reply-button">发表评论</button>
+        <div id="comments"></div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // 获取HTML元素
+    const postTitleInput = document.getElementById('post-title');
+    const postContentInput = document.getElementById('post-content');
+    const submitPostButton = document.getElementById('submit-post');
+    const postDisplay = document.getElementById('post-display');
+    const commentSection = document.getElementById('comment-section');
+    const commentInput = document.getElementById('comment-input');
+    const commentButton = document.getElementById('comment-button');
+    const commentsDiv = document.getElementById('comments');
+
+    // 提交帖子
+    submitPostButton.addEventListener('click', function() {
+      const title = postTitleInput.value.trim();
+      const content = postContentInput.value.trim();
+
+      if (title && content) {
+        // 显示发帖内容
+        postDisplay.innerHTML = `
+          <div class="post-title">${title}</div>
+          <div class="post-content">${content}</div>
+        `;
+        // 清空输入框
+        postTitleInput.value = '';
+        postContentInput.value = '';
+        // 显示评论区
+        commentSection.style.display = 'block';
+      } else {
+        alert('标题和内容不能为空！');
+      }
+    });
+
+    // 提交评论
+    commentButton.addEventListener('click', function() {
+      const comment = commentInput.value.trim();
+      if (comment) {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.innerHTML = `
+          <div class="comment-author">用户小A</div>
+          <div class="comment-content">${comment}</div>
+        `;
+        commentsDiv.appendChild(commentElement);
+        commentInput.value = '';  // 清空评论输入框
+      } else {
+        alert('评论不能为空！');
+      }
+    });
+  </script>
 </body>
 </html>
