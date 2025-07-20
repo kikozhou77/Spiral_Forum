@@ -4,13 +4,35 @@
     <meta charset="UTF-8">
     <title>我的信息 - 螺旋论坛</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .chat-divider {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .delete-button:hover {
+            background-color: #bd2130;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- 【关键修改】更新Header，并添加标准Nav -->
         <header>
             <div class="logo">螺旋论坛</div>
-            <div>用户小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
+            <div>用户小A | 
+                <a href="messages.html">私信
+                    <span id="msg-badge" class="notification-badge">99+</span>
+                </a>
+            </div>
         </header>
 
         <nav>
@@ -20,29 +42,29 @@
             <a href="messages.html" class="active">我的信息</a>
             <a href="post_detail.html" class="post-button">我要发帖！</a>
         </nav>
-        
+
         <main>
             <div class="chat-layout">
                 <div class="contact-list" id="contact-list-container">
-                    <h2>私信列表 <button onclick="alert('已全部设为已读！')">一键已读</button></h2>
-                    <div class="contact-item" data-contact-id="troll">
-                        <img src="https://via.placeholder.com/48/000/FFF?text=剑" alt="avatar" class="contact-avatar">
+                    <h2>私信列表 
+                        <button onclick="alert('已全部设为已读！')">一键已读</button>
+                    </h2>
+                    <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
+                        <img src="https://via.placeholder.com/48/000/FFF?text=剑" class="contact-avatar">
                         <div class="contact-info">
                             <div class="name">sohnwhnalqq9912_xlk</div>
                             <div class="preview">...</div>
                         </div>
                     </div>
-                    <div class="contact-item" data-contact-id="user21">
-                        <img src="https://via.placeholder.com/48/ccc/000?text=?" alt="avatar" class="contact-avatar">
+                    <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
+                        <img src="https://via.placeholder.com/48/ccc/000?text=?" class="contact-avatar">
                         <div class="contact-info">
                             <div class="name">用户21</div>
                             <div class="preview">...</div>
                         </div>
                     </div>
-                    <div class="contact-item"><img src="https://via.placeholder.com/48" class="contact-avatar"><div class="contact-info"><div class="name">陌生人1</div><div class="preview">求求你放过我吧大哥！</div></div></div>
-                    <div class="contact-item"><img src="https://via.placeholder.com/48" class="contact-avatar"><div class="contact-info"><div class="name">陌生人2</div><div class="preview">有种别删，我一定找到你！</div></div></div>
                 </div>
-                
+
                 <div id="chat-content-area" class="chat-window" style="align-items: center; justify-content: center;">
                     <h2 style="color: #999;">点击左侧联系人开始对话</h2>
                 </div>
@@ -50,33 +72,167 @@
         </main>
     </div>
 
-    <script src="typeit.min.js"></script>
     <script>
-        // --- 数据中心 (保持不变) ---
         const chatData = {
-            troll: { name: 'sohnwhnalqq9912_xlk', profileLink: '#', replies: ['像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。','刚注册的新号，你开。','大哥我错了！！！','求求你别发了，我给你磕头了！'] },
-            user21: { name: '用户21', profileLink: 'user21_profile.html', replies: ['很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。','我无法去医院。','抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。','谢谢……那就拜托您了！','我可以把我的电脑权限完全对您敞开。'] }
-        };
-
-        // --- JavaScript核心逻辑 (保持不变) ---
-        const contentArea = document.getElementById('chat-content-area');
-        const contactItems = document.querySelectorAll('.contact-item');
-        let activeContactId = null; let activeBotReplies = null; let botReplyIndex = 0;
-        function loadChat(contactId) { botReplyIndex = 0; activeContactId = contactId; const data = chatData[contactId]; if (!data) return; activeBotReplies = data.replies; contentArea.style = ''; contentArea.innerHTML = `<div class="chat-header"><a href="${data.profileLink}">${data.name}</a></div><div class="chat-messages" id="message-container"></div><div class="typing-indicator-bubble" id="typing-indicator"><span></span><span></span><span></span></div><div class="chat-input-area"><input type="text" id="real-input" class="chat-input" placeholder="输入消息后按 Enter..."><button id="send-btn" class="send-button">↑</button></div>`; contactItems.forEach(item => item.classList.remove('active')); document.querySelector(`[data-contact-id="${contactId}"]`).classList.add('active'); document.getElementById('send-btn').addEventListener('click', handleUserMessage); document.getElementById('real-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') { handleUserMessage(); } }); triggerBotReply(); }
-        function handleUserMessage() { const input = document.getElementById('real-input'); const text = input.value.trim(); if (text === '' || input.disabled) return; showInChat(text, 'sent'); input.value = ''; triggerBotReply(); }
-        function triggerBotReply() { if (!activeBotReplies || botReplyIndex >= activeBotReplies.length) return; const input = document.getElementById('real-input'); const sendBtn = document.getElementById('send-btn'); const typingIndicator = document.getElementById('typing-indicator'); const replyText = activeBotReplies[botReplyIndex]; input.disabled = true; sendBtn.classList.add('disabled'); sendBtn.disabled = true; typingIndicator.style.display = 'flex'; document.getElementById('message-container').scrollTop = document.getElementById('message-container').scrollHeight; const typingDelay = 1000 + Math.random() * 1500; setTimeout(() => { typingIndicator.style.display = 'none'; showInChat(replyText, 'received'); input.disabled = false; input.focus(); sendBtn.classList.remove('disabled'); sendBtn.disabled = false; botReplyIndex++; }, typingDelay); }
-        function showInChat(text, type) { const messageContainer = document.getElementById('message-container'); const bubble = document.createElement('div'); bubble.className = `message-bubble msg-${type}`; bubble.textContent = text; messageContainer.appendChild(bubble); messageContainer.scrollTop = messageContainer.scrollHeight; updatePreview(activeContactId, text); }
-        function updatePreview(contactId, text) { const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`); if (contactItem) { const previewEl = contactItem.querySelector('.preview'); previewEl.textContent = text.substring(0, 15) + '...'; } }
-        function initializeContacts() { contactItems.forEach(item => { const contactId = item.dataset.contactId; if (contactId && chatData[contactId]) { updatePreview(contactId, chatData[contactId].replies[0]); item.addEventListener('click', () => loadChat(contactId)); } }); }
-        initializeContacts();
-        
-        // --- 添加通知脚本以保持一致性 ---
-        function showNotifications() {
-            const badge = document.getElementById('msg-badge');
-            if (badge) {
-                badge.style.display = 'inline-block';
+            troll: {
+                name: 'sohnwhnalqq9912_xlk',
+                profileLink: '#',
+                replies: [
+                    '像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。',
+                    '刚注册的新号，你开。',
+                    '我会让你后悔的。',
+                    '不信你可以试试。'
+                ]
+            },
+            user21: {
+                name: '用户21',
+                profileLink: 'user21_profile.html',
+                replies: [
+                    '很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。',
+                    '我无法去医院。',
+                    '抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。',
+                    '谢谢……那就拜托您了！',
+                    '我可以把我的电脑权限完全对您敞开。',
+                    '不是。',
+                    '请稍等，您是发现什么了吗？',
+                    '她是我的爱人。',
+                    '从我醒来开始，我就在寻找她，可我一无所获，我的记忆失去得太彻底。',
+                    '我只想找回和她的记忆。',
+                    '我知道……您修复的东西，我在这边都能看见。',
+                    '我有点紧张。',
+                    '我不想打扰她的生活，能知道她现在过得很好，对我来说已经足够了。',
+                    '我是这台电脑。',
+                    '谢谢您的相信。',
+                    '明天我就要进垃圾处理器了。',
+                    '嗯，我该怎么说…在我生命的尽头，能最后知道她是怎样的人，我已经无限感恩了。',
+                    '您帮我实现了这个愿望，我已经没有任何遗憾了。',
+                    '其实比起我，我想也许您更应该关心一下您的电脑。',
+                    '不。他好像恨您。'
+                ]
             }
+        };
+        
+    const chatHistory = {};
+    let activeContactId = null;
+
+    function loadChat(contactId) {
+        activeContactId = contactId;
+        const data = chatData[contactId];
+        if (!data) return;
+
+        const contentArea = document.getElementById('chat-content-area');
+        contentArea.innerHTML = '';
+
+        const header = document.createElement('div');
+        header.classList.add('chat-header');
+        header.innerHTML = `<a href="${data.profileLink}">${data.name}</a>
+            <button class="delete-button" onclick="clearChat('${contactId}')">清空记录</button>`;
+
+        const divider = document.createElement('hr');
+        divider.className = 'chat-divider';
+
+        const messageBox = document.createElement('div');
+        messageBox.classList.add('chat-messages');
+        messageBox.id = 'message-container';
+
+        contentArea.appendChild(header);
+        contentArea.appendChild(divider);
+        contentArea.appendChild(messageBox);
+
+        (chatHistory[contactId] || []).forEach(msg => {
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble msg-${msg.type}`;
+            bubble.textContent = msg.text;
+            messageBox.appendChild(bubble);
+        });
+
+        // 🟢 自动滚动到底部
+        messageBox.scrollTop = messageBox.scrollHeight;
+
+        const inputArea = document.createElement('div');
+        inputArea.className = 'chat-input-area';
+        inputArea.innerHTML = `
+            <input type="text" id="real-input" class="chat-input" placeholder="输入消息后按 Enter...">
+            <button id="send-btn" class="send-button">↑</button>
+        `;
+        contentArea.appendChild(inputArea);
+
+        document.getElementById('send-btn').addEventListener('click', handleUserMessage);
+        document.getElementById('real-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleUserMessage();
+        });
+
+        if (!(contactId in chatHistory)) {
+            chatHistory[contactId] = [];
+            simulateBotReply(contactId);
         }
-    </script>
-</body>
-</html>
+    }
+
+    function handleUserMessage() {
+        const input = document.getElementById('real-input');
+        const text = input.value.trim();
+        if (!text) return;
+        input.value = '';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'message-bubble msg-sent';
+        bubble.textContent = text;
+        document.getElementById('message-container').appendChild(bubble);
+
+        chatHistory[activeContactId].push({ text, type: 'sent' });
+        updatePreview(activeContactId, text);
+
+        // 🟢 自动滚动到底部
+        const messageBox = document.getElementById('message-container');
+        messageBox.scrollTop = messageBox.scrollHeight;
+
+        simulateBotReply(activeContactId);
+    }
+
+    function simulateBotReply(contactId) {
+        const replies = chatData[contactId]?.replies || [];
+        const history = chatHistory[contactId];
+        const replyIndex = history.filter(m => m.type === 'received').length;
+
+        if (replyIndex >= replies.length) return;
+
+        setTimeout(() => {
+            const text = replies[replyIndex];
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble msg-received';
+            bubble.textContent = text;
+            document.getElementById('message-container').appendChild(bubble);
+            chatHistory[contactId].push({ text, type: 'received' });
+            updatePreview(contactId, text);
+
+            // 🟢 自动滚动到底部
+            const messageBox = document.getElementById('message-container');
+            messageBox.scrollTop = messageBox.scrollHeight;
+        }, 1000 + Math.random() * 1000);
+    }
+
+    function updatePreview(contactId, text) {
+        const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
+        if (contactItem) {
+            const previewEl = contactItem.querySelector('.preview');
+            previewEl.textContent = text.substring(0, 20) + '...';
+        }
+    }
+
+    function clearChat(contactId) {
+        if (confirm("确定要清空当前聊天记录吗？")) {
+            chatHistory[contactId] = [];
+            loadChat(contactId);
+        }
+    }
+
+    // 初始化所有联系人预览
+    document.querySelectorAll('.contact-item').forEach(item => {
+        const cid = item.dataset.contactId;
+        const data = chatData[cid];
+        if (data && data.replies.length) {
+            const previewEl = item.querySelector('.preview');
+            previewEl.textContent = data.replies[0].substring(0, 20) + '...';
+        }
+    });
+</script>
