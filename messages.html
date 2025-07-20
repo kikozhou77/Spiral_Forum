@@ -54,6 +54,11 @@
       margin-top: 0;
       padding-top: 0;
     }
+
+    .unread-count {
+      font-weight: bold;
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -74,12 +79,15 @@
   <main>
     <div class="chat-layout">
       <div class="contact-list" id="contact-list-container">
-        <h2>私信列表 <button onclick="alert('已全部设为已读！')">一键已读</button></h2>
+        <h2>私信列表 
+          <button onclick="markAllAsRead()">一键已读</button>
+        </h2>
         <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
           <img src="https://via.placeholder.com/48/000/FFF?text=剑" class="contact-avatar">
           <div class="contact-info">
             <div class="name">sohnwhnalqq9912_xlk</div>
             <div class="preview">...</div>
+            <div class="unread-count" id="unread-troll">未读: 3</div>
           </div>
         </div>
         <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
@@ -87,6 +95,7 @@
           <div class="contact-info">
             <div class="name">用户21</div>
             <div class="preview">...</div>
+            <div class="unread-count" id="unread-user21">未读: 5</div>
           </div>
         </div>
       </div>
@@ -99,6 +108,7 @@
 </div>
 
 <script>
+// 初始化聊天数据
 const chatData = {
   troll: {
     name: 'sohnwhnalqq9912_xlk',
@@ -176,10 +186,16 @@ const chatData = {
   }
 };
 
+// 存储每个用户的聊天历史和未读消息数量
 const chatHistory = {};
-const chatState = {};
+const unreadMessages = {
+  troll: 3,
+  user21: 5
+};
+
 let activeContactId = null;
 
+// 加载聊天
 function loadChat(contactId) {
   activeContactId = contactId;
   const data = chatData[contactId];
@@ -222,12 +238,8 @@ function loadChat(contactId) {
     if (e.key === 'Enter') handleUserMessage();
   });
 
-  document.addEventListener('keydown', e => {
-    if (e.code === 'Space' && document.activeElement.id !== 'real-input') {
-      e.preventDefault();
-      simulateBotReply(contactId);
-    }
-  });
+  // 更新未读消息数量
+  document.getElementById('unread-' + contactId).textContent = `未读: ${unreadMessages[contactId]}`;
 
   if (!chatHistory[contactId]) chatHistory[contactId] = [];
   chatState[contactId] = { shouldInsertDivider: true };
@@ -237,6 +249,15 @@ function loadChat(contactId) {
   }
 }
 
+// 标记所有消息为已读
+function markAllAsRead() {
+  for (const contactId in unreadMessages) {
+    unreadMessages[contactId] = 0;
+    document.getElementById('unread-' + contactId).textContent = `未读: 0`;
+  }
+}
+
+// 插入分隔线
 function insertDividerIfNeeded() {
   const state = chatState[activeContactId];
   if (state && state.shouldInsertDivider) {
@@ -247,6 +268,7 @@ function insertDividerIfNeeded() {
   }
 }
 
+// 发送消息
 function handleUserMessage() {
   const input = document.getElementById('real-input');
   const text = input.value.trim();
@@ -271,6 +293,7 @@ function handleUserMessage() {
   simulateBotReply(activeContactId);
 }
 
+// 模拟bot回复
 function simulateBotReply(contactId) {
   const replies = chatData[contactId]?.replies || [];
   const history = chatHistory[contactId];
