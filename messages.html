@@ -55,11 +55,19 @@
       padding-top: 0;
     }
 
+    /* 未读消息显示红色 */
     .unread-count {
       font-weight: bold;
       color: red;
     }
 
+    /* 显示绿色已读 */
+    .unread-count-read {
+      font-weight: bold;
+      color: green;
+    }
+
+    /* 隐蔽按钮 */
     .hidden-button {
       background: none;
       border: none;
@@ -79,6 +87,11 @@
 
     .unread-input {
       display: none; /* 隐藏未读输入框 */
+    }
+
+    /* 控制一键已读按钮 */
+    .hidden-button {
+      display: inline-block;
     }
   </style>
 </head>
@@ -137,6 +150,7 @@
 </div>
 
 <script>
+// 初始化聊天数据
 const chatData = {
   troll: {
     name: 'sohnwhnalqq9912_xlk',
@@ -315,7 +329,7 @@ function markAllAsRead() {
     document.getElementById('unread-' + contactId).textContent = `未读: 0`;
   }
 
-  // 更新一键已读按钮显示
+  // 更新总未读按钮显示
   const allUnreadButton = document.getElementById('all-unread-button');
   allUnreadButton.textContent = `一键已读 (${totalUnread > 99 ? '99+' : totalUnread})`;
 }
