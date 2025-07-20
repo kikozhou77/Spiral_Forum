@@ -5,12 +5,22 @@
   <title>我的信息 - 螺旋论坛</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    /* 隐藏输入框与消息之间的短横线 */
     .chat-divider {
-      border: none;
-      border-top: 1px solid var(--border-color);
-      margin: 16px 0;
-      opacity: 0.4;
+      display: block;  /* 默认显示 */
     }
+
+    /* 只隐藏输入框上方的短横线 */
+    .chat-layout hr {
+      display: none; /* 隐藏输入框上方的分割线 */
+    }
+
+    .chat-input-area {
+      margin-top: 0; /* 去除输入框的上方间距 */
+      padding-top: 0; /* 去除输入框的上方间距 */
+    }
+
+    /* 删除聊天按钮样式 */
     .delete-button {
       background: none;
       border: none;
@@ -21,8 +31,35 @@
       padding: 4px;
       transition: color 0.2s ease;
     }
+
     .delete-button:hover {
       color: #dc3545;
+    }
+
+    /* "正在输入中"动画样式 */
+    .typing-indicator-bubble {
+      display: none;
+      align-self: flex-start;
+      padding: 12px 18px;
+      background-color: var(--received-bubble-bg);
+      border-radius: 20px;
+      border-top-left-radius: 5px;
+    }
+    .typing-indicator-bubble span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--text-muted);
+      margin: 0 1px;
+      animation: typing-dots 1.5s infinite;
+    }
+    .typing-indicator-bubble span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator-bubble span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing-dots {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
     }
   </style>
 </head>
@@ -167,7 +204,10 @@ function insertDividerIfNeeded() {
 function handleUserMessage() {
   const input = document.getElementById('real-input');
   const text = input.value.trim();
-  if (!text) return;
+  if (!text) {
+    simulateBotReply(activeContactId);
+    return;
+  }
   input.value = '';
 
   insertDividerIfNeeded();
