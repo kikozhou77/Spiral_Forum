@@ -1,238 +1,227 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>我的信息 - 螺旋论坛</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .chat-divider {
-            border: none;
-            border-top: 1px solid #ccc;
-            margin: 20px 0;
-        }
-        .delete-button {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        .delete-button:hover {
-            background-color: #bd2130;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>我的信息 - 螺旋论坛</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .chat-divider {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 16px 0;
+      opacity: 0.4;
+    }
+    .delete-button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-left: 8px;
+      padding: 4px;
+      transition: color 0.2s ease;
+    }
+    .delete-button:hover {
+      color: #dc3545;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">螺旋论坛</div>
-            <div>用户小A | 
-                <a href="messages.html">私信
-                    <span id="msg-badge" class="notification-badge">99+</span>
-                </a>
-            </div>
-        </header>
+<div class="container">
+  <header>
+    <div class="logo">螺旋论坛</div>
+    <div>用户小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
+  </header>
 
-        <nav>
-            <a href="index.html">首页</a>
-            <a href="my_follows.html">我的关注</a>
-            <a href="my_profile.html">我的主页</a>
-            <a href="messages.html" class="active">我的信息</a>
-            <a href="post_detail.html" class="post-button">我要发帖！</a>
-        </nav>
+  <nav>
+    <a href="index.html">首页</a>
+    <a href="my_follows.html">我的关注</a>
+    <a href="my_profile.html">我的主页</a>
+    <a href="messages.html" class="active">我的信息</a>
+    <a href="post_detail.html" class="post-button">我要发帖！</a>
+  </nav>
 
-        <main>
-            <div class="chat-layout">
-                <div class="contact-list" id="contact-list-container">
-                    <h2>私信列表 
-                        <button onclick="alert('已全部设为已读！')">一键已读</button>
-                    </h2>
-                    <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
-                        <img src="https://via.placeholder.com/48/000/FFF?text=剑" class="contact-avatar">
-                        <div class="contact-info">
-                            <div class="name">sohnwhnalqq9912_xlk</div>
-                            <div class="preview">...</div>
-                        </div>
-                    </div>
-                    <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
-                        <img src="https://via.placeholder.com/48/ccc/000?text=?" class="contact-avatar">
-                        <div class="contact-info">
-                            <div class="name">用户21</div>
-                            <div class="preview">...</div>
-                        </div>
-                    </div>
-                </div>
+  <main>
+    <div class="chat-layout">
+      <div class="contact-list" id="contact-list-container">
+        <h2>私信列表 <button onclick="alert('已全部设为已读！')">一键已读</button></h2>
+        <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
+          <img src="https://via.placeholder.com/48/000/FFF?text=剑" class="contact-avatar">
+          <div class="contact-info">
+            <div class="name">sohnwhnalqq9912_xlk</div>
+            <div class="preview">...</div>
+          </div>
+        </div>
+        <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
+          <img src="https://via.placeholder.com/48/ccc/000?text=?" class="contact-avatar">
+          <div class="contact-info">
+            <div class="name">用户21</div>
+            <div class="preview">...</div>
+          </div>
+        </div>
+      </div>
 
-                <div id="chat-content-area" class="chat-window" style="align-items: center; justify-content: center;">
-                    <h2 style="color: #999;">点击左侧联系人开始对话</h2>
-                </div>
-            </div>
-        </main>
+      <div id="chat-content-area" class="chat-window" style="align-items: center; justify-content: center;">
+        <h2 style="color: #999;">点击左侧联系人开始对话</h2>
+      </div>
     </div>
+  </main>
+</div>
 
-    <script>
-        const chatData = {
-            troll: {
-                name: 'sohnwhnalqq9912_xlk',
-                profileLink: '#',
-                replies: [
-                    '像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。',
-                    '刚注册的新号，你开。',
-                    '我会让你后悔的。',
-                    '不信你可以试试。'
-                ]
-            },
-            user21: {
-                name: '用户21',
-                profileLink: 'user21_profile.html',
-                replies: [
-                    '很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。',
-                    '我无法去医院。',
-                    '抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。',
-                    '谢谢……那就拜托您了！',
-                    '我可以把我的电脑权限完全对您敞开。',
-                    '不是。',
-                    '请稍等，您是发现什么了吗？',
-                    '她是我的爱人。',
-                    '从我醒来开始，我就在寻找她，可我一无所获，我的记忆失去得太彻底。',
-                    '我只想找回和她的记忆。',
-                    '我知道……您修复的东西，我在这边都能看见。',
-                    '我有点紧张。',
-                    '我不想打扰她的生活，能知道她现在过得很好，对我来说已经足够了。',
-                    '我是这台电脑。',
-                    '谢谢您的相信。',
-                    '明天我就要进垃圾处理器了。',
-                    '嗯，我该怎么说…在我生命的尽头，能最后知道她是怎样的人，我已经无限感恩了。',
-                    '您帮我实现了这个愿望，我已经没有任何遗憾了。',
-                    '其实比起我，我想也许您更应该关心一下您的电脑。',
-                    '不。他好像恨您。'
-                ]
-            }
-        };
-        
-    const chatHistory = {};
-    let activeContactId = null;
+<script>
+const chatData = {
+  troll: {
+    name: 'sohnwhnalqq9912_xlk',
+    profileLink: '#',
+    replies: [
+      '像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。',
+      '刚注册的新号，你开。',
+      '我会让你后悔的。',
+      '不信你可以试试。'
+    ]
+  },
+  user21: {
+    name: '用户21',
+    profileLink: 'user21_profile.html',
+    replies: [
+      '很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。',
+      '我无法去医院。',
+      '抱歉，毕竟这是一台被格式化的电脑，我想这个请求确实太强人所难了。',
+      '谢谢……那就拜托您了！',
+      '我可以把我的电脑权限完全对您敞开。'
+    ]
+  }
+};
 
-    function loadChat(contactId) {
-        activeContactId = contactId;
-        const data = chatData[contactId];
-        if (!data) return;
+const chatHistory = {};
+const chatState = {};
+let activeContactId = null;
 
-        const contentArea = document.getElementById('chat-content-area');
-        contentArea.innerHTML = '';
+function loadChat(contactId) {
+  activeContactId = contactId;
+  const data = chatData[contactId];
+  if (!data) return;
 
-        const header = document.createElement('div');
-        header.classList.add('chat-header');
-        header.innerHTML = `<a href="${data.profileLink}">${data.name}</a>
-            <button class="delete-button" onclick="clearChat('${contactId}')">清空记录</button>`;
+  const contentArea = document.getElementById('chat-content-area');
+  contentArea.innerHTML = '';
 
-        const divider = document.createElement('hr');
-        divider.className = 'chat-divider';
+  const header = document.createElement('div');
+  header.classList.add('chat-header');
+  header.innerHTML = `<a href="${data.profileLink}">${data.name}</a>
+    <button class="delete-button" onclick="clearChat('${contactId}')" title="清空聊天">🗑</button>`;
 
-        const messageBox = document.createElement('div');
-        messageBox.classList.add('chat-messages');
-        messageBox.id = 'message-container';
+  const messageBox = document.createElement('div');
+  messageBox.classList.add('chat-messages');
+  messageBox.id = 'message-container';
 
-        contentArea.appendChild(header);
-        contentArea.appendChild(divider);
-        contentArea.appendChild(messageBox);
+  contentArea.appendChild(header);
+  contentArea.appendChild(messageBox);
 
-        (chatHistory[contactId] || []).forEach(msg => {
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble msg-${msg.type}`;
-            bubble.textContent = msg.text;
-            messageBox.appendChild(bubble);
-        });
+  (chatHistory[contactId] || []).forEach(msg => {
+    const bubble = document.createElement('div');
+    bubble.className = `message-bubble msg-${msg.type}`;
+    bubble.textContent = msg.text;
+    messageBox.appendChild(bubble);
+  });
 
-        // 🟢 自动滚动到底部
-        messageBox.scrollTop = messageBox.scrollHeight;
+  messageBox.scrollTop = messageBox.scrollHeight;
 
-        const inputArea = document.createElement('div');
-        inputArea.className = 'chat-input-area';
-        inputArea.innerHTML = `
-            <input type="text" id="real-input" class="chat-input" placeholder="输入消息后按 Enter...">
-            <button id="send-btn" class="send-button">↑</button>
-        `;
-        contentArea.appendChild(inputArea);
+  const inputArea = document.createElement('div');
+  inputArea.className = 'chat-input-area';
+  inputArea.innerHTML = `
+    <input type="text" id="real-input" class="chat-input" placeholder="输入消息后按 Enter...">
+    <button id="send-btn" class="send-button">↑</button>`;
 
-        document.getElementById('send-btn').addEventListener('click', handleUserMessage);
-        document.getElementById('real-input').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') handleUserMessage();
-        });
+  contentArea.appendChild(inputArea);
 
-        if (!(contactId in chatHistory)) {
-            chatHistory[contactId] = [];
-            simulateBotReply(contactId);
-        }
-    }
+  document.getElementById('send-btn').addEventListener('click', handleUserMessage);
+  document.getElementById('real-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleUserMessage();
+  });
 
-    function handleUserMessage() {
-        const input = document.getElementById('real-input');
-        const text = input.value.trim();
-        if (!text) return;
-        input.value = '';
+  chatState[contactId] = { hasDividerInserted: false };
 
-        const bubble = document.createElement('div');
-        bubble.className = 'message-bubble msg-sent';
-        bubble.textContent = text;
-        document.getElementById('message-container').appendChild(bubble);
+  if (!(contactId in chatHistory)) {
+    chatHistory[contactId] = [];
+    simulateBotReply(contactId);
+  }
+}
 
-        chatHistory[activeContactId].push({ text, type: 'sent' });
-        updatePreview(activeContactId, text);
+function insertDividerIfNeeded() {
+  const state = chatState[activeContactId];
+  if (!state.hasDividerInserted) {
+    const divider = document.createElement('hr');
+    divider.className = 'chat-divider';
+    document.getElementById('message-container').appendChild(divider);
+    state.hasDividerInserted = true;
+  }
+}
 
-        // 🟢 自动滚动到底部
-        const messageBox = document.getElementById('message-container');
-        messageBox.scrollTop = messageBox.scrollHeight;
+function handleUserMessage() {
+  const input = document.getElementById('real-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
 
-        simulateBotReply(activeContactId);
-    }
+  insertDividerIfNeeded();
 
-    function simulateBotReply(contactId) {
-        const replies = chatData[contactId]?.replies || [];
-        const history = chatHistory[contactId];
-        const replyIndex = history.filter(m => m.type === 'received').length;
+  const bubble = document.createElement('div');
+  bubble.className = 'message-bubble msg-sent';
+  bubble.textContent = text;
+  const msgBox = document.getElementById('message-container');
+  msgBox.appendChild(bubble);
 
-        if (replyIndex >= replies.length) return;
+  chatHistory[activeContactId].push({ text, type: 'sent' });
+  updatePreview(activeContactId, text);
 
-        setTimeout(() => {
-            const text = replies[replyIndex];
-            const bubble = document.createElement('div');
-            bubble.className = 'message-bubble msg-received';
-            bubble.textContent = text;
-            document.getElementById('message-container').appendChild(bubble);
-            chatHistory[contactId].push({ text, type: 'received' });
-            updatePreview(contactId, text);
+  msgBox.scrollTop = msgBox.scrollHeight;
 
-            // 🟢 自动滚动到底部
-            const messageBox = document.getElementById('message-container');
-            messageBox.scrollTop = messageBox.scrollHeight;
-        }, 1000 + Math.random() * 1000);
-    }
+  simulateBotReply(activeContactId);
+}
 
-    function updatePreview(contactId, text) {
-        const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
-        if (contactItem) {
-            const previewEl = contactItem.querySelector('.preview');
-            previewEl.textContent = text.substring(0, 20) + '...';
-        }
-    }
+function simulateBotReply(contactId) {
+  const replies = chatData[contactId]?.replies || [];
+  const history = chatHistory[contactId];
+  const replyIndex = history.filter(m => m.type === 'received').length;
+  if (replyIndex >= replies.length) return;
 
-    function clearChat(contactId) {
-        if (confirm("确定要清空当前聊天记录吗？")) {
-            chatHistory[contactId] = [];
-            loadChat(contactId);
-        }
-    }
+  setTimeout(() => {
+    insertDividerIfNeeded();
+    const text = replies[replyIndex];
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble msg-received';
+    bubble.textContent = text;
+    const msgBox = document.getElementById('message-container');
+    msgBox.appendChild(bubble);
+    chatHistory[contactId].push({ text, type: 'received' });
+    updatePreview(contactId, text);
+    msgBox.scrollTop = msgBox.scrollHeight;
+  }, 1000);
+}
 
-    // 初始化所有联系人预览
-    document.querySelectorAll('.contact-item').forEach(item => {
-        const cid = item.dataset.contactId;
-        const data = chatData[cid];
-        if (data && data.replies.length) {
-            const previewEl = item.querySelector('.preview');
-            previewEl.textContent = data.replies[0].substring(0, 20) + '...';
-        }
-    });
+function updatePreview(contactId, text) {
+  const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
+  if (contactItem) {
+    const previewEl = contactItem.querySelector('.preview');
+    previewEl.textContent = text.substring(0, 20) + '...';
+  }
+}
+
+function clearChat(contactId) {
+  if (confirm('确定要清空当前聊天记录吗？')) {
+    chatHistory[contactId] = [];
+    loadChat(contactId);
+  }
+}
+
+document.querySelectorAll('.contact-item').forEach(item => {
+  const cid = item.dataset.contactId;
+  const data = chatData[cid];
+  if (data && data.replies.length) {
+    const previewEl = item.querySelector('.preview');
+    previewEl.textContent = data.replies[0].substring(0, 20) + '...';
+  }
+});
 </script>
+</body>
+</html>
