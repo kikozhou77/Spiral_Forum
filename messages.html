@@ -139,6 +139,13 @@ function loadChat(contactId) {
     if (e.key === 'Enter') handleUserMessage();
   });
 
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space' && document.activeElement.id !== 'real-input') {
+      e.preventDefault();
+      simulateBotReply(contactId);
+    }
+  });
+
   if (!chatHistory[contactId]) chatHistory[contactId] = [];
   chatState[contactId] = { shouldInsertDivider: true };
 
@@ -184,21 +191,18 @@ function simulateBotReply(contactId) {
   const replyIndex = history.filter(m => m.type === 'received').length;
   if (replyIndex >= replies.length) return;
 
-  setTimeout(() => {
-    if (activeContactId !== contactId) return;
-    insertDividerIfNeeded();
+  insertDividerIfNeeded();
 
-    const text = replies[replyIndex];
-    const bubble = document.createElement('div');
-    bubble.className = 'message-bubble msg-received';
-    bubble.textContent = text;
-    const msgBox = document.getElementById('message-container');
-    msgBox.appendChild(bubble);
-    msgBox.scrollTop = msgBox.scrollHeight;
+  const text = replies[replyIndex];
+  const bubble = document.createElement('div');
+  bubble.className = 'message-bubble msg-received';
+  bubble.textContent = text;
+  const msgBox = document.getElementById('message-container');
+  msgBox.appendChild(bubble);
+  msgBox.scrollTop = msgBox.scrollHeight;
 
-    chatHistory[contactId].push({ text, type: 'received' });
-    updatePreview(contactId, text);
-  }, 1000);
+  chatHistory[contactId].push({ text, type: 'received' });
+  updatePreview(contactId, text);
 }
 
 function updatePreview(contactId, text) {
