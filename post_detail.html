@@ -2,157 +2,72 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>发帖 - 螺旋论坛</title>
+  <title>我要发帖 - 螺旋论坛</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .post-container {
-      margin: 20px;
-    }
-
-    .post-title {
-      font-size: 1.5em;
-      margin-bottom: 10px;
-    }
-
-    .post-content {
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      min-height: 100px;
-    }
-
-    .comment-section {
-      margin-top: 20px;
-      padding: 10px;
-      border-top: 1px solid #ddd;
-    }
-
-    .comment {
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-    }
-
-    .comment-author {
-      font-weight: bold;
-    }
-
-    .comment-content {
-      margin-top: 5px;
-    }
-
-    .reply-input {
-      margin-top: 10px;
-      padding: 10px;
-      width: 100%;
-      min-height: 50px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-
-    .reply-button {
-      margin-top: 10px;
-      background-color: #007bff;
-      color: white;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div class="logo">螺旋论坛</div>
-      <div>用户小A | <a href="messages.html">私信</a></div>
+      <div>用户: 小A | <a href="#">私信</a></div>
     </header>
-
     <nav>
       <a href="index.html">首页</a>
       <a href="my_follows.html">我的关注</a>
       <a href="my_profile.html">我的主页</a>
       <a href="messages.html">我的信息</a>
-      <a href="post_detail.html" class="active">我要发帖！</a>
+      <a href="post_detail.html" class="active">我要发帖!</a>
     </nav>
 
     <main>
-      <!-- 发帖输入区 -->
-      <div class="post-container">
+      <section class="post-form">
         <h2>我要发帖</h2>
-        <input type="text" id="post-title" placeholder="请输入帖子标题" class="post-title-input">
-        <br>
-        <textarea id="post-content" placeholder="请输入帖子内容" class="post-content"></textarea>
-        <br>
+        <input type="text" id="post-title" placeholder="请输入帖子标题" class="form-input">
+        <textarea id="post-content" rows="6" placeholder="请输入帖子内容" class="form-textarea"></textarea>
         <button id="submit-post" class="submit-post-button">发布帖子</button>
-      </div>
+      </section>
 
-      <!-- 发帖后的帖子显示区域 -->
-      <div id="post-display" class="post-container">
-        <!-- 发帖内容将动态插入这里 -->
-      </div>
-
-      <!-- 评论区 -->
-      <div id="comment-section" class="comment-section">
-        <h3>评论区</h3>
-        <textarea id="comment-input" class="reply-input" placeholder="在此评论..."></textarea>
-        <button id="comment-button" class="reply-button">发表评论</button>
-        <div id="comments"></div>
-      </div>
+      <section id="post-list">
+        <h2>帖子列表</h2>
+        <div id="posts-container"></div>
+      </section>
     </main>
   </div>
 
   <script>
-    // 获取HTML元素
-    const postTitleInput = document.getElementById('post-title');
-    const postContentInput = document.getElementById('post-content');
-    const submitPostButton = document.getElementById('submit-post');
-    const postDisplay = document.getElementById('post-display');
-    const commentSection = document.getElementById('comment-section');
-    const commentInput = document.getElementById('comment-input');
-    const commentButton = document.getElementById('comment-button');
-    const commentsDiv = document.getElementById('comments');
-
-    // 提交帖子
-    submitPostButton.addEventListener('click', function() {
-      const title = postTitleInput.value.trim();
-      const content = postContentInput.value.trim();
-
-      if (title && content) {
-        // 显示发帖内容
-        postDisplay.innerHTML = `
-          <div class="post-title">${title}</div>
-          <div class="post-content">${content}</div>
+    // 获取已有帖子
+    function loadPosts() {
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      const container = document.getElementById('posts-container');
+      container.innerHTML = '';
+      posts.reverse().forEach(post => {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.innerHTML = `
+          <div class="comment-author">${post.title}</div>
+          <div class="comment-content">${post.content}</div>
         `;
-        // 清空输入框
-        postTitleInput.value = '';
-        postContentInput.value = '';
-        // 显示评论区
-        commentSection.style.display = 'block';
-      } else {
-        alert('标题和内容不能为空！');
+        container.appendChild(div);
+      });
+    }
+
+    // 添加新帖子
+    document.getElementById('submit-post').addEventListener('click', () => {
+      const title = document.getElementById('post-title').value.trim();
+      const content = document.getElementById('post-content').value.trim();
+      if (!title || !content) {
+        alert('标题和内容不能为空');
+        return;
       }
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      posts.push({ title, content });
+      localStorage.setItem('posts', JSON.stringify(posts));
+      document.getElementById('post-title').value = '';
+      document.getElementById('post-content').value = '';
+      loadPosts();
     });
 
-    // 提交评论
-    commentButton.addEventListener('click', function() {
-      const comment = commentInput.value.trim();
-      if (comment) {
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('comment');
-        commentElement.innerHTML = `
-          <div class="comment-author">用户小A</div>
-          <div class="comment-content">${comment}</div>
-        `;
-        commentsDiv.appendChild(commentElement);
-        commentInput.value = '';  // 清空评论输入框
-      } else {
-        alert('评论不能为空！');
-      }
-    });
+    window.onload = loadPosts;
   </script>
 </body>
 </html>
