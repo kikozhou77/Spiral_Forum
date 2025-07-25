@@ -1,3 +1,5 @@
+
+/* 全局设置 */
 body {
   margin: 0;
   padding: 0;
@@ -55,6 +57,7 @@ nav a.active {
   border-radius: 4px;
 }
 
+/* 发帖区域 */
 .post-form {
   background-color: #111;
   padding: 24px;
@@ -117,6 +120,7 @@ label {
   background-color: #33cc33;
 }
 
+/* 帖子展示区域 */
 #post-list {
   background-color: #0f0f0f;
   padding: 24px;
@@ -136,6 +140,12 @@ label {
   font-weight: bold;
   color: #66ff66;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;  /* 保证头像与作者名称垂直居中 */
+}
+
+.comment-author img {
+  margin-right: 8px;    /* 头像与名字之间的间距 */
 }
 
 .comment-content {
@@ -143,6 +153,7 @@ label {
   color: #ddd;
 }
 
+/* 删除帖子按钮 */
 .delete-post-button {
   background-color: #aa2222;
   color: #fff;
@@ -157,26 +168,17 @@ label {
   background-color: #dd4444;
 }
 
-.avatar {
-  width: 64px;        /* 调整宽度 */
-  height: 64px;       /* 调整高度 */
-  border-radius: 6px; /* 保持圆角 */
-  object-fit: cover;
-  margin-right: 10px;
-  vertical-align: middle;
-}
-
-
+/* 头像样式调整 */
 .contact-avatar, .profile-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 6px;
-  object-fit: cover;
-  margin-right: 10px;
+  width: 40px;          /* 调整宽度 */
+  height: 40px;         /* 调整高度 */
+  border-radius: 50%;   /* 保持圆形 */
+  object-fit: cover;    /* 图片自适应容器 */
+  margin-right: 10px;   /* 控制头像与文字的间距 */
+  vertical-align: middle; /* 垂直居中 */
 }
 
-
-
+/* 通用按钮风格 */
 button {
   cursor: pointer;
   font-family: inherit;
