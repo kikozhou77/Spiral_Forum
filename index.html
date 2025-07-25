@@ -1,36 +1,165 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>螺旋论坛 - 首页</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>首页 - 螺旋论坛</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .post-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    .like-count {
+      font-size: 12px;
+      color: #88ff88;
+    }
+    .reply-box {
+      margin-top: 10px;
+    }
+    .reply-box textarea {
+      width: 100%;
+      margin-top: 5px;
+    }
+    .replies {
+      margin-top: 10px;
+      border-top: 1px dashed #333;
+      padding-top: 10px;
+    }
+    .reply-item {
+      margin-top: 5px;
+      font-size: 13px;
+    }
+    .user-input {
+      margin: 10px 0;
+    }
+    #search-box {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">螺旋论坛</div>
-            <div class="welcome-message">欢迎来到螺旋论坛！<br>在这里可以找到志同道合的朋友</div>
-            <div>用户小A <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
-        </header>
-        <nav>
-            <a href="index.html" class="active">首页</a>
-            <a href="my_follows.html">我的关注</a>
-            <a href="my_profile.html">我的主页</a>
-            <a href="messages.html">我的信息</a>
-            <a href="post_detail.html" class="post-button">我要发帖！</a>
-        </nav>
-        <main>
-            <h2>热门话题</h2>
-            <p>点击“我要发帖”来开始你的故事...</p>
-        </main>
-    </div>
+  <div class="container">
+    <header>
+      <div class="logo">螺旋论坛</div>
+      <div>当前用户: <span id="username">匿名用户</span></div>
+    </header>
+    <nav>
+      <a href="index.html" class="active">首页</a>
+      <a href="my_follows.html">我的关注</a>
+      <a href="my_profile.html">我的主页</a>
+      <a href="messages.html">我的信息</a>
+      <a href="post_detail.html">我要发帖!</a>
+    </nav>
 
-    <!-- 用于拍摄控制的脚本 -->
-    <script>
-        // 在浏览器控制台输入 showNotifications() 即可显示99+红点
-        function showNotifications() {
-            document.getElementById('msg-badge').style.display = 'inline-block';
+    <main>
+      <div class="user-input">
+        <input type="text" id="set-user" placeholder="设置用户名（默认匿名用户）">
+        <button onclick="setUsername()">确认</button>
+      </div>
+      <input type="text" id="search-box" placeholder="搜索关键词…">
+      <section class="post-list">
+        <h2>最新帖子</h2>
+        <div id="post-feed"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function getUsername() {
+      return localStorage.getItem('username') || '匿名用户';
+    }
+
+    function setUsername() {
+      const name = document.getElementById('set-user').value.trim();
+      if (name) {
+        localStorage.setItem('username', name);
+        document.getElementById('username').textContent = name;
+        loadPosts();
+      }
+    }
+
+    function loadPosts() {
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+      const replies = JSON.parse(localStorage.getItem('replies') || '{}');
+      const keyword = document.getElementById('search-box').value.toLowerCase();
+      const feed = document.getElementById('post-feed');
+      feed.innerHTML = '';
+      posts.slice().reverse().forEach((post, index) => {
+        const realIndex = posts.length - 1 - index;
+        if (keyword && !post.title.toLowerCase().includes(keyword) && !post.content.toLowerCase().includes(keyword)) return;
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.innerHTML = `
+          <div class="comment-author">${post.title} <span style="float:right;font-size:12px;opacity:0.6">by ${post.user || '匿名用户'}</span></div>
+          <div class="comment-content">${post.content}</div>
+          <div class="post-actions">
+            <button onclick="likePost(${realIndex})">点赞</button>
+            <span class="like-count">👍 ${likes[realIndex] || 0}</span>
+            <button onclick="deletePost(${realIndex})">删除</button>
+          </div>
+          <div class="reply-box">
+            <textarea id="reply-${realIndex}" rows="2" placeholder="发表评论…"></textarea>
+            <button onclick="addReply(${realIndex})">回复</button>
+            <div class="replies" id="replies-${realIndex}"></div>
+          </div>
+        `;
+        feed.appendChild(div);
+
+        if (replies[realIndex]) {
+          const replyDiv = document.getElementById(`replies-${realIndex}`);
+          replies[realIndex].forEach((rep, i) => {
+            const p = document.createElement('div');
+            p.className = 'reply-item';
+            p.innerHTML = `👤 ${rep} <button onclick="deleteReply(${realIndex}, ${i})" style="float:right;font-size:10px">删除</button>`;
+            replyDiv.appendChild(p);
+          });
         }
-    </script>
+      });
+    }
+
+    function deletePost(index) {
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      posts.splice(index, 1);
+      localStorage.setItem('posts', JSON.stringify(posts));
+      location.reload();
+    }
+
+    function likePost(index) {
+      const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+      likes[index] = (likes[index] || 0) + 1;
+      localStorage.setItem('likes', JSON.stringify(likes));
+      loadPosts();
+    }
+
+    function addReply(index) {
+      const textarea = document.getElementById(`reply-${index}`);
+      const content = textarea.value.trim();
+      if (!content) return;
+      const replies = JSON.parse(localStorage.getItem('replies') || '{}');
+      if (!replies[index]) replies[index] = [];
+      replies[index].push(`${getUsername()}: ${content}`);
+      localStorage.setItem('replies', JSON.stringify(replies));
+      textarea.value = '';
+      loadPosts();
+    }
+
+    function deleteReply(postIndex, replyIndex) {
+      const replies = JSON.parse(localStorage.getItem('replies') || '{}');
+      if (replies[postIndex]) {
+        replies[postIndex].splice(replyIndex, 1);
+        localStorage.setItem('replies', JSON.stringify(replies));
+        loadPosts();
+      }
+    }
+
+    document.getElementById('search-box').addEventListener('input', loadPosts);
+    window.onload = () => {
+      document.getElementById('username').textContent = getUsername();
+      loadPosts();
+    };
+  </script>
 </body>
 </html>
