@@ -1,4 +1,3 @@
-
 /* 全局设置 */
 body {
   margin: 0;
@@ -141,16 +140,11 @@ label {
   color: #66ff66;
   margin-bottom: 8px;
   display: flex;
-  align-items: center;  /* 保证头像与作者名称垂直居中 */
+  align-items: center;
 }
 
 .comment-author img {
-  margin-right: 8px;    /* 头像与名字之间的间距 */
-}
-
-.comment-content {
-  font-size: 15px;
-  color: #ddd;
+  margin-right: 8px;
 }
 
 /* 删除帖子按钮 */
@@ -168,14 +162,67 @@ label {
   background-color: #dd4444;
 }
 
-/* 头像样式调整 */
+/* 头像样式统一优化 */
 .contact-avatar, .profile-avatar {
-  width: 40px;          /* 调整宽度 */
-  height: 40px;         /* 调整高度 */
-  border-radius: 50%;   /* 保持圆形 */
-  object-fit: cover;    /* 图片自适应容器 */
-  margin-right: 10px;   /* 控制头像与文字的间距 */
-  vertical-align: middle; /* 垂直居中 */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* 聊天布局调整 */
+.chat-layout {
+  display: flex;
+  height: 600px;
+}
+
+.contact-list {
+  width: 260px;
+  overflow-y: auto;
+  padding-right: 10px;
+  border-right: 1px solid #333;
+}
+
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  overflow: hidden;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #111;
+  border: 1px solid #444;
+  color: #ccc;
+}
+
+.send-button {
+  padding: 8px 12px;
+  background-color: #22aa22;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+.send-button:hover {
+  background-color: #33cc33;
 }
 
 /* 通用按钮风格 */
@@ -187,3 +234,46 @@ button {
 button:hover {
   opacity: 0.85;
 }
+.message-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  margin: 6px 0;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* 机器人/对方消息 */
+.msg-received {
+  background-color: #222;
+  color: #ccc;
+  align-self: flex-start;
+  border-top-left-radius: 4px;
+}
+
+/* 用户本人消息 */
+.msg-sent {
+  background-color: #33aa33;
+  color: #fff;
+  align-self: flex-end;
+  border-top-right-radius: 4px;
+}
+
+/* 聊天头部 */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  color: #66ff66;
+  margin-bottom: 10px;
+}
+
+/* 消息预览 */
+.preview {
+  color: #aaa;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
