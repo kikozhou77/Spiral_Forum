@@ -80,6 +80,9 @@ nav a.active {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 600px;
+  margin: 0 auto; /* 居中 */
+}
 }
 
 label {
