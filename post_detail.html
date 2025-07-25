@@ -43,15 +43,24 @@
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
       const container = document.getElementById('posts-container');
       container.innerHTML = '';
-      posts.reverse().forEach(post => {
+      posts.reverse().forEach((post, index) => {
+        const realIndex = posts.length - 1 - index;
         const div = document.createElement('div');
         div.className = 'comment';
         div.innerHTML = `
           <div class="comment-author">${post.title}</div>
           <div class="comment-content">${post.content}</div>
+          <button class="delete-post-button" onclick="deletePost(${realIndex})">删除</button>
         `;
         container.appendChild(div);
       });
+    }
+
+    function deletePost(index) {
+      let posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      posts.splice(index, 1);
+      localStorage.setItem('posts', JSON.stringify(posts));
+      loadPosts();
     }
 
     document.getElementById("submit-post").addEventListener("click", () => {
