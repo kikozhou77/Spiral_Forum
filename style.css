@@ -167,6 +167,16 @@ label {
 }
 
 
+.contact-avatar, .profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+
+
 button {
   cursor: pointer;
   font-family: inherit;
