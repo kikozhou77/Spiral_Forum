@@ -158,13 +158,14 @@ label {
 }
 
 .avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 6px;
+  width: 64px;        /* 调整宽度 */
+  height: 64px;       /* 调整高度 */
+  border-radius: 6px; /* 保持圆角 */
   object-fit: cover;
   margin-right: 10px;
   vertical-align: middle;
 }
+
 
 button {
   cursor: pointer;
