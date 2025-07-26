@@ -218,30 +218,28 @@ function clearChat(contactId) {
   }
 }
 function handleUserMessage() {
-  if (!activeContactId) return;
   const input = document.getElementById('real-input');
+  if (!input) return;
+
   const text = input.value.trim();
-  if (!text) return;
 
-  insertDividerIfNeeded();
+  if (text) {
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble msg-sent';
+    bubble.textContent = text;
+    const msgBox = document.getElementById('message-container');
+    msgBox.appendChild(bubble);
+    msgBox.scrollTop = msgBox.scrollHeight;
 
-  const bubble = document.createElement('div');
-  bubble.className = 'message-bubble msg-sent';
-  bubble.textContent = text;
-  const msgBox = document.getElementById('message-container');
-  msgBox.appendChild(bubble);
-  msgBox.scrollTop = msgBox.scrollHeight;
-
-  if (!chatHistory[activeContactId]) {
-    chatHistory[activeContactId] = [];
+    chatHistory[activeContactId].push({ text, type: 'sent' });
+    updatePreview(activeContactId, text);
   }
-  chatHistory[activeContactId].push({ text, type: 'sent' });
-  updatePreview(activeContactId, text);
 
   input.value = '';
+  input.style.height = 'auto';
 
-  // 模拟 bot 回复
-  setTimeout(() => simulateBotReply(activeContactId), 600);
+  // 不论是否为空，都触发 bot 回复
+  simulateBotReply(activeContactId);
 }
 
 function insertDividerIfNeeded() {
