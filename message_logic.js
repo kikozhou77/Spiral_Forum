@@ -189,19 +189,36 @@ function simulateBotReply(contactId) {
   const replyIndex = history.filter(m => m.type === 'received').length;
   if (replyIndex >= replies.length) return;
 
+  const text = replies[replyIndex];
+  const msgBox = document.getElementById('message-container');
+
   insertDividerIfNeeded();
 
-  const text = replies[replyIndex];
-  const bubble = document.createElement('div');
-  bubble.className = 'message-bubble msg-received';
-  bubble.textContent = text;
-  const msgBox = document.getElementById('message-container');
-  msgBox.appendChild(bubble);
+  // 设置 delay（每10个字加100ms，最少300ms，最多2.5s）
+  const delay = Math.min(Math.max(300, text.length * 10), 2500);
+
+  // 显示“对方正在输入...”
+  const typingIndicator = document.createElement('div');
+  typingIndicator.className = 'typing-indicator-bubble';
+  typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+  msgBox.appendChild(typingIndicator);
+
   msgBox.scrollTop = msgBox.scrollHeight;
 
-  chatHistory[contactId].push({ text, type: 'received' });
-  updatePreview(contactId, text);
+  setTimeout(() => {
+    typingIndicator.remove();
+
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble msg-received';
+    bubble.textContent = text;
+    msgBox.appendChild(bubble);
+    msgBox.scrollTop = msgBox.scrollHeight;
+
+    chatHistory[contactId].push({ text, type: 'received' });
+    updatePreview(contactId, text);
+  }, delay);
 }
+
 
 function updatePreview(contactId, text) {
   const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
