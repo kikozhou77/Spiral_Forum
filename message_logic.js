@@ -217,6 +217,43 @@ function clearChat(contactId) {
     loadChat(contactId);
   }
 }
+function handleUserMessage() {
+  if (!activeContactId) return;
+  const input = document.getElementById('real-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  insertDividerIfNeeded();
+
+  const bubble = document.createElement('div');
+  bubble.className = 'message-bubble msg-sent';
+  bubble.textContent = text;
+  const msgBox = document.getElementById('message-container');
+  msgBox.appendChild(bubble);
+  msgBox.scrollTop = msgBox.scrollHeight;
+
+  if (!chatHistory[activeContactId]) {
+    chatHistory[activeContactId] = [];
+  }
+  chatHistory[activeContactId].push({ text, type: 'sent' });
+  updatePreview(activeContactId, text);
+
+  input.value = '';
+
+  // 模拟 bot 回复
+  setTimeout(() => simulateBotReply(activeContactId), 600);
+}
+
+function insertDividerIfNeeded() {
+  const state = chatState[activeContactId];
+  if (state && state.shouldInsertDivider) {
+    const divider = document.createElement('hr');
+    divider.className = 'chat-divider';
+    const msgBox = document.getElementById('message-container');
+    msgBox.appendChild(divider);
+    state.shouldInsertDivider = false;
+  }
+}
 
 document.querySelectorAll('.contact-item').forEach(item => {
   const cid = item.dataset.contactId;
