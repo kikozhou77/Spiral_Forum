@@ -4,6 +4,38 @@
   <meta charset="UTF-8">
   <title>欢迎进入螺旋论坛</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body.splash-page {
+      background: url('./background/splash.PNG') no-repeat center center fixed;
+      background-size: cover;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .splash-content {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .splash-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body class="splash-page">
   <div class="splash-content">
@@ -14,7 +46,6 @@
 
   <script>
     function enterSite() {
-      // 直接跳转到首页
       window.location.href = "index.html";
     }
   </script>
