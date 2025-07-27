@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>螺旋论坛 - 登录</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .login-container {
+      position: relative;
+      background-color: rgba(0, 0, 0, 0.9);
+      border: 2px solid #33ff33;
+      border-radius: 16px;
+      padding: 40px;
+      width: 320px;
+      box-shadow: 0 0 20px #33ff33aa;
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px #33ff33aa; }
+      50% { box-shadow: 0 0 40px #33ff33; }
+    }
+
+    .login-container h2 {
+      color: #33ff33;
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 26px;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      background-color: #111;
+      color: #ccc;
+      font-size: 16px;
+      outline: none;
+      border: 1px solid #333;
+      transition: border 0.3s;
+    }
+
+    .login-container input:focus {
+      border-color: #33ff33;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #33ff33;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-container button:hover {
+      background-color: #44ff44;
+    }
+
+    .login-footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .login-footer a {
+      color: #88ff88;
+      text-decoration: none;
+    }
+
+    .login-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>欢迎来到螺旋论坛</h2>
+    <input type="text" placeholder="用户名">
+    <input type="password" placeholder="密码">
+    <button onclick="alert('登录成功！')">登录</button>
+    <div class="login-footer">
+      还没有账号？<a href="#">点击注册</a>
+    </div>
+  </div>
+</body>
+</html>
