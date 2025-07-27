@@ -276,5 +276,52 @@ button:hover {
   color: #222;
 }
 
+.follows-section {
+  margin-top: 48px;
+}
+
+.follows-section h2 {
+  font-size: 1.6em;
+  margin-bottom: 16px;
+}
+
+.follows-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.follow-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 1em;
+  margin-bottom: 16px;
+  width: 320px;
+}
+
+.follow-item img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.follow-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.follow-name {
+  font-weight: bold;
+  font-size: 1.05em;
+  color: var(--text-color);
+}
+
+.follow-desc {
+  font-size: 0.95em;
+  color: var(--text-muted);
+}
+
 
 
