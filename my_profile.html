@@ -5,7 +5,6 @@
   <title>我的主页 - 螺旋论坛</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* 我的主页专用美化样式 */
     main {
       display: flex;
       justify-content: center;
@@ -13,59 +12,73 @@
     }
 
     .profile-card {
-      max-width: 700px;
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.7);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      max-width: 1200px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      margin-bottom: 20px;
     }
 
-    .profile-avatar-large {
+    .profile-avatar {
       width: 100px;
       height: 100px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid #000;
       margin-bottom: 10px;
-      border: 3px solid #000;
     }
 
-    .profile-tagline {
+    .profile-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 6px 0;
+    }
+
+    .profile-signature {
       font-style: italic;
-      color: #333;
-      margin-top: 6px;
+      color: #555;
     }
 
     .profile-stats {
       display: flex;
       justify-content: space-around;
-      margin: 20px 0;
+      margin: 30px 0;
       text-align: center;
     }
 
     .stat-item .number {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
     }
 
     .stat-item .label {
       font-size: 14px;
-      color: #555;
+      color: #666;
+      margin-top: 4px;
     }
 
-    .profile-bio h2 {
-      font-size: 20px;
+    .profile-divider {
+      border-top: 1px solid #ccc;
+      margin: 30px 0 20px;
+    }
+
+    .profile-section-title {
+      font-size: 18px;
+      font-weight: bold;
       margin-bottom: 10px;
     }
 
-    .profile-bio p {
-      line-height: 1.6;
+    .profile-section-content {
       color: #222;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -81,18 +94,22 @@
       <a href="my_follows.html">我的关注</a>
       <a href="my_profile.html" class="active">我的主页</a>
       <a href="messages.html">我的信息</a>
-      <a href="post_detail.html" class="post-button">我要发帖！</a>
+      <a href="post_detail.html">我要发帖！</a>
     </nav>
 
     <main>
       <div class="profile-card">
         <div class="profile-header">
-          <img src="Avatar/Avatar_小A.jpg" alt="avatar" class="profile-avatar-large">
-          <h1>小A</h1>
-          <p class="profile-tagline">戾气很重的电脑高手。</p>
+          <img src="Avatar/Avatar_小A.jpg" alt="头像" class="profile-avatar">
+          <div class="profile-name">小A</div>
+          <div class="profile-signature">戾气很重的电脑高手。</div>
         </div>
 
         <div class="profile-stats">
+          <div class="stat-item">
+            <div class="number">2024-06-08</div>
+            <div class="label">加入时间</div>
+          </div>
           <div class="stat-item">
             <div class="number">2</div>
             <div class="label">关注</div>
@@ -107,13 +124,15 @@
           </div>
         </div>
 
-        <hr>
+        <div class="profile-divider"></div>
 
-        <section class="profile-bio">
-          <h2>我的简介</h2>
-          <p>小A是一个匿名黑客，活跃于各大论坛与暗网。他习惯用极端手段获取信息，并将之公之于众，
-             自认为是在伸张正义，但事实上也掺杂了不少虚荣和炫耀。</p>
-        </section>
+        <div>
+          <div class="profile-section-title">我的简介</div>
+          <div class="profile-section-content">
+            小A是一个匿名黑客，活跃于各大论坛与暗网。他习惯用极端手段获取信息，并将之公之于众，
+            自认为是在伸张正义，但事实上也掺杂了不少虚荣和炫耀。
+          </div>
+        </div>
       </div>
     </main>
   </div>
