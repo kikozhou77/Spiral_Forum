@@ -1,55 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>首页 - 螺旋论坛</title>
-  <link rel="stylesheet" href="style.css">
-  <script>
-    // 登录验证
-    if (localStorage.getItem('userLoggedIn') !== 'true') {
-      window.location.href = 'login.html';
-    }
-  </script>
-  <style>
-    .post-actions {
-      margin-top: 10px;
-      display: flex;
-      gap: 10px;
-    }
-    .like-count {
-      font-size: 12px;
-      color: #88ff88;
-    }
-    .reply-box {
-      margin-top: 10px;
-    }
-    .reply-box textarea {
-      width: 100%;
-      margin-top: 5px;
-    }
-    .replies {
-      margin-top: 10px;
-      border-top: 1px dashed #333;
-      padding-top: 10px;
-    }
-    .reply-item {
-      margin-top: 5px;
-      font-size: 13px;
-    }
-    #search-box {
-      width: 100%;
-      margin-bottom: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <header>
       <div class="logo">螺旋论坛</div>
       <div>
-        <span id="username">用户</span> |
-        <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a> |
-        <a href="#" onclick="logout()">退出</a>
+        用户 <span id="username">未登录</span> |
+        <a href="messages.html">私信 <span id="msg-badge" class="notification-badge">99+</span></a>
       </div>
     </header>
 
@@ -62,7 +24,11 @@
     </nav>
 
     <main>
-      <input type="text" id="search-box" placeholder="搜索关键词…">
+      <div class="user-input">
+        <input type="text" id="set-user" placeholder="设置用户名（默认匿名用户）" />
+        <button onclick="setUsername()">确认</button>
+      </div>
+      <input type="text" id="search-box" placeholder="搜索关键词…" />
       <section class="post-list">
         <h2>最新帖子</h2>
         <div id="post-feed"></div>
@@ -71,14 +37,21 @@
   </div>
 
   <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+
     function getUsername() {
       return localStorage.getItem('username') || '匿名用户';
     }
 
-    function logout() {
-      localStorage.removeItem('userLoggedIn');
-      localStorage.removeItem('username');
-      window.location.href = 'login.html';
+    function setUsername() {
+      const name = document.getElementById('set-user').value.trim();
+      if (name) {
+        localStorage.setItem('username', name);
+        document.getElementById('username').textContent = name;
+        loadPosts();
+      }
     }
 
     function loadPosts() {
@@ -125,7 +98,7 @@
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
       posts.splice(index, 1);
       localStorage.setItem('posts', JSON.stringify(posts));
-      location.reload();
+      loadPosts();
     }
 
     function likePost(index) {
