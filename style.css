@@ -219,4 +219,62 @@ button:hover {
   justify-content: space-between;
 }
 
+/* 我的主页专用样式 */
+.profile-card {
+  max-width: 700px;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 3px solid #000;
+}
+
+.profile-tagline {
+  font-style: italic;
+  color: #333;
+  margin-top: 6px;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.stat-item .number {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.stat-item .label {
+  font-size: 14px;
+  color: #555;
+}
+
+.profile-bio h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.profile-bio p {
+  line-height: 1.6;
+  color: #222;
+}
+
+
 
