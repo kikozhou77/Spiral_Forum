@@ -75,23 +75,28 @@ nav a.active {
 }
 
 .login-form, .splash-content {
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.6);
   padding: 30px;
   border-radius: 12px;
   text-align: center;
+  opacity: 0;
+  transform: scale(0.85) translateY(20px); /* ✅ 整体缩小到 85% 大小 */
+  transition: all 1.2s ease;
+}
+
+.splash-content.visible {
+  opacity: 1;
+  transform: scale(0.85) translateY(0); /* ✅ 保持缩放 + 淡入 */
 }
 
 .login-form input, .login-form button {
-  margin-top: 10px;
-  padding: 10px;
+  margin-top: 20px;
+  padding: 10px 20px;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
 }
 
-.login-form input {
-  width: 200px;
-}
 
 .login-form button {
   background-color: #000;
