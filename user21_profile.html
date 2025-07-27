@@ -1,46 +1,139 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>用户21的主页 - 螺旋论坛</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>用户21的主页 - 螺旋论坛</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .profile-card {
+      width: 100%;
+      max-width: 1200px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #000;
+      margin-bottom: 10px;
+    }
+
+    .profile-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 6px 0;
+    }
+
+    .profile-signature {
+      font-style: italic;
+      color: #555;
+    }
+
+    .profile-stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 30px 0;
+      text-align: center;
+    }
+
+    .stat-item .number {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .stat-item .label {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .profile-divider {
+      border-top: 1px solid #ccc;
+      margin: 30px 0 20px;
+    }
+
+    .profile-section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .profile-section-content {
+      color: #222;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 【关键修改】替换为完整的header -->
-        <header>
-            <div class="logo">螺旋论坛</div>
-            <!-- 这里可以显示小A的信息，因为是小A在浏览这个页面 -->
-            <div>用户小A | <a href="messages.html">私信</a></div>
-        </header>
+  <div class="container">
+    <header>
+      <div class="logo">螺旋论坛</div>
+      <div>用户：游客 | <a href="login.html">登录</a></div>
+    </header>
 
-        <!-- 【关键修改】替换为完整的nav，并包含返回对话的逻辑 -->
-        <nav>
-            <a href="index.html">首页</a>
-            <a href="my_follows.html">我的关注</a>
-            <a href="my_profile.html">我的主页</a>
-            <!-- 这个“我的信息”链接是返回对话页的关键 -->
-            <a href="messages.html" class="active">我的信息</a> 
-            <a href="post_detail.html" class="post-button">我要发帖！</a>
-        </nav>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="my_follows.html">我的关注</a>
+      <a href="my_profile.html">我的主页</a>
+      <a href="messages.html">我的信息</a>
+      <a href="post_detail.html">我要发帖！</a>
+    </nav>
 
-        <main>
-            <div class="profile-header">
-                <img src="https://via.placeholder.com/120/ccc/000?text=?" alt="avatar" class="profile-avatar">
-                <div class="profile-info">
-                    <h1>用户21</h1>
-                    <p>这个人很神秘，什么都没有留下...</p>
-                </div>
-            </div>
-            <div class="profile-stats">
-                <div class="stat-item"><div class="number">2024-06-08</div><div class="label">加入时间</div></div>
-                <div class="stat-item"><div class="number">0</div><div class="label">发帖数</div></div>
-                <div class="stat-item"><div class="number">1</div><div class="label">回复数</div></div>
-            </div>
-            <hr style="margin: 30px 0;">
-            <h2>动态</h2>
-            <p>空空如也</p>
-        </main>
-    </div>
+    <main>
+      <div class="profile-card">
+        <div class="profile-header">
+          <img src="Avatar/Avatar_用户21.jpg" alt="头像" class="profile-avatar">
+          <div class="profile-name">用户21</div>
+          <div class="profile-signature">这个人很神秘，什么都没有留下……</div>
+        </div>
+
+        <div class="profile-stats">
+          <div class="stat-item">
+            <div class="number">2024-06-08</div>
+            <div class="label">加入时间</div>
+          </div>
+          <div class="stat-item">
+            <div class="number">0</div>
+            <div class="label">关注</div>
+          </div>
+          <div class="stat-item">
+            <div class="number">1</div>
+            <div class="label">粉丝</div>
+          </div>
+          <div class="stat-item">
+            <div class="number">0</div>
+            <div class="label">帖子</div>
+          </div>
+        </div>
+
+        <div class="profile-divider"></div>
+
+        <div>
+          <div class="profile-section-title">简介</div>
+          <div class="profile-section-content">
+            空空如也。
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </body>
 </html>
