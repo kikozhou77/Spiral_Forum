@@ -2,15 +2,20 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #000;
+  background: url('./background/web.png') no-repeat center center fixed;
+  background-size: cover;
   font-family: 'Courier New', Courier, monospace;
   color: #ccc;
 }
 
+html, body, .container, header, nav, main {
+  height: 100%;
+  width: 100%;
+}
+
 .container {
-  max-width: 960px;
-  margin: 0 auto;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 header {
@@ -20,11 +25,12 @@ header {
   padding-bottom: 10px;
   border-bottom: 1px solid #222;
   margin-bottom: 20px;
+  background-color: rgba(0,0,0,0.5);
 }
 
 .logo {
   font-size: 24px;
-  color: #66ff66;
+  color: #000;
   font-weight: bold;
 }
 
@@ -32,14 +38,14 @@ nav {
   margin-bottom: 20px;
   display: flex;
   gap: 20px;
-  background-color: #111;
+  background-color: rgba(0,0,0,0.6);
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #222;
 }
 
 nav a {
-  color: #88ff88;
+  color: #000;
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;
@@ -51,118 +57,60 @@ nav a:hover {
 
 nav a.active {
   color: #fff;
-  background-color: #33aa33;
+  background-color: #000;
   padding: 4px 8px;
   border-radius: 4px;
 }
 
-/* 发帖区域 */
-.post-form {
-  background-color: #111;
-  padding: 24px;
-  border-radius: 8px;
-  border: 1px solid #222;
-  margin-bottom: 30px;
-}
-
-.post-form h2,
-#post-list h2 {
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.5rem;
-  color: #66ff66;
-  margin-bottom: 20px;
-}
-
-.post-form-fields {
+/* 登录页面全屏铺满 */
+.login-page, .splash-page {
+  width: 100vw;
+  height: 100vh;
+  background: url('./background/web.png') no-repeat center center fixed;
+  background-size: cover;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-label {
-  color: #aaa;
-  font-size: 14px;
-}
-
-.form-input,
-.form-textarea {
-  padding: 12px;
-  font-size: 15px;
-  border-radius: 6px;
-  background-color: #000;
-  color: #eee;
-  border: 1px solid #333;
-  resize: vertical;
-}
-
-.form-textarea {
-  min-height: 200px;
-}
-
-.submit-post-button {
-  width: 150px;
-  margin: 0 auto;
-  align-self: center;
-  padding: 10px;
-  font-size: 14px;
-  background-color: #22aa22;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.submit-post-button:hover {
-  background-color: #33cc33;
-}
-
-/* 帖子展示区域 */
-#post-list {
-  background-color: #0f0f0f;
-  padding: 24px;
-  border-radius: 8px;
-  border: 1px solid #222;
-}
-
-.comment {
-  background-color: #181818;
-  padding: 15px;
-  margin-bottom: 12px;
-  border-radius: 6px;
-  border: 1px solid #333;
-}
-
-.comment-author {
-  font-weight: bold;
-  color: #66ff66;
-  margin-bottom: 8px;
-  display: flex;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
-.comment-author img {
-  margin-right: 8px;
+.login-form, .splash-content {
+  background-color: rgba(0,0,0,0.7);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
 }
 
-/* 删除帖子按钮 */
-.delete-post-button {
-  background-color: #aa2222;
-  color: #fff;
+.login-form input, .login-form button {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  margin-top: 8px;
+}
+
+.login-form input {
+  width: 200px;
+}
+
+.login-form button {
+  background-color: #000;
+  color: white;
   cursor: pointer;
 }
 
-.delete-post-button:hover {
-  background-color: #dd4444;
+.splash-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  cursor: pointer;
 }
 
-/* 头像样式统一优化 */
+/* 头像 */
 .contact-avatar, .profile-avatar {
   width: 40px;
   height: 40px;
@@ -170,111 +118,6 @@ label {
   object-fit: cover;
   margin-right: 10px;
   vertical-align: middle;
-}
-
-/* 聊天布局调整 */
-.chat-layout {
-  display: flex;
-  height: 600px;
-}
-
-.contact-list {
-  width: 260px;
-  overflow-y: auto;
-  padding-right: 10px;
-  border-right: 1px solid #333;
-}
-
-.chat-window {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-  overflow: hidden;
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 10px;
-}
-
-.chat-input-area {
-  display: flex;
-  gap: 10px;
-}
-
-.chat-input {
-  flex: 1;
-  padding: 8px;
-  border-radius: 4px;
-  background-color: #111;
-  border: 1px solid #444;
-  color: #ccc;
-}
-
-.send-button {
-  padding: 8px 12px;
-  background-color: #22aa22;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-}
-
-.send-button:hover {
-  background-color: #33cc33;
-}
-
-/* 通用按钮风格 */
-button {
-  cursor: pointer;
-  font-family: inherit;
-}
-
-button:hover {
-  opacity: 0.85;
-}
-.message-bubble {
-  max-width: 80%;
-  padding: 10px 14px;
-  margin: 6px 0;
-  border-radius: 16px;
-  font-size: 14px;
-  line-height: 1.4;
-  word-break: break-word;
-}
-
-/* 机器人/对方消息 */
-.msg-received {
-  background-color: #222;
-  color: #ccc;
-  align-self: flex-start;
-  border-top-left-radius: 4px;
-}
-
-/* 用户本人消息 */
-.msg-sent {
-  background-color: #33aa33;
-  color: #fff;
-  align-self: flex-end;
-  border-top-right-radius: 4px;
-}
-
-/* 聊天头部 */
-.chat-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-  color: #66ff66;
-  margin-bottom: 10px;
-}
-
-/* 消息预览 */
-.preview {
-  color: #aaa;
-  font-size: 13px;
-  margin-top: 4px;
 }
 
 .message-bubble {
@@ -286,13 +129,8 @@ button:hover {
   line-height: 1.4;
   word-wrap: break-word;
   white-space: pre-wrap;
-}
-
-.msg-sent {
-  align-self: flex-end;
-  background-color: #339933;
-  color: white;
-  border-top-right-radius: 4px;
+  display: flex;
+  align-items: flex-start;
 }
 
 .msg-received {
@@ -300,6 +138,21 @@ button:hover {
   background-color: #222;
   color: #ddd;
   border-top-left-radius: 4px;
+}
+
+.msg-sent {
+  align-self: flex-end;
+  background-color: #000;
+  color: white;
+  border-top-right-radius: 4px;
+}
+
+.message-bubble img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  object-fit: cover;
 }
 
 .chat-messages {
@@ -311,62 +164,15 @@ button:hover {
   border: 1px solid #333;
   margin-bottom: 12px;
   border-radius: 8px;
-  background-color: #111;
+  background-color: rgba(0,0,0,0.5);
 }
 
-/* 登录页面和用户信息栏风格统一 */
-header .logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #66ff66;
+/* 通用按钮 */
+button {
+  cursor: pointer;
+  font-family: inherit;
 }
 
-header div {
-  font-size: 14px;
-  color: #ccc;
+button:hover {
+  opacity: 0.85;
 }
-
-/* 私信图标徽章 */
-.notification-badge {
-  background-color: red;
-  color: white;
-  padding: 2px 6px;
-  border-radius: 50%;
-  font-size: 10px;
-  margin-left: 4px;
-  vertical-align: top;
-}
-
-/* 搜索框 */
-#search-box {
-  padding: 8px;
-  font-size: 14px;
-  background-color: #111;
-  color: #eee;
-  border: 1px solid #444;
-  border-radius: 4px;
-}
-
-/* 回复输入框 */
-.reply-box textarea {
-  padding: 6px;
-  background-color: #000;
-  border: 1px solid #444;
-  color: #ccc;
-  border-radius: 4px;
-}
-
-/* 登出按钮样式 */
-header a {
-  color: #88ff88;
-  text-decoration: none;
-  margin-left: 10px;
-  font-weight: bold;
-}
-
-header a:hover {
-  text-decoration: underline;
-}
-
-
-
