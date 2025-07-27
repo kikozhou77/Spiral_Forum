@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>欢迎进入螺旋论坛</title>
-  <link rel="stylesheet" href="style.css">
   <style>
-    body.splash-page {
-      background: url('./background/splash.PNG') no-repeat center center fixed;
-      background-size: cover;
-      width: 100vw;
-      height: 100vh;
+    body {
       margin: 0;
       padding: 0;
+      background: url('./background/splash.PNG') no-repeat center center fixed;
+      background-size: cover;
+      font-family: "Courier New", Courier, monospace;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
       flex-direction: column;
     }
 
@@ -23,6 +22,14 @@
       padding: 30px;
       border-radius: 12px;
       text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1.2s ease;
+    }
+
+    .splash-content.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .splash-button {
@@ -34,17 +41,51 @@
       color: white;
       border: 1px solid white;
       cursor: pointer;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .splash-button.visible {
+      opacity: 1;
+    }
+
+    .countdown {
+      margin-top: 10px;
+      color: #ccc;
+      font-size: 14px;
     }
   </style>
 </head>
-<body class="splash-page">
-  <div class="splash-content">
+<body>
+  <div class="splash-content" id="splash-content">
     <h1 style="color:white;">欢迎来到螺旋论坛</h1>
-    <p style="color:#ccc;">欢迎来到……</p>
-    <button class="splash-button" onclick="enterSite()">点击进入</button>
+    <p style="color:#ccc;">窥私者的终局，就此开始。</p>
+    <button class="splash-button" id="enter-btn" onclick="enterSite()">点击进入</button>
+    <div class="countdown" id="countdown">5秒后自动进入，或点击按钮跳过</div>
   </div>
 
   <script>
+    const splash = document.getElementById('splash-content');
+    const btn = document.getElementById('enter-btn');
+    const countdown = document.getElementById('countdown');
+    let seconds = 5;
+
+    window.onload = () => {
+      splash.classList.add('visible');
+      setTimeout(() => {
+        btn.classList.add('visible');
+      }, 1500);
+
+      const interval = setInterval(() => {
+        seconds--;
+        countdown.textContent = `${seconds}秒后自动进入，或点击按钮跳过`;
+        if (seconds <= 0) {
+          clearInterval(interval);
+          enterSite();
+        }
+      }, 1000);
+    };
+
     function enterSite() {
       window.location.href = "index.html";
     }
