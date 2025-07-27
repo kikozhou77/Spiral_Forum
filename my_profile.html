@@ -1,53 +1,121 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>我的主页 - 螺旋论坛</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>我的主页 - 螺旋论坛</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 我的主页专用美化样式 */
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .profile-card {
+      max-width: 700px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-avatar-large {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 3px solid #000;
+    }
+
+    .profile-tagline {
+      font-style: italic;
+      color: #333;
+      margin-top: 6px;
+    }
+
+    .profile-stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .stat-item .number {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .stat-item .label {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .profile-bio h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .profile-bio p {
+      line-height: 1.6;
+      color: #222;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">螺旋论坛</div>
-            <div>用户: 小A | <a href="messages.html">退出</a></div>
-        </header>
-        <nav>
-            <a href="index.html">首页</a>
-            <a href="my_follows.html">我的关注</a>
-            <a href="my_profile.html" class="active">我的主页</a>
-            <a href="messages.html">我的信息</a>
-            <button class="post-button" onclick="location.href='post_detail.html'">我要发帖</button>
-        </nav>
+  <div class="container">
+    <header>
+      <div class="logo">螺旋论坛</div>
+      <div>用户：小A | <a href="login.html">退出</a></div>
+    </header>
 
-        <main>
-            <div class="profile-header">
-                <img src="Avatar/Avatar_小A.jpg.jpg" alt="avatar" class="profile-avatar">
-                <div class="profile-info">
-                    <h1>小A</h1>
-                    <p>戾气很重的电脑高手。</p>
-                </div>
-            </div>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="my_follows.html">我的关注</a>
+      <a href="my_profile.html" class="active">我的主页</a>
+      <a href="messages.html">我的信息</a>
+      <a href="post_detail.html" class="post-button">我要发帖！</a>
+    </nav>
 
-            <div class="profile-stats">
-                <div class="stat-item">
-                    <div class="number">2</div>
-                    <div class="label">关注</div>
-                </div>
-                <div class="stat-item">
-                    <div class="number">9</div>
-                    <div class="label">粉丝</div>
-                </div>
-                <div class="stat-item">
-                    <div class="number">13</div>
-                    <div class="label">帖子</div>
-                </div>
-            </div>
+    <main>
+      <div class="profile-card">
+        <div class="profile-header">
+          <img src="Avatar/Avatar_小A.jpg" alt="avatar" class="profile-avatar-large">
+          <h1>小A</h1>
+          <p class="profile-tagline">戾气很重的电脑高手。</p>
+        </div>
 
-            <section>
-                <h2>我的简介</h2>
-                <p>小A是一个匿名黑客，活跃于各大论坛与暗网。他习惯用极端手段获取信息，并将之公之于众，自认为是在伸张正义，但事实上也掺杂了不少虚荣和炫耀。</p>
-            </section>
-        </main>
-    </div>
+        <div class="profile-stats">
+          <div class="stat-item">
+            <div class="number">2</div>
+            <div class="label">关注</div>
+          </div>
+          <div class="stat-item">
+            <div class="number">9</div>
+            <div class="label">粉丝</div>
+          </div>
+          <div class="stat-item">
+            <div class="number">13</div>
+            <div class="label">帖子</div>
+          </div>
+        </div>
+
+        <hr>
+
+        <section class="profile-bio">
+          <h2>我的简介</h2>
+          <p>小A是一个匿名黑客，活跃于各大论坛与暗网。他习惯用极端手段获取信息，并将之公之于众，
+             自认为是在伸张正义，但事实上也掺杂了不少虚荣和炫耀。</p>
+        </section>
+      </div>
+    </main>
+  </div>
 </body>
 </html>
