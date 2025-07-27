@@ -2,110 +2,116 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>螺旋论坛 - 登录</title>
+  <title>系统终端</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      height: 100vh;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .login-container {
-      position: relative;
-      background-color: rgba(0, 0, 0, 0.9);
-      border: 2px solid #33ff33;
-      border-radius: 16px;
-      padding: 40px;
-      width: 320px;
-      box-shadow: 0 0 20px #33ff33aa;
-      animation: pulseGlow 2.5s infinite ease-in-out;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 20px #33ff33aa; }
-      50% { box-shadow: 0 0 40px #33ff33; }
-    }
-
-    .login-container h2 {
+      background-color: black;
       color: #33ff33;
-      text-align: center;
-      margin-bottom: 24px;
-      font-size: 26px;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
     }
 
-    .login-container input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 6px;
+    .terminal-line {
+      font-size: 18px;
+      white-space: pre;
+      animation: typing 4s steps(40, end) forwards;
+      overflow: hidden;
+      border-right: 0.15em solid #33ff33;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    #login-form {
+      margin-top: 30px;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
       background-color: #111;
-      color: #ccc;
-      font-size: 16px;
-      outline: none;
-      border: 1px solid #333;
-      transition: border 0.3s;
+      padding: 20px;
+      border: 1px solid #444;
+      border-radius: 8px;
+      width: 300px;
     }
 
-    .login-container input:focus {
-      border-color: #33ff33;
+    input {
+      padding: 10px;
+      background: #000;
+      color: #33ff33;
+      border: 1px solid #33ff33;
+      border-radius: 4px;
+      font-family: inherit;
     }
 
-    .login-container button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #33ff33;
-      color: #000;
+    button {
+      padding: 10px;
+      background: #33cc33;
+      color: black;
       font-weight: bold;
-      font-size: 16px;
+      border: none;
+      border-radius: 4px;
       cursor: pointer;
-      transition: background 0.3s;
     }
 
-    .login-container button:hover {
-      background-color: #44ff44;
+    button:hover {
+      background: #55ff55;
     }
 
-    .login-footer {
+    .hint {
       margin-top: 20px;
-      text-align: center;
       font-size: 14px;
       color: #666;
     }
 
-    .login-footer a {
-      color: #88ff88;
-      text-decoration: none;
-    }
-
-    .login-footer a:hover {
+    .click-hint {
+      cursor: pointer;
+      color: #999;
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>欢迎来到螺旋论坛</h2>
-    <input type="text" placeholder="用户名">
-    <input type="password" placeholder="密码">
-    <button onclick="alert('登录成功！')">登录</button>
-    <div class="login-footer">
-      还没有账号？<a href="#">点击注册</a>
-    </div>
+
+  <div class="terminal-line" id="terminal">正在载入核心模块，请稍候...</div>
+
+  <div class="hint">
+    <span class="click-hint" onclick="revealLogin()">点击此处解锁终端</span>
   </div>
+
+  <form id="login-form" onsubmit="login(event)">
+    <input type="text" id="username" placeholder="输入用户名" required>
+    <input type="password" id="password" placeholder="输入密码" required>
+    <button type="submit">登录系统</button>
+  </form>
+
+  <script>
+    function revealLogin() {
+      document.getElementById('login-form').style.display = 'flex';
+    }
+
+    function login(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (!username || !password) {
+        alert("请输入用户名和密码！");
+        return;
+      }
+
+      // 模拟登录成功
+      localStorage.setItem("userLoggedIn", "true");
+      localStorage.setItem("username", username);
+      window.location.href = "index.html";
+    }
+  </script>
+
 </body>
 </html>
