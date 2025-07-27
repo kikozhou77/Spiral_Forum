@@ -23,7 +23,7 @@
       }
 
       // 可替换为更复杂的判断，这里模拟逻辑
-      if (password === '123456') {
+      if (password != 0) {
         localStorage.setItem('loggedIn', 'true');
         localStorage.setItem('username', username);
         window.location.href = 'splash.html';
