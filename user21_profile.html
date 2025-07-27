@@ -1,139 +1,211 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>用户21的主页 - 螺旋论坛</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
-    main {
-      display: flex;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .profile-card {
-      width: 100%;
-      max-width: 1200px;
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .profile-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .profile-container {
+      max-width: 960px;
+      margin: 60px auto;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 30px;
       text-align: center;
     }
 
     .profile-avatar {
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #000;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
-    .profile-name {
-      font-size: 24px;
+    .profile-username {
+      font-size: 28px;
       font-weight: bold;
-      margin: 6px 0;
+      margin-bottom: 10px;
     }
 
     .profile-signature {
       font-style: italic;
       color: #555;
+      margin-bottom: 20px;
     }
 
     .profile-stats {
       display: flex;
       justify-content: space-around;
       margin: 30px 0;
-      text-align: center;
+      font-size: 18px;
     }
 
-    .stat-item .number {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .stat-item .label {
-      font-size: 14px;
-      color: #666;
-      margin-top: 4px;
+    .profile-stats div {
+      flex: 1;
     }
 
     .profile-divider {
       border-top: 1px solid #ccc;
-      margin: 30px 0 20px;
+      margin: 30px 0;
     }
 
     .profile-section-title {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
+      text-align: left;
       margin-bottom: 10px;
     }
 
     .profile-section-content {
-      color: #222;
+      text-align: left;
       line-height: 1.6;
+    }
+
+    .follow-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 1em;
+      margin-bottom: 16px;
+    }
+
+    .follow-item img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .follow-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .follow-name {
+      font-weight: bold;
+      font-size: 1.05em;
+      color: var(--text-color);
+    }
+
+    .follow-desc {
+      font-size: 0.95em;
+      color: var(--text-muted);
+    }
+
+    nav {
+      text-align: center;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    nav a {
+      text-decoration: none;
+      margin: 0 10px;
+      padding: 8px 16px;
+      color: black;
+      border-radius: 6px;
+    }
+
+    nav a.active {
+      background-color: black;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 30px;
+      font-size: 16px;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: url('./background/web.png') no-repeat center center fixed;
+      background-size: cover;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">螺旋论坛</div>
-      <div>用户：游客 | <a href="login.html">登录</a></div>
-    </header>
+  <header>
+    <div class="logo">螺旋论坛</div>
+    <div>
+      用户：游客 |
+      <a href="#">登录</a>
+    </div>
+  </header>
 
-    <nav>
-      <a href="index.html">首页</a>
-      <a href="my_follows.html">我的关注</a>
-      <a href="my_profile.html">我的主页</a>
-      <a href="messages.html">我的信息</a>
-      <a href="post_detail.html">我要发帖！</a>
-    </nav>
+  <nav>
+    <a href="index.html">首页</a>
+    <a href="my_follows.html">我的关注</a>
+    <a href="my_profile.html">我的主页</a>
+    <a href="messages.html">我的信息</a>
+    <a href="post_detail.html">我要发帖！</a>
+  </nav>
 
-    <main>
-      <div class="profile-card">
-        <div class="profile-header">
-          <img src="Avatar/Avatar_用户21.jpg" alt="头像" class="profile-avatar">
-          <div class="profile-name">用户21</div>
-          <div class="profile-signature">这个人很神秘，什么都没有留下……</div>
+  <div class="profile-container">
+    <img src="Avatar/Avatar_用户21.jpg" alt="avatar" class="profile-avatar" />
+    <div class="profile-username">用户21</div>
+    <div class="profile-signature">这个人很神秘，什么都没有留下……</div>
+
+    <div class="profile-stats">
+      <div>
+        <strong>2024-06-08</strong><br>加入时间
+      </div>
+      <div>
+        <strong>0</strong><br>关注
+      </div>
+      <div>
+        <strong>1</strong><br>粉丝
+      </div>
+      <div>
+        <strong>0</strong><br>帖子
+      </div>
+    </div>
+
+    <div class="profile-divider"></div>
+
+    <div>
+      <div class="profile-section-title">简介</div>
+      <div class="profile-section-content">
+        空空如也。
+      </div>
+    </div>
+
+    <div class="profile-divider"></div>
+
+    <div>
+      <div class="profile-section-title">关注的用户</div>
+      <div class="profile-section-content follow-list">
+        <div class="follow-item">
+          <img src="Avatar/kevin.jpg" class="follow-avatar" />
+          <div class="follow-info">
+            <span class="follow-name">Kevin Mitnick</span>
+            <span class="follow-desc">传奇黑客，社交工程学大师（已故）</span>
+          </div>
         </div>
-
-        <div class="profile-stats">
-          <div class="stat-item">
-            <div class="number">2024-06-08</div>
-            <div class="label">加入时间</div>
-          </div>
-          <div class="stat-item">
-            <div class="number">0</div>
-            <div class="label">关注</div>
-          </div>
-          <div class="stat-item">
-            <div class="number">1</div>
-            <div class="label">粉丝</div>
-          </div>
-          <div class="stat-item">
-            <div class="number">0</div>
-            <div class="label">帖子</div>
-          </div>
-        </div>
-
-        <div class="profile-divider"></div>
-
-        <div>
-          <div class="profile-section-title">简介</div>
-          <div class="profile-section-content">
-            空空如也。
+        <div class="follow-item">
+          <img src="Avatar/darknet.jpg" class="follow-avatar" />
+          <div class="follow-info">
+            <span class="follow-name">暗网传说</span>
+            <span class="follow-desc">一个分享各种“内部消息”的匿名者</span>
           </div>
         </div>
       </div>
-    </main>
+
+      <div class="profile-section-title" style="margin-top:30px;">关注的版块</div>
+      <div class="profile-section-content follow-list">
+        <div class="follow-item">
+          <img src="Avatar/tech.jpg" class="follow-avatar" />
+          <div><strong>技术交流区</strong></div>
+        </div>
+        <div class="follow-item">
+          <img src="Avatar/security.jpg" class="follow-avatar" />
+          <div><strong>信息安全</strong></div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
