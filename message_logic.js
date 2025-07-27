@@ -110,6 +110,10 @@ function loadChat(contactId) {
     const bubble = document.createElement('div');
     bubble.className = `message-bubble msg-${msg.type}`;
     bubble.textContent = msg.text;
+    bubble.innerHTML = `
+      <img src="${msg.type === 'received' ? 'Avatar/Avatar (7).jpg' : 'Avatar/Avatar_小A.jpg'}" class="contact-avatar">
+      <span>${msg.text}</span>
+    `;
     messageBox.appendChild(bubble);
   });
 
