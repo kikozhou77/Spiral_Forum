@@ -1,31 +1,36 @@
-/* 全局设置 */
+/* 全局背景和字体 */
 body {
   margin: 0;
   padding: 0;
   background: url('./background/web.png') no-repeat center center fixed;
   background-size: cover;
   font-family: 'Courier New', Courier, monospace;
-  color: #ccc;
+  color: #000;
 }
 
+/* 布局撑满屏幕 */
 html, body, .container, header, nav, main {
-  height: 100%;
   width: 100%;
-}
-
-.container {
-  padding: 20px;
+  min-height: 100vh;
   box-sizing: border-box;
 }
 
+/* 主容器透明背景避免遮住背景图 */
+.container {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+/* 顶部 header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #aaa;
   margin-bottom: 20px;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .logo {
@@ -34,14 +39,15 @@ header {
   font-weight: bold;
 }
 
+/* 导航栏 */
 nav {
   margin-bottom: 20px;
   display: flex;
-  gap: 20px;
-  background-color: rgba(0,0,0,0.6);
+  gap: 16px;
+  background-color: rgba(255, 255, 255, 0.6);
   padding: 10px;
   border-radius: 6px;
-  border: 1px solid #222;
+  border: 1px solid #aaa;
 }
 
 nav a {
@@ -62,7 +68,73 @@ nav a.active {
   border-radius: 4px;
 }
 
-/* 登录页面全屏铺满 */
+/* 主体 */
+main {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+}
+
+/* 帖子 */
+.comment {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.comment-author {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.comment-content {
+  margin-bottom: 10px;
+}
+
+.reply-box textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  font-family: inherit;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+}
+
+.reply-item {
+  background: #eee;
+  padding: 6px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+/* 通用按钮 */
+button {
+  cursor: pointer;
+  font-family: inherit;
+  background: black;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* 输入框 */
+input[type="text"],
+input[type="password"] {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  font-family: inherit;
+}
+
+/* 登录页 & 开屏页 */
 .login-page, .splash-page {
   width: 100vw;
   height: 100vh;
@@ -74,48 +146,17 @@ nav a.active {
   flex-direction: column;
 }
 
+/* 登录框 / 开屏框 */
 .login-form, .splash-content {
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,0.7);
   padding: 30px;
   border-radius: 12px;
   text-align: center;
-  opacity: 0;
-  transform: scale(0.85) translateY(20px); /* ✅ 整体缩小到 85% 大小 */
-  transition: all 1.2s ease;
-}
-
-.splash-content.visible {
-  opacity: 1;
-  transform: scale(0.85) translateY(0); /* ✅ 保持缩放 + 淡入 */
-}
-
-.login-form input, .login-form button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-}
-
-
-.login-form button {
-  background-color: #000;
+  transform: scale(0.85);
   color: white;
-  cursor: pointer;
 }
 
-.splash-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  background-color: black;
-  color: white;
-  border: 1px solid white;
-  cursor: pointer;
-}
-
-/* 头像 */
+/* 聊天头像 */
 .contact-avatar, .profile-avatar {
   width: 40px;
   height: 40px;
@@ -125,6 +166,7 @@ nav a.active {
   vertical-align: middle;
 }
 
+/* 聊天气泡 */
 .message-bubble {
   max-width: 80%;
   padding: 10px 14px;
@@ -160,6 +202,7 @@ nav a.active {
   object-fit: cover;
 }
 
+/* 聊天滚动框 */
 .chat-messages {
   display: flex;
   flex-direction: column;
@@ -170,14 +213,4 @@ nav a.active {
   margin-bottom: 12px;
   border-radius: 8px;
   background-color: rgba(0,0,0,0.5);
-}
-
-/* 通用按钮 */
-button {
-  cursor: pointer;
-  font-family: inherit;
-}
-
-button:hover {
-  opacity: 0.85;
 }
