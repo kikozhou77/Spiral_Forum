@@ -32,18 +32,8 @@ header {
   padding-bottom: 10px;
   border-bottom: 1px solid #222;
   margin-bottom: 10px;
-  background-color: transparent
+  background-color: rgba(255,255,255,0.5);
 }
-/* header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: transparent; /* 改为透明背景 */
-  padding: 16px 24px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15); /* 保留下方细线 */
-  box-shadow: none; /* 去除阴影 */
-} */
-
 
 .logo {
   font-size: 24px;
