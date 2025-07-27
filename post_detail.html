@@ -6,11 +6,17 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
   <div class="container">
     <header>
       <div class="logo">螺旋论坛</div>
-      <div>用户: 小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
+      <div>用户 <span id="username">未登录</span></div>
     </header>
+
     <nav>
       <a href="index.html">首页</a>
       <a href="my_follows.html">我的关注</a>
@@ -21,65 +27,37 @@
 
     <main>
       <section class="post-form">
-        <h2>我要发帖</h2>
+        <h2>发布新帖子</h2>
         <div class="post-form-fields">
-          <label for="post-title">标题</label>
-          <input type="text" id="post-title" placeholder="请输入帖子标题" class="form-input">
-          <label for="post-content">内容</label>
-          <textarea id="post-content" placeholder="请输入帖子内容" class="form-textarea"></textarea>
-          <button id="submit-post" class="submit-post-button">发布帖子</button>
-        </div>
-      </section>
+          <label for="post-title">标题：</label>
+          <input id="post-title" class="form-input" type="text" placeholder="输入标题...">
 
-      <section id="post-list">
-        <h2>帖子列表</h2>
-        <div id="posts-container"></div>
+          <label for="post-content">内容：</label>
+          <textarea id="post-content" class="form-textarea" placeholder="输入内容..."></textarea>
+
+          <button class="submit-post-button" onclick="submitPost()">发布</button>
+        </div>
       </section>
     </main>
   </div>
 
   <script>
-    function loadPosts() {
+    function getUsername() {
+      return localStorage.getItem('username') || '匿名用户';
+    }
+
+    document.getElementById('username').textContent = getUsername();
+
+    function submitPost() {
+      const title = document.getElementById('post-title').value.trim();
+      const content = document.getElementById('post-content').value.trim();
+      if (!title || !content) return alert('标题和内容不能为空');
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      const container = document.getElementById('posts-container');
-      container.innerHTML = '';
-      posts.reverse().forEach((post, index) => {
-        const realIndex = posts.length - 1 - index;
-        const div = document.createElement('div');
-        div.className = 'comment';
-        div.innerHTML = `
-          <div class="comment-author">${post.title}</div>
-          <div class="comment-content">${post.content}</div>
-          <button class="delete-post-button" onclick="deletePost(${realIndex})">删除</button>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function deletePost(index) {
-      let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      posts.splice(index, 1);
+      posts.push({ title, content, user: getUsername() });
       localStorage.setItem('posts', JSON.stringify(posts));
-      loadPosts();
+      alert('发布成功！');
+      location.href = 'index.html';
     }
-
-    document.getElementById("submit-post").addEventListener("click", () => {
-      const title = document.getElementById("post-title").value.trim();
-      const content = document.getElementById("post-content").value.trim();
-      if (!title || !content) {
-        alert("标题和内容不能为空！");
-        return;
-      }
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      const user = localStorage.getItem("username") || "匿名用户";
-      posts.push({ title, content, user });
-      localStorage.setItem("posts", JSON.stringify(posts));
-      document.getElementById("post-title").value = "";
-      document.getElementById("post-content").value = "";
-      loadPosts();
-    });
-
-    window.onload = loadPosts;
   </script>
 </body>
 </html>
