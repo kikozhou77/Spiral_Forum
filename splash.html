@@ -78,7 +78,7 @@
 
       const interval = setInterval(() => {
         seconds--;
-        countdown.textContent = `${seconds}秒后自动进入，或点击按钮跳过`;
+        countdown.textContent = `${seconds}`;
         if (seconds <= 0) {
           clearInterval(interval);
           enterSite();
