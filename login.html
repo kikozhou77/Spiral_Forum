@@ -2,116 +2,35 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>系统终端</title>
+  <title>隐蔽登录 - 螺旋论坛</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      background-color: black;
-      color: #33ff33;
-      font-family: 'Courier New', Courier, monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
-
-    .terminal-line {
-      font-size: 18px;
-      white-space: pre;
-      animation: typing 4s steps(40, end) forwards;
-      overflow: hidden;
-      border-right: 0.15em solid #33ff33;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-
-    #login-form {
-      margin-top: 30px;
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      background-color: #111;
-      padding: 20px;
-      border: 1px solid #444;
-      border-radius: 8px;
-      width: 300px;
-    }
-
-    input {
-      padding: 10px;
-      background: #000;
-      color: #33ff33;
-      border: 1px solid #33ff33;
-      border-radius: 4px;
-      font-family: inherit;
-    }
-
-    button {
-      padding: 10px;
-      background: #33cc33;
-      color: black;
-      font-weight: bold;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #55ff55;
-    }
-
-    .hint {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #666;
-    }
-
-    .click-hint {
-      cursor: pointer;
-      color: #999;
-      text-decoration: underline;
-    }
-  </style>
 </head>
-<body>
-
-  <div class="terminal-line" id="terminal">正在载入核心模块，请稍候...</div>
-
-  <div class="hint">
-    <span class="click-hint" onclick="revealLogin()">点击此处解锁终端</span>
+<body class="login-page">
+  <div class="login-form">
+    <h2>请输入凭证</h2>
+    <input type="text" id="username" placeholder="用户名"><br>
+    <input type="password" id="password" placeholder="密码"><br>
+    <button onclick="handleLogin()">进入</button>
   </div>
 
-  <form id="login-form" onsubmit="login(event)">
-    <input type="text" id="username" placeholder="输入用户名" required>
-    <input type="password" id="password" placeholder="输入密码" required>
-    <button type="submit">登录系统</button>
-  </form>
-
   <script>
-    function revealLogin() {
-      document.getElementById('login-form').style.display = 'flex';
-    }
-
-    function login(event) {
-      event.preventDefault();
+    function handleLogin() {
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
-
       if (!username || !password) {
-        alert("请输入用户名和密码！");
+        alert('请输入用户名和密码');
         return;
       }
 
-      // 模拟登录成功
-      localStorage.setItem("userLoggedIn", "true");
-      localStorage.setItem("username", username);
-      window.location.href = "index.html";
+      // 可替换为更复杂的判断，这里模拟逻辑
+      if (password === '123456') {
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('username', username);
+        window.location.href = 'splash.html';
+      } else {
+        alert('密码错误，请重试');
+      }
     }
   </script>
-
 </body>
 </html>
