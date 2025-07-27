@@ -4,10 +4,50 @@
   <meta charset="UTF-8">
   <title>隐蔽登录 - 螺旋论坛</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .login-form {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px; /* 缩小 padding */
+      border-radius: 10px;
+      text-align: center;
+      width: 280px; /* 缩小宽度 */
+    }
+
+    .login-form input {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    .login-form button {
+      margin-top: 15px;
+      padding: 8px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+      cursor: pointer;
+    }
+
+    .login-page {
+      width: 100vw;
+      height: 100vh;
+      background: url('./background/web.png') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  </style>
 </head>
 <body class="login-page">
   <div class="login-form">
-    <h2>请输入凭证</h2>
+    <h2 style="color: white;">请输入凭证</h2>
     <input type="text" id="username" placeholder="用户名"><br>
     <input type="password" id="password" placeholder="密码"><br>
     <button onclick="handleLogin()">进入</button>
@@ -17,19 +57,16 @@
     function handleLogin() {
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
+
+      // 修改：不再判断密码对错，永远成功
       if (!username || !password) {
         alert('请输入用户名和密码');
         return;
       }
 
-      // 可替换为更复杂的判断，这里模拟逻辑
-      if (password != 0) {
-        localStorage.setItem('loggedIn', 'true');
-        localStorage.setItem('username', username);
-        window.location.href = 'splash.html';
-      } else {
-        alert('密码错误，请重试');
-      }
+      localStorage.setItem('loggedIn', 'true');
+      localStorage.setItem('username', username);
+      window.location.href = 'splash.html';
     }
   </script>
 </body>
