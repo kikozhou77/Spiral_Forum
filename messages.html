@@ -4,96 +4,6 @@
   <meta charset="UTF-8">
   <title>我的信息 - 螺旋论坛</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .chat-divider {
-      border: none;
-      border-top: 1px solid var(--border-color);
-      margin: 16px 0;
-      opacity: 0.4;
-    }
-    .delete-button {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.1em;
-      cursor: pointer;
-      margin-left: 8px;
-      padding: 4px;
-      transition: color 0.2s ease;
-    }
-    .delete-button:hover {
-      color: #dc3545;
-    }
-
-    .typing-indicator-bubble {
-      display: none;
-      align-self: flex-start;
-      padding: 12px 18px;
-      background-color: var(--received-bubble-bg);
-      border-radius: 20px;
-      border-top-left-radius: 5px;
-    }
-    .typing-indicator-bubble span {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: var(--text-muted);
-      margin: 0 1px;
-      animation: typing-dots 1.5s infinite;
-    }
-    .typing-indicator-bubble span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-indicator-bubble span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes typing-dots {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-5px); }
-    }
-
-    .chat-input-area {
-      margin-top: 0;
-      padding-top: 0;
-    }
-
-    /* 未读消息显示红色 */
-    .unread-count {
-      font-weight: bold;
-      color: red;
-    }
-
-    /* 显示绿色已读 */
-    .unread-count-read {
-      font-weight: bold;
-      color: green;
-    }
-
-    /* 隐蔽按钮 */
-    .hidden-button {
-      background: none;
-      border: none;
-      color: transparent;
-      font-size: 1em;
-      padding: 5px;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    /* 悬停时显示 */
-    .hidden-button:hover {
-      opacity: 1;
-      color: #dc3545;
-    }
-
-    .unread-input {
-      display: none; /* 隐藏未读输入框 */
-    }
-
-    /* 控制一键已读按钮 */
-    .hidden-button {
-      display: inline-block;
-    }
-  </style>
   <script src="message_logic.js" defer></script>
 </head>
 <body>
@@ -117,27 +27,25 @@
         <h2>私信列表 
           <button id="all-unread-button" onclick="markAllAsRead()">一键已读</button>
         </h2>
+
         <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
           <img src="Avatar/Avatar (6).jpg" class="contact-avatar">
           <div class="contact-info">
             <div class="name">sohnwhnalqq9912_xlk</div>
             <div class="preview">...</div>
             <div class="unread-count" id="unread-troll">未读: 3</div>
-            <!-- 隐蔽按钮 -->
             <button class="hidden-button" onclick="toggleUnreadInput('troll')">修改未读</button>
-            <!-- 隐藏的输入框 -->
             <input type="number" id="unread-input-troll" class="unread-input" value="3" min="0" onchange="updateUnread('troll')">
           </div>
         </div>
+
         <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
           <img src="Avatar/Avatar (7).jpg" class="contact-avatar">
           <div class="contact-info">
             <div class="name">用户21</div>
             <div class="preview">...</div>
             <div class="unread-count" id="unread-user21">未读: 5</div>
-            <!-- 隐蔽按钮 -->
             <button class="hidden-button" onclick="toggleUnreadInput('user21')">修改未读</button>
-            <!-- 隐藏的输入框 -->
             <input type="number" id="unread-input-user21" class="unread-input" value="5" min="0" onchange="updateUnread('user21')">
           </div>
         </div>
