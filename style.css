@@ -24,12 +24,7 @@ html, body {
   box-sizing: border-box;
 }
 
-/* 所有未读消息红色 */
-.unread-count {
-  color: red;
-  font-weight: bold;
-}
-
+/* 右上角未读消息 */
 .notification-badge {
   color: red;
   font-weight: bold;
