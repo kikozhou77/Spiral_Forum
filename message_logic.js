@@ -280,6 +280,15 @@ let activeContactId = null;
 
 // ============ 主函数 =============
 function loadChat(contactId) {
+    // 隐藏其他联系人
+  document.querySelectorAll('.contact-item').forEach(item => {
+    if (item.dataset.contactId !== contactId) {
+      item.style.display = 'none';
+    } else {
+      item.classList.add('active-chat'); // 可选：添加高亮
+    }
+  });
+
   activeContactId = contactId;
   const data = chatData[contactId];
   if (!data) return;
@@ -468,6 +477,23 @@ document.addEventListener('keydown', function (e) {
   if (e.altKey && e.key.toLowerCase() === 'r') {
     if (activeContactId) simulateBotReply(activeContactId);
   }
+});
+
+
+//点击“私信列表”标题恢复视图逻辑
+document.getElementById('chat-list-title').addEventListener('click', () => {
+  // 恢复所有联系人
+  document.querySelectorAll('.contact-item').forEach(item => {
+    item.style.display = 'flex';
+    item.classList.remove('active-chat');
+  });
+
+  // 清空右边聊天内容区域
+  const chatArea = document.getElementById('chat-content-area');
+  chatArea.innerHTML = `<h2 style="color: #999;">点击左侧联系人开始对话</h2>`;
+
+  // 重置激活联系人状态
+  activeContactId = null;
 });
 
 
