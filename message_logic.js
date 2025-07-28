@@ -209,6 +209,7 @@ document.head.appendChild(styleTag);
 const chatData = {
   troll: {
     name: 'sohnwhnalqq9912_xlk',
+    avatar: 'Avatar/sohnwh.jpg',
     profileLink: '#',
     replies: [
       '像你这种阴暗老鼠就只敢躲在电脑后面，一定丑得惊人，在现实里活得很可怜吧。',
@@ -224,6 +225,7 @@ const chatData = {
   user21: {
     name: '用户21',
     profileLink: 'user21_profile.html',
+    avatar: 'Avatar/initial.jpg',
     replies: [
       '很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。',
       '我无法去医院。',
