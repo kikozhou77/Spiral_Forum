@@ -24,11 +24,12 @@
     </nav>
 
     <main>
-      <div class="user-input">
-        <input type="text" id="set-user" placeholder="查找用户" />
+      <div class="user-input" style="display: flex; gap: 10px; margin-bottom: 10px;">
+        <input type="text" id="set-user" placeholder="查找用户" style="width: 260px; padding: 6px; font-size: 14px;">
         <button onclick="setUsername()">确认</button>
+        <input type="text" id="search-box" placeholder="搜索关键词…" style="width: 260px; padding: 6px; font-size: 14px;">
       </div>
-      <input type="text" id="search-box" placeholder="搜索关键词…" />
+      
       <section class="post-list">
         <h2>最新帖子</h2>
         <div id="post-feed"></div>
@@ -57,6 +58,7 @@
     function loadPosts() {
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
       const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+      const dislikes = JSON.parse(localStorage.getItem('dislikes') || '{}');
       const replies = JSON.parse(localStorage.getItem('replies') || '{}');
       const searchBox = document.getElementById('search-box');
       const keyword = searchBox ? searchBox.value.toLowerCase() : '';
@@ -80,14 +82,19 @@
         div.innerHTML = `
           <div class="comment-author">
             <strong>${post.title}</strong>
-            <span style="float:right;font-size:12px;opacity:0.6">by ${post.user || '匿名用户'}</span>
+            <span style="margin-left: 10px; font-size:12px; opacity:0.6;">by ${post.user || '匿名用户'}</span>
           </div>
+
           <div class="comment-content">${post.content}</div>
+    
           <div class="post-actions" style="margin-top: 8px;">
             <button onclick="likePost(${realIndex})">点赞</button>
             <span class="like-count">👍 ${likes[realIndex] || 0}</span>
+            <button onclick="dislikePost(${realIndex})">踩</button>
+            <span class="dislike-count">👎 ${dislikes[realIndex] || 0}</span>
             <button onclick="deletePost(${realIndex})">删除</button>
           </div>
+
           <div class="reply-box">
             <textarea id="reply-${realIndex}" rows="2" placeholder="发表评论…"></textarea>
             <button onclick="addReply(${realIndex})">回复</button>
@@ -121,6 +128,13 @@
       const likes = JSON.parse(localStorage.getItem('likes') || '{}');
       likes[index] = (likes[index] || 0) + 1;
       localStorage.setItem('likes', JSON.stringify(likes));
+      loadPosts();
+    }
+    
+    function dislikePost(index) {
+      const dislikes = JSON.parse(localStorage.getItem('dislikes') || '{}');
+      dislikes[index] = (dislikes[index] || 0) + 1;
+      localStorage.setItem('dislikes', JSON.stringify(dislikes));
       loadPosts();
     }
 
