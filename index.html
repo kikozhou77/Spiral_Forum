@@ -20,7 +20,7 @@
       <a href="my_follows.html">我的关注</a>
       <a href="my_profile.html">我的主页</a>
       <a href="messages.html">我的信息</a>
-      <a href="post_detail.html">我要发帖!</a>
+      <a href="post_detail.html">我要发帖！</a>
     </nav>
 
     <main>
@@ -58,18 +58,32 @@
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
       const likes = JSON.parse(localStorage.getItem('likes') || '{}');
       const replies = JSON.parse(localStorage.getItem('replies') || '{}');
-      const keyword = document.getElementById('search-box').value.toLowerCase();
+      const searchBox = document.getElementById('search-box');
+      const keyword = searchBox ? searchBox.value.toLowerCase() : '';
       const feed = document.getElementById('post-feed');
+
       feed.innerHTML = '';
+
+      if (posts.length === 0) {
+        feed.innerHTML = "<p style='color: gray;'>暂无帖子，请点击“我要发帖”发布第一条内容。</p>";
+        return;
+      }
+
       posts.slice().reverse().forEach((post, index) => {
         const realIndex = posts.length - 1 - index;
+
+        // 关键词过滤
         if (keyword && !post.title.toLowerCase().includes(keyword) && !post.content.toLowerCase().includes(keyword)) return;
+
         const div = document.createElement('div');
         div.className = 'comment';
         div.innerHTML = `
-          <div class="comment-author">${post.title} <span style="float:right;font-size:12px;opacity:0.6">by ${post.user || '匿名用户'}</span></div>
+          <div class="comment-author">
+            <strong>${post.title}</strong>
+            <span style="float:right;font-size:12px;opacity:0.6">by ${post.user || '匿名用户'}</span>
+          </div>
           <div class="comment-content">${post.content}</div>
-          <div class="post-actions">
+          <div class="post-actions" style="margin-top: 8px;">
             <button onclick="likePost(${realIndex})">点赞</button>
             <span class="like-count">👍 ${likes[realIndex] || 0}</span>
             <button onclick="deletePost(${realIndex})">删除</button>
@@ -80,8 +94,10 @@
             <div class="replies" id="replies-${realIndex}"></div>
           </div>
         `;
+
         feed.appendChild(div);
 
+        // 加载评论
         if (replies[realIndex]) {
           const replyDiv = document.getElementById(`replies-${realIndex}`);
           replies[realIndex].forEach((rep, i) => {
@@ -130,8 +146,10 @@
     }
 
     document.getElementById('search-box').addEventListener('input', loadPosts);
+
     window.onload = () => {
       document.getElementById('username').textContent = getUsername();
+      document.getElementById('search-box').value = ''; // 清空搜索框以确保加载所有
       loadPosts();
     };
   </script>
