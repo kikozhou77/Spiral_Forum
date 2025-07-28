@@ -51,7 +51,8 @@ styleTag.innerHTML = `
 
 .unread-count {
   font-size: 11px;
-  color: #444;
+  color: red;
+  font-weight: bold;
   position: absolute;
   top: 10px;
   right: 10px;
