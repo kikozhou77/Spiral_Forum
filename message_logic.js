@@ -339,7 +339,10 @@ function loadChat(contactId) {
     if (e.key === 'Enter') handleUserMessage();
   });
 
-  document.getElementById('unread-' + contactId).textContent = `未读: ${unreadMessages[contactId] > 99 ? '99+' : unreadMessages[contactId]}`;
+  const unreadElem = document.getElementById('unread-' + contactId);
+  if (unreadElem) {
+    unreadElem.style.display = 'none';
+  }
 
   if (!chatHistory[contactId]) chatHistory[contactId] = [];
   chatState[contactId] = { shouldInsertDivider: true };
