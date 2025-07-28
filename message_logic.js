@@ -291,7 +291,9 @@ function loadChat(contactId) {
 
   const header = document.createElement('div');
   header.classList.add('chat-header');
-  header.innerHTML = `<a href="${data.profileLink}">${data.name}</a>
+  header.innerHTML = `<a href="${data.profileLink}">
+    <img src="Avatar/${contactId === 'user21' ? 'initial.jpg' : 'sohnwh.jpg'}">
+    ${data.name}</a> 
     <button class="delete-button" onclick="clearChat('${contactId}')" title="清空聊天">🗑</button>`;
 
   const messageBox = document.createElement('div');
