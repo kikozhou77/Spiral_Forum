@@ -25,10 +25,11 @@
       <div class="chat-layout">
         <!-- 左侧联系人列表 -->
         <div class="contact-list" id="contact-list-container">
-          <h2>私信列表 
+          <h2>
+            <span id="chat-list-title" style="cursor: pointer;">私信列表</span>
             <button id="all-unread-button" onclick="markAllAsRead()">一键已读</button>
           </h2>
-
+          
           <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
             <img src="Avatar/sohnwh.jpg" class="contact-avatar">
             <div class="contact-info">
