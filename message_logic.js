@@ -358,7 +358,7 @@ function handleUserMessage() {
     updatePreview(activeContactId, text);
   }
   input.value = '';
-  simulateBotReply(activeContactId);
+  //simulateBotReply(activeContactId);
 }
 
 function simulateBotReply(contactId) {
@@ -462,3 +462,12 @@ document.querySelectorAll('.contact-item').forEach(item => {
     previewEl.textContent = data.replies[0].substring(0, 20) + '...';
   }
 });
+
+// 使用 Alt + ` 键（波浪号）触发 bot 回复，不显示控制按钮
+document.addEventListener('keydown', function (e) {
+  if (e.altKey && e.key === '`') {
+    if (activeContactId) simulateBotReply(activeContactId);
+  }
+});
+
+
