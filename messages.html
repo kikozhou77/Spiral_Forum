@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -7,59 +7,57 @@
   <script src="message_logic.js" defer></script>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="logo">螺旋论坛</div>
-    <div>
-      用户小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a>
-    </div>
-  </header>
+  <div class="container">
+    <header>
+      <div class="logo">螺旋论坛</div>
+      <div>用户小A | <a href="messages.html">私信<span id="msg-badge" class="notification-badge">99+</span></a></div>
+    </header>
 
-  <nav>
-    <a href="index.html">首页</a>
-    <a href="my_follows.html">我的关注</a>
-    <a href="my_profile.html">我的主页</a>
-    <a href="messages.html" class="active">我的信息</a>
-    <a href="post_detail.html" class="post-button">我要发帖！</a>
-  </nav>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="my_follows.html">我的关注</a>
+      <a href="my_profile.html">我的主页</a>
+      <a href="messages.html" class="active">我的信息</a>
+      <a href="post_detail.html" class="post-button">我要发帖！</a>
+    </nav>
 
-  <main>
-    <div class="chat-layout">
-      <div class="contact-list" id="contact-list-container">
-        <h2>私信列表 
-          <button id="all-unread-button" onclick="markAllAsRead()">一键已读</button>
-        </h2>
+    <main>
+      <div class="chat-layout">
+        <!-- 左侧联系人列表 -->
+        <div class="contact-list" id="contact-list-container">
+          <h2>私信列表 
+            <button id="all-unread-button" onclick="markAllAsRead()">一键已读</button>
+          </h2>
 
-        <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
-          <img src="Avatar/sohnwh.jpg" class="contact-avatar">
-          <div class="contact-info">
-            <div class="name">sohnwhnalqq9912_xlk <span class="unread-count" id="unread-troll">未读: 3</span></div>
-            <div class="preview">你这种阴暗老鼠就只敢躲在电脑后面，一定...</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('troll')">.</button>
+          <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
+            <img src="Avatar/sohnwh.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">sohnwhnalqq9912_xlk</div>
+              <div class="preview">...</div>
+            </div>
+            <div class="unread-count" id="unread-troll">未读: 3</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('troll')">修改未读</button>
             <input type="number" id="unread-input-troll" class="unread-input" value="3" min="0" onchange="updateUnread('troll')">
           </div>
-        </div>
 
-        <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
-          <img src="Avatar/initial.jpg" class="contact-avatar">
-          <div class="contact-info">
-            <div class="name">用户21 <span class="unread-count" id="unread-user21">未读: 5</span></div>
-            <div class="preview">很抱歉，冒昧打扰……我失忆了，目前只有一...</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('user21')">.</button>
+          <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
+            <img src="Avatar/initial.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">用户21</div>
+              <div class="preview">...</div>
+            </div>
+            <div class="unread-count" id="unread-user21">未读: 5</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('user21')">修改未读</button>
             <input type="number" id="unread-input-user21" class="unread-input" value="5" min="0" onchange="updateUnread('user21')">
           </div>
         </div>
-      </div>
 
-      <div id="chat-content-area" class="chat-window">
-        <div class="chat-window-header">
-          <img id="chat-avatar" src="Avatar/initial.jpg">
-          <strong id="chat-username">用户名</strong>
+        <!-- 右侧聊天窗口 -->
+        <div id="chat-content-area" class="chat-window">
+          <div style="text-align:center; color:#999;">点击左侧联系人开始对话</div>
         </div>
-        <div id="chat-messages" style="display: flex; flex-direction: column;"></div>
       </div>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
 </body>
 </html>
