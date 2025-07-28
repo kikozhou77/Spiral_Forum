@@ -323,5 +323,27 @@ button:hover {
   color: var(--text-muted);
 }
 
+/* 发帖界面样式 */
+.post-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.post-form-fields label {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.post-form-fields input,
+.post-form-fields textarea {
+  width: 100%;
+  padding: 14px;
+  font-size: 17px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  box-sizing: border-box;
+}
 
 
