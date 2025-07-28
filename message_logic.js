@@ -463,9 +463,9 @@ document.querySelectorAll('.contact-item').forEach(item => {
   }
 });
 
-// 使用 Alt + ` 键（波浪号）触发 bot 回复，不显示控制按钮
+// 使用 Alt + r 键（波浪号）触发 bot 回复，不显示控制按钮
 document.addEventListener('keydown', function (e) {
-  if (e.altKey && e.key === '`') {
+  if (e.altKey && e.key.toLowerCase() === 'r') {
     if (activeContactId) simulateBotReply(activeContactId);
   }
 });
