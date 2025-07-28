@@ -89,12 +89,14 @@ main {
 }
 
 #search-box {
-  margin-bottom: 20px;
-  padding: 8px 12px;           /* 与上面的框对齐 */
-  font-size: 14px;             /* 明确指定字体大小 */
-  font-family: inherit;        /* 保持一致 */
+  all: unset; /* 重置浏览器默认样式 */
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
   border: 1px solid #888;
-  border-radius: 6px;          /* 与上面的6px一致 */
+  border-radius: 6px;
+  box-sizing: border-box;
 }
 
 
