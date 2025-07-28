@@ -24,16 +24,15 @@ html, body {
   box-sizing: border-box;
 }
 
-/* 所有未读消息红色高亮 */
+/* 所有未读消息红色 */
 .unread-count,
 #msg-badge.notification-badge {
-  background-color: red;
-  color: white;
-  padding: 2px 6px;
-  border-radius: 12px;
+  background: none;
+  color: red;
+  padding: 0;
+  border-radius: 0;
   font-weight: bold;
 }
-
 
 /* 顶部导航 */
 header {
