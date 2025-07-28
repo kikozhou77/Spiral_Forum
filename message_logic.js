@@ -1,5 +1,4 @@
 // message_logic.js
-// 初始化聊天数据
 // ========= 新增样式（嵌入式 CSS） =========
 const styleTag = document.createElement('style');
 styleTag.innerHTML = `
@@ -180,6 +179,7 @@ styleTag.innerHTML = `
 document.head.appendChild(styleTag);
 
 // ========= 其余 JS 保持不变 =========
+// 初始化聊天数据
 const chatData = {
   troll: {
     name: 'sohnwhnalqq9912_xlk',
