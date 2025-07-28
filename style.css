@@ -97,12 +97,12 @@ main {
 
 #search-box {
   margin-bottom: 20px;
-  width: 100%;
   padding: 8px;
   font-family: inherit;
   border: 1px solid #888;
   border-radius: 4px;
 }
+
 
 .post-list {
   display: flex;
