@@ -39,14 +39,17 @@ styleTag.innerHTML = `
 .contact-info .preview {
   font-size: 13px;
   color: #666;
+  margin-top: 2px;
 }
 
 .unread-count {
-  font-size: 12px;
+  font-size: 11px;
   color: #333;
   position: absolute;
-  top: 10px;
-  left: 60px;
+  top: 4px;
+  right: 6px;
+  background: transparent;
+  pointer-events: none;
 }
 
 .hidden-button {
@@ -56,16 +59,21 @@ styleTag.innerHTML = `
   color: transparent;
   cursor: pointer;
   position: absolute;
-  bottom: 6px;
-  left: 60px;
+  bottom: 2px;
+  right: 42px;
+  width: 30px;
+  height: 20px;
 }
 
 .unread-input {
   display: none;
-  width: 34px;
+  width: 28px;
   font-size: 11px;
   padding: 1px 3px;
   margin-left: 4px;
+  position: absolute;
+  bottom: 2px;
+  right: 10px;
 }
 
 .chat-window {
@@ -96,6 +104,13 @@ styleTag.innerHTML = `
   text-decoration: none;
 }
 
+.chat-header img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .chat-messages {
   flex: 1;
   overflow-y: auto;
@@ -109,12 +124,11 @@ styleTag.innerHTML = `
   display: flex;
   max-width: 80%;
   padding: 10px;
-  border: 1px solid #222;
   border-radius: 12px;
   font-size: 14px;
   line-height: 1.4;
   word-break: break-word;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .msg-received {
@@ -122,7 +136,7 @@ styleTag.innerHTML = `
   background-color: #fff;
   color: #000;
   border: 1px solid #000;
-  border-radius: 12px;
+  flex-direction: row;
 }
 
 .msg-sent {
@@ -130,12 +144,12 @@ styleTag.innerHTML = `
   background-color: transparent;
   color: #000;
   border: 1px solid #000;
-  border-radius: 12px;
+  flex-direction: row-reverse;
 }
 
 .message-bubble img {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   margin: 0 6px;
 }
@@ -177,6 +191,7 @@ styleTag.innerHTML = `
 }
 `;
 document.head.appendChild(styleTag);
+
 
 // ========= 其余 JS 保持不变 =========
 // 初始化聊天数据
