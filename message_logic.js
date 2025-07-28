@@ -209,7 +209,7 @@ document.head.appendChild(styleTag);
 // 初始化聊天数据
 const chatData = {
   troll: {
-    name: 'sohnwhnalqq9912_xlk',
+    name: '用户sjhna9912_xlk',
     avatar: 'Avatar/sohnwh.jpg',
     profileLink: '#',
     replies: [
@@ -407,7 +407,7 @@ function updatePreview(contactId, text) {
   const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
   if (contactItem) {
     const previewEl = contactItem.querySelector('.preview');
-    previewEl.textContent = text.substring(0, 20) + '...';
+    previewEl.textContent = text;  // 预览消息
   }
 }
 
