@@ -489,9 +489,14 @@ document.getElementById('chat-list-title').addEventListener('click', () => {
   // 恢复所有联系人
   document.querySelectorAll('.contact-item').forEach(item => {
     item.style.display = 'flex';
-    item.classList.remove('active-chat');
+    item.classList.remove('active-chat'); 
   });
-
+  
+  // ✅ 显示所有未读标签
+  document.querySelectorAll('.unread-count').forEach(elem => {
+    elem.style.display = '';
+  });
+  
   // 清空右边聊天内容区域
   const chatArea = document.getElementById('chat-content-area');
   chatArea.innerHTML = `<h2 style="color: #999;">点击左侧联系人开始对话</h2>`;
