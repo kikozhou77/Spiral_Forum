@@ -24,12 +24,22 @@
     </nav>
 
     <main>
-      <div class="user-input" style="display: flex; gap: 10px; margin-bottom: 10px;">
-        <input type="text" id="set-user" placeholder="查找用户" style="width: 260px; padding: 6px; font-size: 14px;">
-        <button onclick="setUsername()">确认</button>
-        <input type="text" id="search-box" placeholder="搜索关键词…" style="width: 260px; padding: 6px; font-size: 14px;">
+
+      <div class="user-input" style="width: 100%; max-width: 600px; margin: 0 auto 20px auto;">
+        <!-- 查找用户 -->
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+          <input type="text" id="set-user" placeholder="查找用户" 
+                 style="flex: 1; padding: 8px 12px; font-size: 14px; border-radius: 6px; border: 1px solid #888;">
+          <button onclick="setUsername()" 
+                  style="padding: 8px 16px; background-color: black; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer;">
+            确认
+          </button>
+        </div>
+        <!-- 搜索关键词 -->
+        <input type="text" id="search-box" placeholder="搜索关键词…" 
+               style="width: 100%; padding: 8px 12px; font-size: 14px; border-radius: 6px; border: 1px solid #888;">
       </div>
-      
+
       <section class="post-list">
         <h2>最新帖子</h2>
         <div id="post-feed"></div>
