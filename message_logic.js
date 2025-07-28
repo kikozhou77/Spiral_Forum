@@ -1,5 +1,6 @@
 // message_logic.js
-// ========= 新增样式（嵌入式 CSS） =========
+
+// ============ 样式注入 =============
 const styleTag = document.createElement('style');
 styleTag.innerHTML = `
 .chat-layout {
@@ -34,14 +35,12 @@ styleTag.innerHTML = `
 .contact-info {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  overflow: hidden;
 }
 
 .contact-info .name {
   font-weight: bold;
   font-size: 14px;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .contact-info .preview {
@@ -55,12 +54,8 @@ styleTag.innerHTML = `
   color: #444;
   position: absolute;
   top: 10px;
-  left: 95px;
-  opacity: 0.65;
-  background-color: transparent;
-  padding: 2px 6px;
-  border-radius: 12px;
-  cursor: pointer;
+  right: 10px;
+  opacity: 0.7;
 }
 
 .hidden-button {
@@ -91,6 +86,16 @@ styleTag.innerHTML = `
   flex-direction: column;
   height: 600px;
   overflow: hidden;
+  position: relative;
+}
+
+.chat-window:empty::before {
+  content: '← 请选择左侧联系人开始对话';
+  color: #777;
+  font-style: italic;
+  display: block;
+  margin-top: 200px;
+  text-align: center;
 }
 
 .chat-header {
@@ -111,8 +116,8 @@ styleTag.innerHTML = `
 }
 
 .chat-header a img {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
 }
 
@@ -199,7 +204,7 @@ styleTag.innerHTML = `
 `;
 document.head.appendChild(styleTag);
 
-// ========= 其余 JS 保持不变 =========
+
 // 初始化聊天数据
 const chatData = {
   troll: {
@@ -287,6 +292,7 @@ const unreadMessages = {
 
 let activeContactId = null;
 
+// ============ 主函数 =============
 function loadChat(contactId) {
   activeContactId = contactId;
   const data = chatData[contactId];
@@ -297,13 +303,13 @@ function loadChat(contactId) {
 
   const header = document.createElement('div');
   header.classList.add('chat-header');
-  const avatarPath = contactId === 'troll' ? 'Avatar/sohnwh.jpg' : 'Avatar/initial.jpg';
-  header.innerHTML = `<a href="${data.profileLink}">
-  <img src="${avatarPath}" alt="${data.name}头像">
-  ${data.name}
-  </a>
-  <button class="delete-button" onclick="clearChat('${contactId}')" title="清空聊天">🗑</button>`;
-
+  header.innerHTML = `
+    <a href="${data.profileLink}">
+      <img src="${data.avatar}" alt="avatar">
+      ${data.name}
+    </a>
+    <button class="delete-button" onclick="clearChat('${contactId}')" title="清空聊天">🗑</button>
+  `;
 
   const messageBox = document.createElement('div');
   messageBox.classList.add('chat-messages');
@@ -315,9 +321,8 @@ function loadChat(contactId) {
   (chatHistory[contactId] || []).forEach(msg => {
     const bubble = document.createElement('div');
     bubble.className = `message-bubble msg-${msg.type}`;
-    bubble.textContent = msg.text;
     bubble.innerHTML = `
-      <img src="${msg.type === 'received' ? 'Avatar/Avatar (7).jpg' : 'Avatar/Avatar_小A.jpg'}" class="contact-avatar">
+      <img src="${msg.type === 'received' ? data.avatar : 'Avatar/Avatar_小A.jpg'}" class="contact-avatar">
       <span>${msg.text}</span>
     `;
     messageBox.appendChild(bubble);
@@ -338,7 +343,6 @@ function loadChat(contactId) {
     if (e.key === 'Enter') handleUserMessage();
   });
 
-  // 更新未读数量
   document.getElementById('unread-' + contactId).textContent = `未读: ${unreadMessages[contactId] > 99 ? '99+' : unreadMessages[contactId]}`;
 
   if (!chatHistory[contactId]) chatHistory[contactId] = [];
@@ -349,48 +353,26 @@ function loadChat(contactId) {
   }
 }
 
-function updateUnread(contactId) {
-  const unreadInput = document.getElementById('unread-input-' + contactId);
-  const unreadCount = parseInt(unreadInput.value, 10);
+function handleUserMessage() {
+  const input = document.getElementById('real-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (text) {
+    const msgBox = document.getElementById('message-container');
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble msg-sent';
+    bubble.innerHTML = `
+      <img src="Avatar/Avatar_小A.jpg" class="contact-avatar">
+      <span>${text}</span>
+    `;
+    msgBox.appendChild(bubble);
+    msgBox.scrollTop = msgBox.scrollHeight;
 
-  // 确保未读消息数量不为负数
-  if (isNaN(unreadCount) || unreadCount < 0) {
-    unreadInput.value = 0;
+    chatHistory[activeContactId].push({ text, type: 'sent' });
+    updatePreview(activeContactId, text);
   }
-
-  unreadMessages[contactId] = unreadCount;
-
-  // 更新未读数量显示
-  document.getElementById('unread-' + contactId).textContent = `未读: ${unreadMessages[contactId] > 99 ? '99+' : unreadMessages[contactId]}`;
-}
-
-function toggleUnreadInput(contactId) {
-  const inputField = document.getElementById('unread-input-' + contactId);
-  const button = document.querySelector(`.contact-item[data-contact-id="${contactId}"] .hidden-button`);
-
-  // 切换显示与隐藏
-  if (inputField.style.display === 'none') {
-    inputField.style.display = 'inline-block';
-    button.textContent = '保存未读';
-  } else {
-    inputField.style.display = 'none';
-    button.textContent = '修改未读';
-    // 更新未读数量
-    updateUnread(contactId);
-  }
-}
-
-function markAllAsRead() {
-  let totalUnread = 0;
-  for (const contactId in unreadMessages) {
-    totalUnread += unreadMessages[contactId];
-    unreadMessages[contactId] = 0;
-    document.getElementById('unread-' + contactId).textContent = `未读: 0`;
-  }
-
-  // 更新总未读按钮显示
-  const allUnreadButton = document.getElementById('all-unread-button');
-  allUnreadButton.textContent = `一键已读 (${totalUnread > 99 ? '99+' : totalUnread})`;
+  input.value = '';
+  simulateBotReply(activeContactId);
 }
 
 function simulateBotReply(contactId) {
@@ -398,29 +380,25 @@ function simulateBotReply(contactId) {
   const history = chatHistory[contactId];
   const replyIndex = history.filter(m => m.type === 'received').length;
   if (replyIndex >= replies.length) return;
-
   const text = replies[replyIndex];
   const msgBox = document.getElementById('message-container');
-
   insertDividerIfNeeded();
-
-  // 设置 delay（每10个字加100ms，最少300ms，最多2.5s）
   const delay = Math.min(Math.max(300, text.length * 10), 2500);
 
-  // 显示“对方正在输入...”
   const typingIndicator = document.createElement('div');
   typingIndicator.className = 'typing-indicator-bubble';
   typingIndicator.innerHTML = '<span></span><span></span><span></span>';
   msgBox.appendChild(typingIndicator);
-
   msgBox.scrollTop = msgBox.scrollHeight;
 
   setTimeout(() => {
     typingIndicator.remove();
-
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble msg-received';
-    bubble.textContent = text;
+    bubble.innerHTML = `
+      <img src="${chatData[contactId].avatar}" class="contact-avatar">
+      <span>${text}</span>
+    `;
     msgBox.appendChild(bubble);
     msgBox.scrollTop = msgBox.scrollHeight;
 
@@ -429,44 +407,12 @@ function simulateBotReply(contactId) {
   }, delay);
 }
 
-
 function updatePreview(contactId, text) {
   const contactItem = document.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
   if (contactItem) {
     const previewEl = contactItem.querySelector('.preview');
     previewEl.textContent = text.substring(0, 20) + '...';
   }
-}
-
-function clearChat(contactId) {
-  if (confirm('确定要清空当前聊天记录吗？')) {
-    chatHistory[contactId] = [];
-    loadChat(contactId);
-  }
-}
-function handleUserMessage() {
-  const input = document.getElementById('real-input');
-  if (!input) return;
-
-  const text = input.value.trim();
-
-  if (text) {
-    const bubble = document.createElement('div');
-    bubble.className = 'message-bubble msg-sent';
-    bubble.textContent = text;
-    const msgBox = document.getElementById('message-container');
-    msgBox.appendChild(bubble);
-    msgBox.scrollTop = msgBox.scrollHeight;
-
-    chatHistory[activeContactId].push({ text, type: 'sent' });
-    updatePreview(activeContactId, text);
-  }
-
-  input.value = '';
-  input.style.height = 'auto';
-
-  // 不论是否为空，都触发 bot 回复
-  simulateBotReply(activeContactId);
 }
 
 function insertDividerIfNeeded() {
@@ -480,6 +426,48 @@ function insertDividerIfNeeded() {
   }
 }
 
+function clearChat(contactId) {
+  if (confirm('确定要清空当前聊天记录吗？')) {
+    chatHistory[contactId] = [];
+    loadChat(contactId);
+  }
+}
+
+function updateUnread(contactId) {
+  const unreadInput = document.getElementById('unread-input-' + contactId);
+  const unreadCount = parseInt(unreadInput.value, 10);
+  if (isNaN(unreadCount) || unreadCount < 0) {
+    unreadInput.value = 0;
+  }
+  unreadMessages[contactId] = unreadCount;
+  document.getElementById('unread-' + contactId).textContent = `未读: ${unreadMessages[contactId] > 99 ? '99+' : unreadMessages[contactId]}`;
+}
+
+function toggleUnreadInput(contactId) {
+  const inputField = document.getElementById('unread-input-' + contactId);
+  const button = document.querySelector(`.contact-item[data-contact-id="${contactId}"] .hidden-button`);
+  if (inputField.style.display === 'none') {
+    inputField.style.display = 'inline-block';
+    button.textContent = '保存未读';
+  } else {
+    inputField.style.display = 'none';
+    button.textContent = '修改未读';
+    updateUnread(contactId);
+  }
+}
+
+function markAllAsRead() {
+  let totalUnread = 0;
+  for (const contactId in unreadMessages) {
+    totalUnread += unreadMessages[contactId];
+    unreadMessages[contactId] = 0;
+    document.getElementById('unread-' + contactId).textContent = `未读: 0`;
+  }
+  const allUnreadButton = document.getElementById('all-unread-button');
+  allUnreadButton.textContent = `一键已读 (${totalUnread > 99 ? '99+' : totalUnread})`;
+}
+
+// 初始化预览文字
 document.querySelectorAll('.contact-item').forEach(item => {
   const cid = item.dataset.contactId;
   const data = chatData[cid];
