@@ -25,12 +25,15 @@ html, body {
 }
 
 /* 所有未读消息红色 */
-.unread-count,
-#msg-badge.notification-badge {
-  background: none;
+.unread-count {
   color: red;
-  padding: 0;
-  border-radius: 0;
+  font-weight: bold;
+}
+
+.notification-badge {
+  color: red;
+  text-decoration: none;
+  border-bottom: 2px solid red;
   font-weight: bold;
 }
 
