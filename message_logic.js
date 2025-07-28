@@ -31,25 +31,36 @@ styleTag.innerHTML = `
   object-fit: cover;
 }
 
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
 .contact-info .name {
   font-weight: bold;
-  font-size: 15px;
+  font-size: 14px;
+  line-height: 1.2;
 }
 
 .contact-info .preview {
-  font-size: 13px;
+  font-size: 12px;
   color: #666;
   margin-top: 2px;
 }
 
 .unread-count {
   font-size: 11px;
-  color: #333;
+  color: #444;
   position: absolute;
-  top: 4px;
-  right: 6px;
-  background: transparent;
-  pointer-events: none;
+  top: 10px;
+  left: 95px;
+  opacity: 0.65;
+  background-color: transparent;
+  padding: 2px 6px;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
 .hidden-button {
@@ -59,21 +70,16 @@ styleTag.innerHTML = `
   color: transparent;
   cursor: pointer;
   position: absolute;
-  bottom: 2px;
-  right: 42px;
-  width: 30px;
-  height: 20px;
+  bottom: 6px;
+  right: 10px;
 }
 
 .unread-input {
   display: none;
-  width: 28px;
+  width: 34px;
   font-size: 11px;
   padding: 1px 3px;
   margin-left: 4px;
-  position: absolute;
-  bottom: 2px;
-  right: 10px;
 }
 
 .chat-window {
@@ -104,11 +110,10 @@ styleTag.innerHTML = `
   text-decoration: none;
 }
 
-.chat-header img {
+.chat-header a img {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  object-fit: cover;
 }
 
 .chat-messages {
@@ -124,6 +129,7 @@ styleTag.innerHTML = `
   display: flex;
   max-width: 80%;
   padding: 10px;
+  border: 1px solid #222;
   border-radius: 12px;
   font-size: 14px;
   line-height: 1.4;
@@ -136,7 +142,7 @@ styleTag.innerHTML = `
   background-color: #fff;
   color: #000;
   border: 1px solid #000;
-  flex-direction: row;
+  border-radius: 12px;
 }
 
 .msg-sent {
@@ -144,12 +150,13 @@ styleTag.innerHTML = `
   background-color: transparent;
   color: #000;
   border: 1px solid #000;
+  border-radius: 12px;
   flex-direction: row-reverse;
 }
 
 .message-bubble img {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   margin: 0 6px;
 }
@@ -191,7 +198,6 @@ styleTag.innerHTML = `
 }
 `;
 document.head.appendChild(styleTag);
-
 
 // ========= 其余 JS 保持不变 =========
 // 初始化聊天数据
