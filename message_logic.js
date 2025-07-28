@@ -469,7 +469,7 @@ document.querySelectorAll('.contact-item').forEach(item => {
   const data = chatData[cid];
   if (data && data.replies.length) {
     const previewEl = item.querySelector('.preview');
-    previewEl.textContent = data.replies[0].substring(0, 20) + '...';
+    previewEl.textContent = data.replies[0];
   }
 });
 
