@@ -1,5 +1,185 @@
 // message_logic.js
 // 初始化聊天数据
+// ========= 新增样式（嵌入式 CSS） =========
+const styleTag = document.createElement('style');
+styleTag.innerHTML = `
+.chat-layout {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.contact-list {
+  flex: 0 0 280px;
+  border-right: 1px solid #ccc;
+  padding-right: 16px;
+  overflow-y: auto;
+}
+
+.contact-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.contact-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contact-info .name {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.contact-info .preview {
+  font-size: 13px;
+  color: #666;
+}
+
+.unread-count {
+  font-size: 12px;
+  color: #333;
+  position: absolute;
+  top: 10px;
+  left: 60px;
+}
+
+.hidden-button {
+  font-size: 0;
+  background: none;
+  border: none;
+  color: transparent;
+  cursor: pointer;
+  position: absolute;
+  bottom: 6px;
+  left: 60px;
+}
+
+.unread-input {
+  display: none;
+  width: 34px;
+  font-size: 11px;
+  padding: 1px 3px;
+  margin-left: 4px;
+}
+
+.chat-window {
+  flex: 1;
+  background: rgba(255,255,255,0.7);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  overflow: hidden;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.chat-header a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: black;
+  text-decoration: none;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message-bubble {
+  display: flex;
+  max-width: 80%;
+  padding: 10px;
+  border: 1px solid #222;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
+  align-items: flex-end;
+}
+
+.msg-received {
+  align-self: flex-start;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 12px;
+}
+
+.msg-sent {
+  align-self: flex-end;
+  background-color: transparent;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 12px;
+}
+
+.message-bubble img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0 6px;
+}
+
+.message-bubble span {
+  flex: 1;
+}
+
+.chat-input-area {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.send-button {
+  padding: 10px 16px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.typing-indicator-bubble {
+  align-self: flex-start;
+  padding: 12px 18px;
+  background-color: #eee;
+  border-radius: 20px;
+  border-top-left-radius: 5px;
+}
+`;
+document.head.appendChild(styleTag);
+
+// ========= 其余 JS 保持不变 =========
 const chatData = {
   troll: {
     name: 'sohnwhnalqq9912_xlk',
