@@ -5,61 +5,85 @@
   <title>我要发帖 - 螺旋论坛</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .post-form-card {
-      max-width: 700px;
-      margin: auto;
-      background-color: rgba(255, 255, 255, 0.85);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    .post-layout {
+      display: flex;
+      gap: 40px;
     }
 
-    .post-form-card h2 {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 24px;
+    .post-form-section {
+      flex: 2;
+    }
+
+    .post-preview-section {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      height: fit-content;
+    }
+
+    .post-form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
 
     .post-form-fields label {
-      display: block;
       font-weight: bold;
-      margin: 12px 0 6px;
+      font-size: 16px;
     }
 
     .post-form-fields input,
     .post-form-fields textarea {
       width: 100%;
-      padding: 10px;
-      font-size: 16px;
+      padding: 14px;
+      font-size: 17px;
       border-radius: 6px;
       border: 1px solid #999;
       box-sizing: border-box;
     }
 
-    .post-form-fields textarea {
-      resize: vertical;
-      height: 140px;
-    }
-
     .submit-post-button {
-      margin-top: 20px;
-      width: 100%;
+      margin-top: 10px;
       padding: 10px;
       font-size: 16px;
       background-color: black;
       color: white;
       border: none;
       border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .post-preview-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .preview-item {
+      margin-bottom: 8px;
+      cursor: pointer;
+      color: #222;
+      border-bottom: 1px dashed #999;
+    }
+
+    .preview-item:hover {
+      text-decoration: underline;
+    }
+
+    .submitted-post {
+      margin-top: 30px;
+      background-color: rgba(255,255,255,0.6);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .submitted-post h3 {
+      margin-top: 0;
     }
   </style>
 </head>
 <body>
-  <script>
-    if (localStorage.getItem('loggedIn') !== 'true') {
-      window.location.href = 'login.html';
-    }
-  </script>
-
   <div class="container">
     <header>
       <div class="logo">螺旋论坛</div>
@@ -75,29 +99,45 @@
     </nav>
 
     <main>
-      <section class="post-form-card">
-        <h2>发布新帖子</h2>
-        <div class="post-form-fields">
-          <label for="post-title">标题</label>
-          <input id="post-title" type="text" placeholder="请输入帖子标题..." />
+      <div class="post-layout">
+        <!-- 左栏：发帖 -->
+        <section class="post-form-section">
+          <h2>发布新帖子</h2>
+          <div class="post-form-fields">
+            <label for="post-title">标题</label>
+            <input id="post-title" type="text" placeholder="请输入帖子标题…" />
 
-          <label for="post-content">内容</label>
-          <textarea id="post-content" placeholder="写下你的想法、问题或分享内容..."></textarea>
+            <label for="post-content">内容</label>
+            <textarea id="post-content" placeholder="写下你的想法…"></textarea>
 
-          <button class="submit-post-button" onclick="submitPost()">发布</button>
-        </div>
-      </section>
+            <button class="submit-post-button" onclick="submitPost()">发布</button>
+          </div>
+
+          <!-- 发布后展示 -->
+          <div id="submitted-display" class="submitted-post" style="display:none;">
+            <h3>你刚刚发布的帖子：</h3>
+            <p><strong id="display-title"></strong></p>
+            <p id="display-content"></p>
+          </div>
+        </section>
+
+        <!-- 右栏：历史标题预览 -->
+        <aside class="post-preview-section">
+          <div class="post-preview-title">已有帖子预览</div>
+          <div id="preview-list"></div>
+        </aside>
+      </div>
     </main>
   </div>
 
   <script>
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+
     function getUsername() {
       return localStorage.getItem('username') || '匿名用户';
     }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById('username')?.textContent = getUsername();
-    });
 
     function submitPost() {
       const title = document.getElementById('post-title').value.trim();
@@ -105,11 +145,37 @@
       if (!title || !content) return alert('标题和内容不能为空');
 
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      posts.push({ title, content, user: getUsername() });
+      const newPost = { title, content, user: getUsername() };
+      posts.push(newPost);
       localStorage.setItem('posts', JSON.stringify(posts));
-      alert('发布成功！');
-      location.href = 'index.html';
+
+      // 展示刚刚提交的内容
+      document.getElementById('display-title').textContent = title;
+      document.getElementById('display-content').textContent = content;
+      document.getElementById('submitted-display').style.display = 'block';
+
+      // 清空表单
+      document.getElementById('post-title').value = '';
+      document.getElementById('post-content').value = '';
+
+      loadPreview();
     }
+
+    function loadPreview() {
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      const previewList = document.getElementById('preview-list');
+      previewList.innerHTML = '';
+      posts.slice().reverse().forEach(post => {
+        const div = document.createElement('div');
+        div.className = 'preview-item';
+        div.textContent = post.title;
+        previewList.appendChild(div);
+      });
+    }
+
+    window.onload = () => {
+      loadPreview();
+    };
   </script>
 </body>
 </html>
