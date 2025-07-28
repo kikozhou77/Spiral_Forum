@@ -297,10 +297,13 @@ function loadChat(contactId) {
 
   const header = document.createElement('div');
   header.classList.add('chat-header');
+  const avatarPath = contactId === 'troll' ? 'Avatar/sohnwh.jpg' : 'Avatar/initial.jpg';
   header.innerHTML = `<a href="${data.profileLink}">
-    <img src="Avatar/${contactId === 'user21' ? 'initial.jpg' : 'sohnwh.jpg'}">
-    ${data.name}</a> 
-    <button class="delete-button" onclick="clearChat('${contactId}')" title="清空聊天">🗑</button>`;
+  <img src="${avatarPath}" alt="${data.name}头像">
+  ${data.name}
+  </a>
+  <button class="delete-button" onclick="clearChat('${contactId}')" title="清空聊天">🗑</button>`;
+
 
   const messageBox = document.createElement('div');
   messageBox.classList.add('chat-messages');
