@@ -25,16 +25,22 @@
 
     // 加载图片区域
     const insertImageSection = () => {
-      const imgDiv = document.createElement("div");
-      imgDiv.className = "img-preview";
-      imgDiv.innerHTML = `
-        <img src="terminal_image/photo1.jpg" alt="风景1">
-        <img src="terminal_image/photo2.jpg" alt="风景2">
-        <img src="terminal_image/photo3.jpg" alt="风景3">
-      `;
-      terminal.appendChild(imgDiv);
+      const links = [
+        "photo1.jpg",
+        "photo2.jpg",
+        "photo3.jpg"
+      ];
+    
+      links.forEach(filename => {
+        const line = document.createElement("div");
+        line.className = "chat-line";
+        line.innerHTML = `>>> [照片] <a href="terminal_image/${filename}" target="_blank" style="color:white;text-decoration:underline;">${filename}</a>`;
+        terminal.appendChild(line);
+      });
+    
       terminal.scrollTop = terminal.scrollHeight;
     };
+
 
     // 聊天内容
     const messages = [
