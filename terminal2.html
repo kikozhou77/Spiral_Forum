@@ -12,19 +12,29 @@
   <script>
     const terminal = document.getElementById("terminal");
 
-    const appendImageSection = () => {
-      const div = document.createElement("div");
-      div.className = "img-preview";
-      div.innerHTML = `
+    // 生成乱码段
+    const generateNoise = () =>
+      Array.from({ length: 26 }, () =>
+        Math.random() < 0.92
+          ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
+          : " "
+      ).join("");
+
+    // 加载图片区域
+    const insertImageSection = () => {
+      const imgDiv = document.createElement("div");
+      imgDiv.className = "img-preview";
+      imgDiv.innerHTML = `
         <img src="terminal_image/photo1.jpg" alt="风景1">
         <img src="terminal_image/photo2.jpg" alt="风景2">
         <img src="terminal_image/photo3.jpg" alt="风景3">
       `;
-      terminal.appendChild(div);
+      terminal.appendChild(imgDiv);
       terminal.scrollTop = terminal.scrollHeight;
     };
 
-    const chatMessages = [
+    // 聊天内容
+    const messages = [
       { sender: "梦君", text: "这份实验数据我觉得没问题了，我在邮箱上发你了。" },
       { sender: "小芝士", text: "收到啦ovo师姐你太强了，这个实验我一直完成不了" },
       { sender: "梦君", text: "其实注意变量控制就可以了，别的地方你都完成得很好。" },
@@ -52,32 +62,45 @@
       { sender: "小芝士", text: "师姐你别太伤心了……虽然不了解具体发生了什么，但是我永远支持你！" },
     ];
 
-    const printChatLine = (index = 0) => {
-      if (index >= chatMessages.length) return;
+    let index = 0;
 
-      const block = document.createElement("div");
-      block.className = "chat-box block";
-      block.innerHTML = `<span class="sender">${chatMessages[index].sender}：</span>${chatMessages[index].text}`;
-      terminal.appendChild(block);
+    function printNextMessage() {
+      if (index >= messages.length) {
+        setTimeout(openRepairWindow, 1000);
+        return;
+      }
+
+      const line = document.createElement("div");
+      line.className = "chat-line";
+      const noiseBefore = generateNoise();
+      const noiseAfter = generateNoise();
+      line.innerHTML = `${noiseBefore} ${messages[index].sender}：${messages[index].text} ${noiseAfter}`;
+      terminal.appendChild(line);
       terminal.scrollTop = terminal.scrollHeight;
 
-      setTimeout(() => printChatLine(index + 1), 700);
-    };
+      index++;
+      setTimeout(printNextMessage, 600);
+    }
 
+    function openRepairWindow() {
+      window.open('repair.html', '_blank', 'width=640,height=400');
+    }
+
+    // 打印初始化提示 + 插入图 + 开始聊天
     new TypeIt("#terminal", {
       speed: 20,
       cursorChar: "_",
       startDelay: 500
     })
       .type(">>> 已进入用户21的系统")
-      .break().pause(500)
+      .break().pause(400)
       .type(">>> 尝试恢复照片中...")
       .pause(1000)
-      .exec(() => appendImageSection())
+      .exec(insertImageSection)
       .break()
-      .type(">>> 尝试恢复微信数据...")
+      .type(">>> 尝试恢复微信数据：...")
       .pause(800)
-      .exec(() => printChatLine(0))
+      .exec(() => printNextMessage())
       .go();
   </script>
 </body>
