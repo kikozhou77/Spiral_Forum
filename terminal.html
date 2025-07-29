@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Terminal</title>
   <style>
     body {
@@ -12,6 +12,7 @@
       padding: 20px;
       overflow: hidden;
     }
+
     #terminal {
       white-space: pre-wrap;
       line-height: 1.4;
@@ -25,54 +26,60 @@
   <div id="terminal"></div>
 
   <script>
-    const lines = [
-      ">>> 正在入侵目标系统...",
-      "$ sudo connect 192.168.1.21 -p 443",
-      "连接成功 √",
-      ">>> 加载内存残留数据...",
-      "7fh38df8$#@&^!^%$#LKMwekj3298sd><.,~~asdmxz",
-      "Z@3##$%...gr29sd9==1MZz]23lao==error",
-      ">>> 解码成功：获取浏览记录",
-      "https://weibo.com/话题/异地恋如何维系",
-      "https://zhihu.com/question/异地恋分手怎么走出来",
-      ">>> 解码成功：获取购物记录",
-      "https://taobao.com/item/少女裙子x2331",
-      "https://jd.com/product/便携打字机",
-      "##@@@df8sd--+=1123jfl32>?>DSSK**(()!!",
-      ">>> 正在分析 session cookie...",
-      "sessionid=ab231xd... path=/; domain=.taobao.com",
-      ">>> 用户搜索关键词：恋爱 冷暴力 值得坚持吗",
-      "....[乱码]....43jkjd*2!@(#&!23kjflsdl223",
-      ">>> 数据导出完成 √"
-    ];
+    const terminal = document.getElementById("terminal");
+
+    // 模拟内容：80行，其中有效信息夹杂在第20、40、60行
+    const lines = [];
+
+    for (let i = 0; i < 80; i++) {
+      if (i === 5) {
+        lines.push(">>> 正在扫描内存缓存...");
+      } else if (i === 20) {
+        lines.push(">>> 浏览记录：https://weibo.com/话题/异地恋如何维系");
+      } else if (i === 40) {
+        lines.push(">>> 淘宝订单：少女裙子 ¥128.00 / 电动牙刷 ¥199.00");
+      } else if (i === 60) {
+        lines.push(">>> 搜索关键词：恋爱 冷暴力 值得坚持吗");
+      } else {
+        // 生成乱码行
+        const randomLine = Array.from({ length: 60 }, () =>
+          Math.random() < 0.9
+            ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
+            : " "
+        ).join("");
+        lines.push(randomLine);
+      }
+    }
 
     const typeLine = (instance, i = 0) => {
       if (i >= lines.length) return;
-      instance.type(lines[i]).break().pause(200).exec(() => {
-        const terminal = document.getElementById("terminal");
-        terminal.scrollTop = terminal.scrollHeight;
-        typeLine(instance, i + 1);
-      });
+      instance
+        .type(lines[i])
+        .break()
+        .pause(20)
+        .exec(() => {
+          terminal.scrollTop = terminal.scrollHeight;
+          typeLine(instance, i + 1);
+        });
     };
 
     new TypeIt("#terminal", {
-      speed: 10,
+      speed: 1,
       cursorChar: "_",
       lifeLike: false,
-      startDelay: 500
+      startDelay: 200,
     })
-    .exec((instance) => {
-      typeLine(instance);
-      return instance; // ❗️必须加上这一行
-    })
-    .go();
-    
-      .setOptions({ afterComplete: () => {
+      .exec((instance) => {
+        typeLine(instance);
+        return instance;
+      })
+      .go();
+
+    // ✅ 可选跳转：解注释以启用
     setTimeout(() => {
       window.location.href = "terminal2.html";
-    }, 2000); // 停留 2 秒再跳转
-  }})
-
+    }, 15000); // 15秒后跳转
+  
   </script>
 </body>
 </html>
