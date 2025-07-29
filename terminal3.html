@@ -6,14 +6,18 @@
   <link rel="stylesheet" href="terminal_logic.css" />
   <script src="typeit.min.js"></script>
   <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
     .avatar-preview {
       margin-top: 20px;
-      border: 2px solid white;
+      border: 1px dashed white;
+      padding: 10px;
       display: inline-block;
-    }
-    .avatar-preview img {
-      height: 160px;
-      border: 2px solid white;
+      color: white;
     }
   </style>
 </head>
@@ -36,7 +40,7 @@
     ];
 
     function generateNoise(length = 60) {
-      const density = Math.random() * 0.3 + 0.7; // 70%-100% 是乱码
+      const density = Math.random() * 0.2 + 0.8;
       return Array.from({ length }, () =>
         Math.random() < density
           ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
@@ -44,44 +48,26 @@
       ).join("");
     }
 
-    function insertNoiseLines(count = 3) {
-      for (let j = 0; j < count; j++) {
-        const div = document.createElement("div");
-        div.className = "chat-line";
-        div.textContent = generateNoise(50 + Math.floor(Math.random() * 30));
-        terminal.appendChild(div);
-      }
-      terminal.scrollTop = terminal.scrollHeight;
-    }
-
     function typeNext(instance, i = 0) {
       if (i >= commands.length) {
-        instance.exec(() => {
-          insertNoiseLines(5); // ✅ 显示头像前再刷一波乱码
+        return instance.exec(() => {
           const div = document.createElement("div");
           div.className = "avatar-preview";
-          div.innerHTML = `<img src="terminal_image/user21_new.jpg" alt="新头像">`;
+          div.innerText = "[头像预览] user21_new.jpg → ✔ 已更新 (模拟)";
           terminal.appendChild(div);
           terminal.scrollTop = terminal.scrollHeight;
           return instance;
         });
-        return;
       }
-
-      // 每条命令前插入 2~4 行乱码
-      instance.exec(() => {
-        insertNoiseLines(Math.floor(Math.random() * 3) + 2);
-        return instance;
-      });
 
       const line = commands[i];
       const noiseBefore = generateNoise(Math.floor(Math.random() * 20));
-      const noiseAfter = generateNoise(Math.floor(Math.random() * 25));
+      const noiseAfter = generateNoise(Math.floor(Math.random() * 20));
 
-      instance
+      return instance
         .type(noiseBefore + " " + line + " " + noiseAfter)
         .break()
-        .pause(400)
+        .pause(300)
         .exec(() => {
           terminal.scrollTop = terminal.scrollHeight;
           typeNext(instance, i + 1);
@@ -95,11 +81,11 @@
       lifeLike: false,
       startDelay: 300
     })
-      .exec((instance) => {
-        typeNext(instance);
-        return instance;
-      })
-      .go();
+    .exec((instance) => {
+      typeNext(instance);
+      return instance;
+    })
+    .go();
   </script>
 </body>
 </html>
