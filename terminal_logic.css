@@ -15,42 +15,42 @@ body {
 
 #terminal {
   white-space: pre-wrap;
-  line-height: 1.4;
-  max-height: 95vh;
+  line-height: 1.2;
+  max-height: 90vh;
   overflow-y: auto;
 }
 
-/* 图片预览块 */
+/* 图片预览更紧凑 */
 .img-preview {
-  margin: 20px 0;
+  margin: 16px 0;
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
+
 .img-preview img {
-  max-height: 160px;
-  border: 2px solid lime;
+  max-height: 140px;
+  border: 2px solid #0f0;
 }
 
 /* 聊天框 */
 .chat-box {
   background-color: #111;
-  border-left: 4px solid lime;
-  padding: 10px 16px;
+  border-left: 4px solid #0f0;
+  padding: 8px 16px;
   margin-top: 16px;
   color: #eee;
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 14px;
+}
+
+.chat-box .block {
+  margin: 8px 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #333; /* ✅ 分隔线 */
 }
 
 .chat-box .sender {
   color: #00ffff;
   font-weight: bold;
-}
-
-.chat-box .block {
-  padding: 6px 0;
-  margin: 0;
-  border-bottom: 1px solid #333;
 }
 
 .chat-box .block:last-child {
