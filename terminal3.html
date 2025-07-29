@@ -33,7 +33,7 @@
 
       const line = document.createElement("div");
       line.className = "chat-line";
-      line.innerHTML = `${generateNoise(8)} >>> [头像更新] user21_new.jpg <span style="color:white">（模拟替换完成）</span> ${generateNoise(8)}`;
+      line.innerHTML = `${generateNoise(8)} >>> [头像更新] user21_new.jpg <span style="color:white">（已替换完成）</span> ${generateNoise(8)}`;
       terminal.appendChild(line);
 
       const noiseLinesAfter = Math.floor(Math.random() * 3) + 4;
@@ -49,17 +49,17 @@
     };
 
     const logs = [
-      ">>> 连接用户21的终端中...",
-      ">>> 进入高权限操作模式...",
-      ">>> 查找用户资料",
-      ">>> sudo avatar-change user21 ./avatar_new.jpg",
-      "✔ 用户身份验证成功",
-      "✔ 系统响应正常... 准备上传",
-      ">>> 正在写入新头像信息",
+      ">>> 正在连接用户21的终端...",
+      ">>> 进入高级控制权限...",
+      ">>> 读取用户资料...",
+      ">>> 替换头像指令已发出：avatar-change user21 ./avatar_new.jpg",
+      "✔ 身份认证成功 √",
+      "✔ 系统校验通过，准备写入数据...",
+      ">>> 写入头像文件中...",
       ">>> 新头像路径：./avatar_new.jpg",
-      ">>> 头像替换请求已确认",
+      ">>> 系统确认替换请求",
       "✔ 用户21头像修改成功 √",
-      ">>> 显示头像替换确认区段："
+      ">>> 显示头像确认记录..."
     ];
 
     let index = 0;
@@ -86,9 +86,6 @@
       cursorChar: "_",
       startDelay: 400
     })
-      .type(">>> 正在连接 terminal3 用户行为模块...")
-      .break()
-      .pause(500)
       .exec(() => printNextLine())
       .go();
   </script>
