@@ -36,7 +36,7 @@
     ];
 
     function generateNoise(length = 60) {
-      const density = Math.random() * 0.2 + 0.8;
+      const density = Math.random() * 0.3 + 0.7; // 70%-100% 是乱码
       return Array.from({ length }, () =>
         Math.random() < density
           ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
@@ -44,9 +44,20 @@
       ).join("");
     }
 
+    function insertNoiseLines(count = 3) {
+      for (let j = 0; j < count; j++) {
+        const div = document.createElement("div");
+        div.className = "chat-line";
+        div.textContent = generateNoise(50 + Math.floor(Math.random() * 30));
+        terminal.appendChild(div);
+      }
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
     function typeNext(instance, i = 0) {
       if (i >= commands.length) {
         instance.exec(() => {
+          insertNoiseLines(5); // ✅ 显示头像前再刷一波乱码
           const div = document.createElement("div");
           div.className = "avatar-preview";
           div.innerHTML = `<img src="terminal_image/user21_new.jpg" alt="新头像">`;
@@ -57,9 +68,15 @@
         return;
       }
 
+      // 每条命令前插入 2~4 行乱码
+      instance.exec(() => {
+        insertNoiseLines(Math.floor(Math.random() * 3) + 2);
+        return instance;
+      });
+
       const line = commands[i];
-      const noiseBefore = generateNoise(Math.floor(Math.random() * 15));
-      const noiseAfter = generateNoise(Math.floor(Math.random() * 20));
+      const noiseBefore = generateNoise(Math.floor(Math.random() * 20));
+      const noiseAfter = generateNoise(Math.floor(Math.random() * 25));
 
       instance
         .type(noiseBefore + " " + line + " " + noiseAfter)
@@ -68,7 +85,7 @@
         .exec(() => {
           terminal.scrollTop = terminal.scrollHeight;
           typeNext(instance, i + 1);
-          return instance; // ✅ 关键修复
+          return instance;
         });
     }
 
