@@ -60,9 +60,13 @@
       cursorChar: "_",
       lifeLike: false,
       startDelay: 500
-    }).exec(function (instance) {
+    })
+    .exec((instance) => {
       typeLine(instance);
-    }).go();
+      return instance; // ❗️必须加上这一行
+    })
+    .go();
+
   </script>
 </body>
 </html>
