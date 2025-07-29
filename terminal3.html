@@ -8,7 +8,7 @@
   <style>
     .avatar-preview {
       margin-top: 20px;
-      border: 2px solid lime;
+      border: 2px solid white;
       display: inline-block;
     }
     .avatar-preview img {
@@ -44,15 +44,15 @@
       ).join("");
     }
 
-    const typeNext = (instance, i = 0) => {
+    function typeNext(instance, i = 0) {
       if (i >= commands.length) {
         instance.exec(() => {
-          // 插入头像预览
           const div = document.createElement("div");
           div.className = "avatar-preview";
           div.innerHTML = `<img src="terminal_image/user21_new.jpg" alt="新头像">`;
           terminal.appendChild(div);
           terminal.scrollTop = terminal.scrollHeight;
+          return instance;
         });
         return;
       }
@@ -68,8 +68,9 @@
         .exec(() => {
           terminal.scrollTop = terminal.scrollHeight;
           typeNext(instance, i + 1);
+          return instance; // ✅ 关键修复
         });
-    };
+    }
 
     new TypeIt("#terminal", {
       speed: 20,
