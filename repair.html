@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Repair_Module</title>
+  <link rel="stylesheet" href="terminal_logic.css">
+  <style>
+    .repair-box {
+      margin-top: 100px;
+      font-size: 18px;
+      color: white;
+    }
+
+    .bar {
+      font-family: monospace;
+      white-space: pre;
+      color: lime;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="terminal">
+    <div class="repair-box">
+      >>> 正在修复图库数据...<br><br>
+      <div class="bar" id="progressBar">[█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 1%</div>
+    </div>
+  </div>
+
+  <script>
+    const bar = document.getElementById("progressBar");
+
+    let progress = 1;
+    const interval = setInterval(() => {
+      progress += Math.floor(Math.random() * 5) + 1; // 增加1~5%
+
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          bar.innerHTML += "<br>>> 修复完成！";
+        }, 500);
+      }
+
+      const blocks = Math.floor(progress / 2);
+      const barStr = "[" + "█".repeat(blocks) + "░".repeat(50 - blocks) + "] " + progress + "%";
+      bar.innerText = barStr;
+    }, 300);
+  </script>
+</body>
+</html>
