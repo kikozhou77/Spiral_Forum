@@ -13,12 +13,15 @@
     const terminal = document.getElementById("terminal");
 
     // 生成乱码段
-    const generateNoise = () =>
-      Array.from({ length: 26 }, () =>
-        Math.random() < 0.92
+    function generateNoise(length = 40) {
+      const density = Math.random() * 0.2 + 0.8; // 80% - 100% 是乱码
+      return Array.from({ length }, () =>
+        Math.random() < density
           ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
           : " "
       ).join("");
+    }
+
 
     // 加载图片区域
     const insertImageSection = () => {
@@ -64,23 +67,37 @@
 
     let index = 0;
 
-    function printNextMessage() {
-      if (index >= messages.length) {
-        setTimeout(openRepairWindow, 1000);
-        return;
-      }
-
-      const line = document.createElement("div");
-      line.className = "chat-line";
-      const noiseBefore = generateNoise();
-      const noiseAfter = generateNoise();
-      line.innerHTML = `${noiseBefore} ${messages[index].sender}：${messages[index].text} ${noiseAfter}`;
-      terminal.appendChild(line);
-      terminal.scrollTop = terminal.scrollHeight;
-
-      index++;
-      setTimeout(printNextMessage, 600);
+   function printNextMessage() {
+    if (index >= messages.length) {
+      setTimeout(openRepairWindow, 1000);
+      return;
     }
+  
+    const noiseLength = Math.floor(Math.random() * 30) + 10;
+    const prefixNoise = generateNoise(noiseLength);
+    const suffixNoise = generateNoise(noiseLength);
+  
+    const container = document.createElement("div");
+    container.className = "chat-line";
+  
+    const middleContent = `<span class="sender">${messages[index].sender}：</span>${messages[index].text}`;
+    const insertAt = Math.floor(Math.random() * (prefixNoise.length + 1));
+    
+    // 拼接：在 prefixNoise 中插入 middleContent，然后接 suffixNoise
+    const noisyLine =
+      prefixNoise.slice(0, insertAt) +
+      middleContent +
+      prefixNoise.slice(insertAt) +
+      suffixNoise;
+  
+    container.innerHTML = noisyLine;
+    terminal.appendChild(container);
+    terminal.scrollTop = terminal.scrollHeight;
+  
+    index++;
+    setTimeout(printNextMessage, 600);
+  }
+
 
     function openRepairWindow() {
       window.open('repair.html', '_blank', 'width=640,height=400');
