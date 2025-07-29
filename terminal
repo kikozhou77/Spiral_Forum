@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>黑客终端</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: lime;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      overflow: hidden;
+    }
+    #terminal {
+      white-space: pre-wrap;
+      line-height: 1.4;
+      max-height: 95vh;
+      overflow-y: auto;
+    }
+  </style>
+  <script src="typeit.min.js"></script>
+</head>
+<body>
+  <div id="terminal"></div>
+
+  <script>
+    new TypeIt("#terminal", {
+      speed: 35,
+      cursorChar: "_",
+      lifeLike: true
+    })
+    .type(">>> 开始数据扫描")
+    .pause(500)
+    .break()
+    .type("$ sudo access /mnt/target/computer")
+    .break()
+    .type("√ 权限获取成功")
+    .pause(800)
+    .break()
+    .type("$ cat ~/.history")
+    .pause(600)
+    .break()
+    .type("浏览记录：")
+    .break()
+    .type("https://baike.baidu.com/item/恋爱冷暴力应对方式")
+    .break()
+    .type("https://weibo.com/话题/异地恋如何维系")
+    .break()
+    .type("https://zhihu.com/question/异地恋分手怎么走出来")
+    .break()
+    .pause(1000)
+    .type("网购记录：")
+    .break()
+    .type("https://taobao.com/item/少女裙子x2331")
+    .break()
+    .type("https://jd.com/product/便携打字机")
+    .pause(500)
+    .break()
+    .type(">>> 正在读取 cookie 与本地缓存...")
+    .pause(1000)
+    .break()
+    .type(">>> 完成")
+    .exec(() => {
+      // 自动滚动到底部
+      const terminal = document.getElementById("terminal");
+      const scroll = setInterval(() => {
+        terminal.scrollTop = terminal.scrollHeight;
+      }, 30);
+      setTimeout(() => clearInterval(scroll), 2000);
+    })
+    .go();
+  </script>
+</body>
+</html>
