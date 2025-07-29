@@ -14,7 +14,7 @@
 
     // 生成乱码段
     function generateNoise(length = 40) {
-      const density = Math.random() * 0.2 + 0.8; // 80% - 100% 是乱码
+      const density = Math.random() * 0.1 + 0.9; // 80% - 100% 是乱码
       return Array.from({ length }, () =>
         Math.random() < density
           ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
@@ -24,22 +24,37 @@
 
 
     // 加载图片区域
-    const insertImageSection = () => {
-      const links = [
-        "photo1.jpg",
-        "photo2.jpg",
-        "photo3.jpg"
-      ];
-    
-      links.forEach(filename => {
-        const line = document.createElement("div");
-        line.className = "chat-line";
-        line.innerHTML = `>>> [照片] <a href="terminal_image/${filename}" target="_blank" style="color:white;text-decoration:underline;">${filename}</a>`;
-        terminal.appendChild(line);
-      });
-    
-      terminal.scrollTop = terminal.scrollHeight;
-    };
+      const insertImageSection = () => {
+        // 1. 先加入 5~8 行乱码
+        const noiseLines = Math.floor(Math.random() * 3) + 5;
+        for (let i = 0; i < noiseLines; i++) {
+          const noise = generateNoise(50 + Math.floor(Math.random() * 20));
+          const line = document.createElement("div");
+          line.className = "chat-line";
+          line.textContent = noise;
+          terminal.appendChild(line);
+        }
+      
+        // 2. 加入照片链接
+        const links = ["photo1.jpg", "photo2.jpg"];
+        links.forEach(filename => {
+          const line = document.createElement("div");
+          line.className = "chat-line";
+          line.innerHTML = `${generateNoise(12)} >>> [照片] <a href="terminal_image/${filename}" target="_blank" style="color:white;text-decoration:underline;">${filename}</a> ${generateNoise(12)}`;
+          terminal.appendChild(line);
+        });
+          // 1. 再加入 5~8 行乱码
+        const noiseLines = Math.floor(Math.random() * 3) + 5;
+        for (let i = 0; i < noiseLines; i++) {
+          const noise = generateNoise(50 + Math.floor(Math.random() * 20));
+          const line = document.createElement("div");
+          line.className = "chat-line";
+          line.textContent = noise;
+          terminal.appendChild(line);
+        }
+        terminal.scrollTop = terminal.scrollHeight;
+      };
+
 
 
     // 聊天内容
