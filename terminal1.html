@@ -12,7 +12,6 @@
       padding: 20px;
       overflow: hidden;
     }
-
     #terminal {
       white-space: pre-wrap;
       line-height: 1.4;
@@ -28,58 +27,59 @@
   <script>
     const terminal = document.getElementById("terminal");
 
-    // 模拟内容：80行，其中有效信息夹杂在第20、40、60行
     const lines = [];
 
+    // ⬇️ 构造 80 行内容
     for (let i = 0; i < 80; i++) {
       if (i === 5) {
-        lines.push(">>> 正在扫描内存缓存...");
-      } else if (i === 20) {
-        lines.push(">>> 浏览记录：https://weibo.com/话题/异地恋如何维系");
-      } else if (i === 40) {
-        lines.push(">>> 淘宝订单：少女裙子 ¥128.00 / 电动牙刷 ¥199.00");
-      } else if (i === 60) {
-        lines.push(">>> 搜索关键词：恋爱 冷暴力 值得坚持吗");
+        lines.push(">>> 正在入侵目标系统...");
+      } else if (i === 15) {
+        lines.push(">>> 获取浏览记录：https://weibo.com/话题/异地恋如何维系");
+      } else if (i === 30) {
+        lines.push(">>> 用户搜索关键词：恋爱 冷暴力 值得坚持吗");
+      } else if (i === 50) {
+        lines.push(">>> 淘宝订单：https://taobao.com/item/少女裙子x2331");
       } else {
-        // 生成乱码行
-        const randomLine = Array.from({ length: 60 }, () =>
-          Math.random() < 0.9
+        const line = Array.from({ length: 80 }, () =>
+          Math.random() < 0.93
             ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
             : " "
         ).join("");
-        lines.push(randomLine);
+        lines.push(line);
       }
     }
 
-    const typeLine = (instance, i = 0) => {
-      if (i >= lines.length) return;
+    // ⬇️ 逐行打印函数
+    function typeLine(instance, i = 0) {
+      if (i >= lines.length) {
+        setTimeout(() => {
+          window.location.href = "terminal2.html"; // 跳转
+        }, 1500);
+        return;
+      }
+
       instance
         .type(lines[i])
         .break()
-        .pause(20)
+        .pause(10)
         .exec(() => {
           terminal.scrollTop = terminal.scrollHeight;
           typeLine(instance, i + 1);
         });
-    };
+    }
 
+    // ⬇️ 正确启动 TypeIt 实例
     new TypeIt("#terminal", {
       speed: 1,
       cursorChar: "_",
       lifeLike: false,
-      startDelay: 200,
+      startDelay: 300,
     })
       .exec((instance) => {
         typeLine(instance);
         return instance;
       })
       .go();
-
-    // ✅ 可选跳转：解注释以启用
-    setTimeout(() => {
-      window.location.href = "terminal2.html";
-    }, 5000); // 5秒后跳转
-  
   </script>
 </body>
 </html>
