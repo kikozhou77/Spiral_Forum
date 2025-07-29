@@ -7,7 +7,7 @@
     body {
       margin: 0;
       background-color: black;
-      color: lime;
+      color: white;
       font-family: 'Courier New', monospace;
       padding: 20px;
       overflow: hidden;
@@ -28,7 +28,6 @@
     const terminal = document.getElementById("terminal");
 
     const lines = [];
-
     // ⬇️ 构造 80 行内容
     for (let i = 0; i < 80; i++) {
       if (i === 5) {
@@ -39,6 +38,10 @@
         lines.push(">>> 用户搜索关键词：恋爱 冷暴力 值得坚持吗");
       } else if (i === 50) {
         lines.push(">>> 淘宝订单：https://taobao.com/item/少女裙子x2331");
+      } else if (i === 51) {
+        lines.push("https://www.youtube.com/watch?v=GmJUR7L4qH8");
+      } else if (i === 52) {
+        lines.push("https://www.amazon.com/TBD-Super-Heroes-Marvel-76316/dp/B0DJ1BWTSX/ref=hw_24_h_dagw_lego?pf_rd_p=746779a9-cdf3-40cb-b06c-84cd5ae12c11&pf_rd_r=SG9F75Y04MEB0S53MP7N&sr=1-2-69af1eaf-fc34-473f-bcc7-1f4594aea253");
       } else {
         const line = Array.from({ length: 80 }, () =>
           Math.random() < 0.93
@@ -48,6 +51,7 @@
         lines.push(line);
       }
     }
+
     const typeit = new TypeIt("#terminal", {
       speed: 1,
       startDelay: 300,
