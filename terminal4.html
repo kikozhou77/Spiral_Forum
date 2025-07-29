@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Terminal_a_private</title>
+  <link rel="stylesheet" href="terminal_logic.css" />
+  <script src="typeit.min.js"></script>
+</head>
+<body>
+  <div id="terminal"></div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+
+    function generateNoise(length = 40) {
+      const density = Math.random() * 0.1 + 0.9;
+      return Array.from({ length }, () =>
+        Math.random() < density
+          ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
+          : " "
+      ).join("");
+    }
+
+    const steps = [
+      ">>> 尝试获取root权限...",
+      ">>> sudo access --grant --host=192.168.21.99",
+      ">>> 正在验证密钥...",
+      "✔ 验证成功 √",
+      ">>> 加载设备控制模块...",
+      ">>> 目标系统响应中...",
+      ">>> 注入摄像头探测脚本",
+      ">>> 摄像头访问端口：/dev/video0",
+      ">>> 正在撬开设备接口...",
+      "✔ 用户21摄像头控制权获取成功",
+      ">>> 摄像头已开启 —— 正在获取画面..."
+    ];
+
+    let index = 0;
+
+    function printNextLine() {
+      if (index >= steps.length) return;
+
+      const prefix = generateNoise(Math.floor(Math.random() * 20));
+      const suffix = generateNoise(Math.floor(Math.random() * 20));
+      const line = document.createElement("div");
+      line.className = "chat-line";
+      line.innerHTML = `${prefix} ${steps[index]} ${suffix}`;
+      terminal.appendChild(line);
+      terminal.scrollTop = terminal.scrollHeight;
+      index++;
+      setTimeout(printNextLine, 400);
+    }
+
+    new TypeIt("#terminal", {
+      speed: 30,
+      cursorChar: "_",
+      startDelay: 300
+    })
+      .type(">>> 小A连接远程目标系统...")
+      .break().pause(500)
+      .type(">>> 正在执行破解脚本")
+      .break().pause(400)
+      .exec(() => {
+        printNextLine();
+      })
+      .go();
+  </script>
+</body>
+</html>
