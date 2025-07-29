@@ -66,6 +66,12 @@
       return instance; // ❗️必须加上这一行
     })
     .go();
+    
+      .setOptions({ afterComplete: () => {
+    setTimeout(() => {
+      window.location.href = "terminal2.html";
+    }, 2000); // 停留 2 秒再跳转
+  }})
 
   </script>
 </body>
