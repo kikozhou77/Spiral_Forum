@@ -25,51 +25,44 @@
   <div id="terminal"></div>
 
   <script>
-    new TypeIt("#terminal", {
-      speed: 35,
-      cursorChar: "_",
-      lifeLike: true
-    })
-    .type(">>> 开始数据扫描")
-    .pause(500)
-    .break()
-    .type("$ sudo access /mnt/target/computer")
-    .break()
-    .type("√ 权限获取成功")
-    .pause(800)
-    .break()
-    .type("$ cat ~/.history")
-    .pause(600)
-    .break()
-    .type("浏览记录：")
-    .break()
-    .type("https://baike.baidu.com/item/恋爱冷暴力应对方式")
-    .break()
-    .type("https://weibo.com/话题/异地恋如何维系")
-    .break()
-    .type("https://zhihu.com/question/异地恋分手怎么走出来")
-    .break()
-    .pause(1000)
-    .type("网购记录：")
-    .break()
-    .type("https://taobao.com/item/少女裙子x2331")
-    .break()
-    .type("https://jd.com/product/便携打字机")
-    .pause(500)
-    .break()
-    .type(">>> 正在读取 cookie 与本地缓存...")
-    .pause(1000)
-    .break()
-    .type(">>> 完成")
-    .exec(() => {
-      // 自动滚动到底部
-      const terminal = document.getElementById("terminal");
-      const scroll = setInterval(() => {
+    const lines = [
+      ">>> 正在入侵目标系统...",
+      "$ sudo connect 192.168.1.21 -p 443",
+      "连接成功 √",
+      ">>> 加载内存残留数据...",
+      "7fh38df8$#@&^!^%$#LKMwekj3298sd><.,~~asdmxz",
+      "Z@3##$%...gr29sd9==1MZz]23lao==error",
+      ">>> 解码成功：获取浏览记录",
+      "https://weibo.com/话题/异地恋如何维系",
+      "https://zhihu.com/question/异地恋分手怎么走出来",
+      ">>> 解码成功：获取购物记录",
+      "https://taobao.com/item/少女裙子x2331",
+      "https://jd.com/product/便携打字机",
+      "##@@@df8sd--+=1123jfl32>?>DSSK**(()!!",
+      ">>> 正在分析 session cookie...",
+      "sessionid=ab231xd... path=/; domain=.taobao.com",
+      ">>> 用户搜索关键词：恋爱 冷暴力 值得坚持吗",
+      "....[乱码]....43jkjd*2!@(#&!23kjflsdl223",
+      ">>> 数据导出完成 √"
+    ];
+
+    const typeLine = (instance, i = 0) => {
+      if (i >= lines.length) return;
+      instance.type(lines[i]).break().pause(200).exec(() => {
+        const terminal = document.getElementById("terminal");
         terminal.scrollTop = terminal.scrollHeight;
-      }, 30);
-      setTimeout(() => clearInterval(scroll), 2000);
-    })
-    .go();
+        typeLine(instance, i + 1);
+      });
+    };
+
+    new TypeIt("#terminal", {
+      speed: 10,
+      cursorChar: "_",
+      lifeLike: false,
+      startDelay: 500
+    }).exec(function (instance) {
+      typeLine(instance);
+    }).go();
   </script>
 </body>
 </html>
