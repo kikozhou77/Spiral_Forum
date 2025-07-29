@@ -3,23 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Terminal_a_private</title>
-  <link rel="stylesheet" href="terminal_logic.css" />
+  <link rel="stylesheet" href="terminal_logic.css">
   <script src="typeit.min.js"></script>
-  <style>
-    body {
-      background-color: black;
-      color: white;
-      font-family: 'Courier New', monospace;
-      padding: 20px;
-    }
-    .avatar-preview {
-      margin-top: 20px;
-      border: 1px dashed white;
-      padding: 10px;
-      display: inline-block;
-      color: white;
-    }
-  </style>
 </head>
 <body>
   <div id="terminal"></div>
@@ -27,20 +12,8 @@
   <script>
     const terminal = document.getElementById("terminal");
 
-    const commands = [
-      ">>> [G^1@#] 初始化终端链接...",
-      ">>> sudo avatar-change user21 ./avatar_new.jpg",
-      "~$@#&!Q*! 验证权限中...",
-      "✔ 用户身份认证成功",
-      ">>> 系统校验中... 3x!V#12@%",
-      "@#klsD*(#@! 上传文件中",
-      "✔ 正在上传新头像...",
-      "Zx*21!@&>>✔ 用户21头像修改成功 √",
-      ">>> 显示新头像预览："
-    ];
-
-    function generateNoise(length = 60) {
-      const density = Math.random() * 0.2 + 0.8;
+    function generateNoise(length = 40) {
+      const density = Math.random() * 0.1 + 0.9;
       return Array.from({ length }, () =>
         Math.random() < density
           ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
@@ -48,44 +21,76 @@
       ).join("");
     }
 
-    function typeNext(instance, i = 0) {
-      if (i >= commands.length) {
-        return instance.exec(() => {
-          const div = document.createElement("div");
-          div.className = "avatar-preview";
-          div.innerText = "[头像预览] user21_new.jpg → ✔ 已更新 (模拟)";
-          terminal.appendChild(div);
-          terminal.scrollTop = terminal.scrollHeight;
-          return instance;
-        });
+    const insertPreviewSection = () => {
+      const noiseLinesBefore = Math.floor(Math.random() * 3) + 4;
+      for (let i = 0; i < noiseLinesBefore; i++) {
+        const noise = generateNoise(50 + Math.floor(Math.random() * 30));
+        const line = document.createElement("div");
+        line.className = "chat-line";
+        line.textContent = noise;
+        terminal.appendChild(line);
       }
 
-      const line = commands[i];
-      const noiseBefore = generateNoise(Math.floor(Math.random() * 20));
-      const noiseAfter = generateNoise(Math.floor(Math.random() * 20));
+      const line = document.createElement("div");
+      line.className = "chat-line";
+      line.innerHTML = `${generateNoise(8)} >>> [头像更新] user21_new.jpg <span style="color:white">（模拟替换完成）</span> ${generateNoise(8)}`;
+      terminal.appendChild(line);
 
-      return instance
-        .type(noiseBefore + " " + line + " " + noiseAfter)
-        .break()
-        .pause(300)
-        .exec(() => {
-          terminal.scrollTop = terminal.scrollHeight;
-          typeNext(instance, i + 1);
-          return instance;
-        });
+      const noiseLinesAfter = Math.floor(Math.random() * 3) + 4;
+      for (let i = 0; i < noiseLinesAfter; i++) {
+        const noise = generateNoise(50 + Math.floor(Math.random() * 30));
+        const line = document.createElement("div");
+        line.className = "chat-line";
+        line.textContent = noise;
+        terminal.appendChild(line);
+      }
+
+      terminal.scrollTop = terminal.scrollHeight;
+    };
+
+    const logs = [
+      ">>> 连接用户21的终端中...",
+      ">>> 进入高权限操作模式...",
+      ">>> 查找用户资料",
+      ">>> sudo avatar-change user21 ./avatar_new.jpg",
+      "✔ 用户身份验证成功",
+      "✔ 系统响应正常... 准备上传",
+      ">>> 正在写入新头像信息",
+      ">>> 新头像路径：./avatar_new.jpg",
+      ">>> 头像替换请求已确认",
+      "✔ 用户21头像修改成功 √",
+      ">>> 显示头像替换确认区段："
+    ];
+
+    let index = 0;
+
+    function printNextLine() {
+      if (index >= logs.length) {
+        setTimeout(insertPreviewSection, 500);
+        return;
+      }
+      const noiseBefore = generateNoise(Math.floor(Math.random() * 12));
+      const noiseAfter = generateNoise(Math.floor(Math.random() * 16));
+
+      const line = document.createElement("div");
+      line.className = "chat-line";
+      line.innerHTML = `${noiseBefore} ${logs[index]} ${noiseAfter}`;
+      terminal.appendChild(line);
+      terminal.scrollTop = terminal.scrollHeight;
+      index++;
+      setTimeout(printNextLine, 500);
     }
 
     new TypeIt("#terminal", {
       speed: 20,
       cursorChar: "_",
-      lifeLike: false,
-      startDelay: 300
+      startDelay: 400
     })
-    .exec((instance) => {
-      typeNext(instance);
-      return instance;
-    })
-    .go();
+      .type(">>> 正在连接 terminal3 用户行为模块...")
+      .break()
+      .pause(500)
+      .exec(() => printNextLine())
+      .go();
   </script>
 </body>
 </html>
