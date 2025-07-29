@@ -106,12 +106,16 @@ main {
   flex-direction: column;
   gap: 20px;
 }
-
+/* 帖子整体卡片 */
 .comment {
   background: white;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #aaa;
+    /* ✅ 添加以下几行 */
+  max-width: 800px;     /* 控制最大宽度为800px */
+  margin-left: 0;       /* 左对齐 */
+  margin-right: auto;   /* 剩下空间推到右边 */
 }
 
 .comment-author {
@@ -123,13 +127,16 @@ main {
   margin-bottom: 8px;
 }
 
+/* 发表评论框 */
 .reply-box textarea {
-  width: 100%;
+  width: 90%;
   padding: 8px;
   margin-top: 6px;
   border-radius: 4px;
   font-family: inherit;
   border: 1px solid #aaa;
+    /* ✅ 可选：也限制最大宽度 */
+  box-sizing: border-box;
 }
 
 .reply-item {
