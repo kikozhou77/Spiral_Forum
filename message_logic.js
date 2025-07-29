@@ -224,7 +224,7 @@ const chatData = {
   user21: {
     name: '用户21',
     profileLink: 'user21_profile.html',
-    avatar: 'Avatar/initial.jpg',
+    avatar: 'Avatar/user21_new.jpg',
     replies: [
       '很抱歉，冒昧打扰……我失忆了，目前只有一台电脑，我想从电脑里找到一些线索。',
       '我无法去医院。',
