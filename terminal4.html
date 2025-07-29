@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: lime;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    #terminal {
+      white-space: pre-wrap;
+      line-height: 1.4;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .progress {
+      margin-top: 20px;
+      width: 80%;
+      height: 22px;
+      background-color: #222;
+      border: 1px solid lime;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: lime;
+      width: 91%;
+      text-align: center;
+      color: black;
+      font-weight: bold;
+      line-height: 22px;
+    }
+
+    .cam-image {
+      margin-top: 30px;
+      border: 2px solid lime;
+      max-width: 100%;
+    }
+
+    .chat-reply {
+      margin-top: 20px;
+      background-color: #111;
+      padding: 12px 18px;
+      border-left: 4px solid lime;
+      font-weight: bold;
+      color: #0ff;
+    }
+  </style>
+  <script src="typeit.min.js"></script>
+</head>
+<body>
+  <div id="terminal"></div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+
+    function appendProgressBar() {
+      const wrapper = document.createElement("div");
+      wrapper.className = "progress";
+
+      const fill = document.createElement("div");
+      fill.className = "progress-fill";
+      fill.textContent = "91%";
+      wrapper.appendChild(fill);
+
+      terminal.appendChild(wrapper);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function appendCamImage() {
+      const img = document.createElement("img");
+      img.src = "https://via.placeholder.com/720x300.png?text=垃圾场监控画面"; // 可换成真实图
+      img.alt = "Camera View";
+      img.className = "cam-image";
+
+      terminal.appendChild(img);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function appendReply() {
+      const div = document.createElement("div");
+      div.className = "chat-reply";
+      div.innerText = "用户21：你在看我吗？";
+      terminal.appendChild(div);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    new TypeIt("#terminal", {
+      speed: 20,
+      cursorChar: "_",
+      startDelay: 300
+    })
+      .type(">>> 数据修复进度更新中...")
+      .pause(1000)
+      .exec(() => appendProgressBar())
+      .break()
+      .type(">>> 停顿……")
+      .pause(1500)
+      .break()
+      .type(">>> 小A执行命令：open_cam --target=user21")
+      .pause(800)
+      .break()
+      .type(">>> 摄像头开启，正在获取画面……")
+      .pause(1200)
+      .exec(() => appendCamImage())
+      .pause(1200)
+      .exec(() => appendReply())
+      .go();
+  </script>
+</body>
+</html>
