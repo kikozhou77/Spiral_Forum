@@ -1,3 +1,9 @@
+
+document.title = "Terminal_a_private";
+if (window.top !== window.self) {
+    window.top.location = window.location;
+}
+
 body {
   margin: 0;
   background-color: black;
