@@ -2,61 +2,20 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>Terminal</title>
+  <title>Terminal_a_private</title>
+  <link rel="stylesheet" href="terminal_logic.css" />
+  <script src="typeit.min.js"></script>
   <style>
-    body {
-      margin: 0;
-      background-color: black;
-      color: #00ff00;
-      font-family: 'Courier New', monospace;
-      padding: 20px;
-      overflow: hidden;
-    }
-
-    #terminal {
-      white-space: pre-wrap;
-      line-height: 1.4;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .chat-box {
-      background-color: #111;
-      border-left: 4px solid lime;
-      padding: 10px 20px;
+    .avatar-preview {
       margin-top: 20px;
-      color: #eee;
+      border: 2px solid lime;
+      display: inline-block;
     }
-
-    .chat-box .sender {
-      color: #00ffff;
-      font-weight: bold;
-    }
-
-    .chat-box .block {
-      margin-bottom: 16px;
-    }
-
-    .progress {
-      margin-top: 30px;
-      width: 80%;
-      height: 22px;
-      background-color: #222;
-      border: 1px solid lime;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background-color: lime;
-      width: 1%;
-      text-align: center;
-      color: black;
-      font-weight: bold;
-      line-height: 22px;
+    .avatar-preview img {
+      height: 160px;
+      border: 2px solid white;
     }
   </style>
-  <script src="typeit.min.js"></script>
 </head>
 <body>
   <div id="terminal"></div>
@@ -64,82 +23,64 @@
   <script>
     const terminal = document.getElementById("terminal");
 
-    function appendChatBox() {
-      const box = document.createElement("div");
-      box.className = "chat-box";
-      box.innerHTML = `
-         <div class="block">
-          <div><span class="sender">梦君：</span>这份实验数据我觉得没问题了，我在邮箱上发你了。</div>
-          <div><span class="sender">小芝士：</span>收到啦ovo师姐你太强了，这个实验我一直完成不了</div>
-          <div><span class="sender">梦君：</span>其实注意变量控制就可以了，别的地方你都完成得很好。</div>
-        </div>
+    const commands = [
+      ">>> [G^1@#] 初始化终端链接...",
+      ">>> sudo avatar-change user21 ./avatar_new.jpg",
+      "~$@#&!Q*! 验证权限中...",
+      "✔ 用户身份认证成功",
+      ">>> 系统校验中... 3x!V#12@%",
+      "@#klsD*(#@! 上传文件中",
+      "✔ 正在上传新头像...",
+      "Zx*21!@&>>✔ 用户21头像修改成功 √",
+      ">>> 显示新头像预览："
+    ];
 
-        <div class="block">
-          <div><span class="sender">梦君：</span>小芝，你和你男朋友在一起多久了？</div>
-          <div><span class="sender">小芝士：</span>已经分手啦TvT</div>
-          <div><span class="sender">梦君：</span>啊？为什么呀？</div>
-          <div><span class="sender">小芝士：</span>因为异地恋嘛，要克服的困难比想象中要多很多。</div>
-          <div><span class="sender">梦君：</span>你们以前是因为什么在一起的呢？</div>
-          <div><span class="sender">小芝士：</span>从前是大学同学，经常一起做小组作业，自然而然就熟啦。</div>
-          <div><span class="sender">梦君：</span>这样的啊……</div>
-          <div><span class="sender">小芝士：</span>师姐你怎么突然还关心起恋爱来了？老实交代你是不是有情况！</div>
-          <div><span class="sender">梦君：</span>这种事情的时候怎么会这么敏锐？</div>
-          <div><span class="sender">小A：</span>好恶心，最讨厌看别人谈恋爱了。</div>
-          <div><span class="sender">小芝士：</span>？？？？真的啊！！</div>
-          <div><span class="sender">小芝士：</span>是谁！</div>
-          <div><span class="sender">小芝士：</span>可我最近没有看见师姐你和谁走得近呀ovo</div>
-          <div><span class="sender">梦君：</span>嗯……</div>
-          <div><span class="sender">梦君：</span>没在一起</div>
-          <div><span class="sender">小芝士：</span>异地恋？！</div>
-          <div><span class="sender">梦君：</span>差不多吧。</div>
-          <div><span class="sender">小芝士：</span>天啊……师姐你不要把我前面的话放心上。其实只要两个人有心，就没什么不能克服的。</div>
-        </div>
-
-        <div class="block">
-          <div><span class="sender">小芝士：</span>师姐你最近几天怎么都没来实验室</div>
-          <div><span class="sender">小芝士：</span>师姐你生病了吗？</div>
-        </div>
-
-        <div class="block">
-          <div><span class="sender">小芝士：</span>师姐那个……是怎么回事？</div>
-        </div>
-
-        <div class="block">
-          <div><span class="sender">小芝士：</span>师姐你别太伤心了……虽然不了解具体发生了什么，但是我永远支持你！</div>
-        </div>
-      `;
-      terminal.appendChild(box);
-      terminal.scrollTop = terminal.scrollHeight;
+    function generateNoise(length = 60) {
+      const density = Math.random() * 0.2 + 0.8;
+      return Array.from({ length }, () =>
+        Math.random() < density
+          ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
+          : " "
+      ).join("");
     }
 
-    function appendProgressBar() {
-      const wrapper = document.createElement("div");
-      wrapper.className = "progress";
+    const typeNext = (instance, i = 0) => {
+      if (i >= commands.length) {
+        instance.exec(() => {
+          // 插入头像预览
+          const div = document.createElement("div");
+          div.className = "avatar-preview";
+          div.innerHTML = `<img src="terminal_image/user21_new.jpg" alt="新头像">`;
+          terminal.appendChild(div);
+          terminal.scrollTop = terminal.scrollHeight;
+        });
+        return;
+      }
 
-      const fill = document.createElement("div");
-      fill.className = "progress-fill";
-      fill.textContent = "1%";
-      fill.style.width = "1%";
+      const line = commands[i];
+      const noiseBefore = generateNoise(Math.floor(Math.random() * 15));
+      const noiseAfter = generateNoise(Math.floor(Math.random() * 20));
 
-      wrapper.appendChild(fill);
-      terminal.appendChild(wrapper);
-
-      terminal.scrollTop = terminal.scrollHeight;
-    }
+      instance
+        .type(noiseBefore + " " + line + " " + noiseAfter)
+        .break()
+        .pause(400)
+        .exec(() => {
+          terminal.scrollTop = terminal.scrollHeight;
+          typeNext(instance, i + 1);
+        });
+    };
 
     new TypeIt("#terminal", {
       speed: 20,
       cursorChar: "_",
+      lifeLike: false,
       startDelay: 300
     })
-      .type(">>> 正在继续读取微信聊天记录...")
-      .pause(1000)
-      .exec(() => appendChatBox())
-      .pause(1000)
-      .break()
-      .type(">>> 正在尝试修复图库数据...")
-      .pause(1200)
-      .exec(() => appendProgressBar())
+      .exec((instance) => {
+        typeNext(instance);
+        return instance;
+      })
       .go();
   </script>
 </body>
