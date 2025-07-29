@@ -48,38 +48,22 @@
         lines.push(line);
       }
     }
-
-    // ⬇️ 逐行打印函数
-    function typeLine(instance, i = 0) {
-      if (i >= lines.length) {
-        setTimeout(() => {
-          window.location.href = "terminal2.html"; // 跳转
-        }, 1500);
-        return;
-      }
-
-      instance
-        .type(lines[i])
-        .break()
-        .pause(10)
-        .exec(() => {
-          terminal.scrollTop = terminal.scrollHeight;
-          typeLine(instance, i + 1);
-        });
-    }
-
-    // ⬇️ 正确启动 TypeIt 实例
-    new TypeIt("#terminal", {
+    const typeit = new TypeIt("#terminal", {
       speed: 1,
+      startDelay: 300,
       cursorChar: "_",
       lifeLike: false,
-      startDelay: 300,
-    })
-      .exec((instance) => {
-        typeLine(instance);
-        return instance;
-      })
+    });
+    
+    for (let i = 0; i < lines.length; i++) {
+      typeit.type(lines[i]).break().pause(10);
+    }
+    
+    typeit
+      .pause(1000)
+      .exec(() => window.location.href = "terminal2.html")
       .go();
+
   </script>
 </body>
 </html>
