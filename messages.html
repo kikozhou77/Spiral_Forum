@@ -29,7 +29,7 @@
             <span id="chat-list-title" style="cursor: pointer;">私信列表</span>
             <button id="all-unread-button" onclick="markAllAsRead()">一键已读</button>
           </h2>
-          
+         <!--     
            <div class="contact-item" data-contact-id="troll" onclick="loadChat('troll')">
               <img src="Avatar/sohnwh.jpg" class="contact-avatar">
               <div class="contact-info">
@@ -40,9 +40,9 @@
               <button class="hidden-button" onclick="toggleUnreadInput('troll')">修改未读</button>
               <input type="number" id="unread-input-troll" class="unread-input" value="1" min="0" onchange="updateUnread('troll')">
             </div> 
-
-       <!--         
-             <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
+         -->
+          
+            <div class="contact-item" data-contact-id="user21" onclick="loadChat('user21')">
             <img src="Avatar/initial.jpg" class="contact-avatar">
             <div class="contact-info">
               <div class="name">用户21</div>
@@ -52,7 +52,83 @@
             <button class="hidden-button" onclick="toggleUnreadInput('user21')">修改未读</button>
             <input type="number" id="unread-input-user21" class="unread-input" value="1" min="0" onchange="updateUnread('user21')">
           </div> 
-       -->
+    
+            <div class="contact-item" data-contact-id="user62">
+            <img src="Avatar/other62.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">尘埃</div>
+              <div class="preview">像你这种人的数据就该被彻底焚毁，我要连带着你那块藏着肮脏秘密的硬盘一起，扔进熔炉里火化。</div>
+            </div>
+            <div class="unread-count" id="unread-user62">未读: 1</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('user62')">修改未读</button>
+            <input type="number" id="unread-input-user62" class="unread-input" value="1" min="0" onchange="updateUnread('user62')">
+          </div>
+          
+          <div class="contact-item" data-contact-id="user63">
+            <img src="Avatar/other63.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">火葬场联系我</div>
+              <div class="preview">信不信我要把骨灰都给你扬了，让你的存在彻底从物理和数字世界消失。</div>
+            </div>
+            <div class="unread-count" id="unread-user63">未读: 1</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('user63')">修改未读</button>
+            <input type="number" id="unread-input-user63" class="unread-input" value="1" min="0" onchange="updateUnread('user63')">
+          </div>
+          
+          <div class="contact-item" data-contact-id="user64">
+            <img src="Avatar/other64.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">进化论的败笔</div>
+              <div class="preview">人类进化了几百万年，结果却进化出了你这么个玩意儿，真是杂俎。</div>
+            </div>
+            <div class="unread-count" id="unread-user64">未读: 1</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('user64')">修改未读</button>
+            <input type="number" id="unread-input-user64" class="unread-input" value="1" min="0" onchange="updateUnread('user64')">
+          </div>
+          
+          <div class="contact-item" data-contact-id="user65">
+            <img src="Avatar/other65.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">进化论拥护者</div>
+              <div class="preview">你是那坨最恶心、最破坏水质的排泄物。我们现在要做的，就是把你过滤掉。</div>
+            </div>
+            <div class="unread-count" id="unread-user65">未读: 1</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('user65')">修改未读</button>
+            <input type="number" id="unread-input-user65" class="unread-input" value="1" min="0" onchange="updateUnread('user65')">
+          </div>
+          
+          <div class="contact-item" data-contact-id="user66">
+            <img src="Avatar/other66.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">Backspace</div>
+              <div class="preview">如果人生有退格键，你父母一定会把它按烂，做出一个更明智的选择。</div>
+            </div>
+            <div class="unread-count" id="unread-user66">未读: 1</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('user66')">修改未读</button>
+            <input type="number" id="unread-input-user66" class="unread-input" value="1" min="0" onchange="updateUnread('user66')">
+          </div>
+          
+          <div class="contact-item" data-contact-id="user67">
+            <img src="Avatar/other67.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">你说的都对。</div>
+              <div class="preview">你表演完了吗？表演完了就该滚回你那个发霉的地下室。</div>
+            </div>
+            <div class="unread-count" id="unread-user67">未读: 1</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('user67')">修改未读</button>
+            <input type="number" id="unread-input-user67" class="unread-input" value="1" min="0" onchange="updateUnread('user67')">
+          </div>
+          
+          <div class="contact-item" data-contact-id="user68">
+            <img src="Avatar/other68.jpg" class="contact-avatar">
+            <div class="contact-info">
+              <div class="name">CPU烧了</div>
+              <div class="preview">无知、恶毒又自卑。</div>
+            </div>
+            <div class="unread-count" id="unread-user68">未读: 1</div>
+            <button class="hidden-button" onclick="toggleUnreadInput('user68')">修改未读</button>
+            <input type="number" id="unread-input-user68" class="unread-input" value="1" min="0" onchange="updateUnread('user68')">
+          </div>
           
           <div class="contact-item" data-contact-id="k">
             <img src="Avatar/other1.jpg" class="contact-avatar">
@@ -725,82 +801,6 @@
             <input type="number" id="unread-input-user61" class="unread-input" value="1" min="0" onchange="updateUnread('user61')">
           </div>
           
-          <div class="contact-item" data-contact-id="user62">
-            <img src="Avatar/other62.jpg" class="contact-avatar">
-            <div class="contact-info">
-              <div class="name">尘埃</div>
-              <div class="preview">像你这种人的数据就该被彻底焚毁，我要连带着你那块藏着肮脏秘密的硬盘一起，扔进熔炉里火化。</div>
-            </div>
-            <div class="unread-count" id="unread-user62">未读: 1</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('user62')">修改未读</button>
-            <input type="number" id="unread-input-user62" class="unread-input" value="1" min="0" onchange="updateUnread('user62')">
-          </div>
-          
-          <div class="contact-item" data-contact-id="user63">
-            <img src="Avatar/other63.jpg" class="contact-avatar">
-            <div class="contact-info">
-              <div class="name">火葬场联系我</div>
-              <div class="preview">信不信我要把骨灰都给你扬了，让你的存在彻底从物理和数字世界消失。</div>
-            </div>
-            <div class="unread-count" id="unread-user63">未读: 1</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('user63')">修改未读</button>
-            <input type="number" id="unread-input-user63" class="unread-input" value="1" min="0" onchange="updateUnread('user63')">
-          </div>
-          
-          <div class="contact-item" data-contact-id="user64">
-            <img src="Avatar/other64.jpg" class="contact-avatar">
-            <div class="contact-info">
-              <div class="name">进化论的败笔</div>
-              <div class="preview">人类进化了几百万年，结果却进化出了你这么个玩意儿，真是杂俎。</div>
-            </div>
-            <div class="unread-count" id="unread-user64">未读: 1</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('user64')">修改未读</button>
-            <input type="number" id="unread-input-user64" class="unread-input" value="1" min="0" onchange="updateUnread('user64')">
-          </div>
-          
-          <div class="contact-item" data-contact-id="user65">
-            <img src="Avatar/other65.jpg" class="contact-avatar">
-            <div class="contact-info">
-              <div class="name">进化论拥护者</div>
-              <div class="preview">你是那坨最恶心、最破坏水质的排泄物。我们现在要做的，就是把你过滤掉。</div>
-            </div>
-            <div class="unread-count" id="unread-user65">未读: 1</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('user65')">修改未读</button>
-            <input type="number" id="unread-input-user65" class="unread-input" value="1" min="0" onchange="updateUnread('user65')">
-          </div>
-          
-          <div class="contact-item" data-contact-id="user66">
-            <img src="Avatar/other66.jpg" class="contact-avatar">
-            <div class="contact-info">
-              <div class="name">Backspace</div>
-              <div class="preview">如果人生有退格键，你父母一定会把它按烂，做出一个更明智的选择。</div>
-            </div>
-            <div class="unread-count" id="unread-user66">未读: 1</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('user66')">修改未读</button>
-            <input type="number" id="unread-input-user66" class="unread-input" value="1" min="0" onchange="updateUnread('user66')">
-          </div>
-          
-          <div class="contact-item" data-contact-id="user67">
-            <img src="Avatar/other67.jpg" class="contact-avatar">
-            <div class="contact-info">
-              <div class="name">你说的都对。</div>
-              <div class="preview">你表演完了吗？表演完了就该滚回你那个发霉的地下室。</div>
-            </div>
-            <div class="unread-count" id="unread-user67">未读: 1</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('user67')">修改未读</button>
-            <input type="number" id="unread-input-user67" class="unread-input" value="1" min="0" onchange="updateUnread('user67')">
-          </div>
-          
-          <div class="contact-item" data-contact-id="user68">
-            <img src="Avatar/other68.jpg" class="contact-avatar">
-            <div class="contact-info">
-              <div class="name">CPU烧了</div>
-              <div class="preview">无知、恶毒又自卑。</div>
-            </div>
-            <div class="unread-count" id="unread-user68">未读: 1</div>
-            <button class="hidden-button" onclick="toggleUnreadInput('user68')">修改未读</button>
-            <input type="number" id="unread-input-user68" class="unread-input" value="1" min="0" onchange="updateUnread('user68')">
-          </div>
   
         </div>
 
