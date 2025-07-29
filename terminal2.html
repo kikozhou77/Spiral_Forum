@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Terminal_a_private</title>
   <link rel="stylesheet" href="terminal_logic.css">
   <script src="typeit.min.js"></script>
@@ -16,60 +16,52 @@
       const div = document.createElement("div");
       div.className = "img-preview";
       div.innerHTML = `
-        <img src="https://via.placeholder.com/240x160.png?text=风景1">
-        <img src="https://via.placeholder.com/240x160.png?text=风景2">
-        <img src="https://via.placeholder.com/240x160.png?text=风景3">
+        <img src="terminal_image/photo1.jpg" alt="风景1">
+        <img src="terminal_image/photo2.jpg" alt="风景2">
+        <img src="terminal_image/photo3.jpg" alt="风景3">
       `;
       terminal.appendChild(div);
       terminal.scrollTop = terminal.scrollHeight;
     };
 
-    const appendChatBox = () => {
-      const box = document.createElement("div");
-      box.className = "chat-box";
-      box.innerHTML = `
-        <div class="block">
-          <div><span class="sender">梦君：</span>这份实验数据我觉得没问题了，我在邮箱上发你了。</div>
-          <div><span class="sender">小芝士：</span>收到啦ovo师姐你太强了，这个实验我一直完成不了</div>
-          <div><span class="sender">梦君：</span>其实注意变量控制就可以了，别的地方你都完成得很好。</div>
-        </div>
+    const chatMessages = [
+      { sender: "梦君", text: "这份实验数据我觉得没问题了，我在邮箱上发你了。" },
+      { sender: "小芝士", text: "收到啦ovo师姐你太强了，这个实验我一直完成不了" },
+      { sender: "梦君", text: "其实注意变量控制就可以了，别的地方你都完成得很好。" },
+      { sender: "梦君", text: "小芝，你和你男朋友在一起多久了？" },
+      { sender: "小芝士", text: "已经分手啦TvT" },
+      { sender: "梦君", text: "啊？为什么呀？" },
+      { sender: "小芝士", text: "因为异地恋嘛，要克服的困难比想象中要多很多。" },
+      { sender: "梦君", text: "你们以前是因为什么在一起的呢？" },
+      { sender: "小芝士", text: "从前是大学同学，经常一起做小组作业，自然而然就熟啦。" },
+      { sender: "梦君", text: "这样的啊……" },
+      { sender: "小芝士", text: "师姐你怎么突然还关心起恋爱来了？老实交代你是不是有情况！" },
+      { sender: "梦君", text: "这种事情的时候怎么会这么敏锐？" },
+      { sender: "小A", text: "好恶心，最讨厌看别人谈恋爱了。" },
+      { sender: "小芝士", text: "？？？？真的啊！！" },
+      { sender: "小芝士", text: "是谁！" },
+      { sender: "小芝士", text: "可我最近没有看见师姐你和谁走得近呀ovo" },
+      { sender: "梦君", text: "嗯……" },
+      { sender: "梦君", text: "没在一起" },
+      { sender: "小芝士", text: "异地恋？!" },
+      { sender: "梦君", text: "差不多吧。" },
+      { sender: "小芝士", text: "天啊……师姐你不要把我前面的话放心上。其实只要两个人有心，就没什么不能克服的。" },
+      { sender: "小芝士", text: "师姐你最近几天怎么都没来实验室" },
+      { sender: "小芝士", text: "师姐你生病了吗？" },
+      { sender: "小芝士", text: "师姐那个……是怎么回事？" },
+      { sender: "小芝士", text: "师姐你别太伤心了……虽然不了解具体发生了什么，但是我永远支持你！" },
+    ];
 
-        <div class="block">
-          <div><span class="sender">梦君：</span>小芝，你和你男朋友在一起多久了？</div>
-          <div><span class="sender">小芝士：</span>已经分手啦TvT</div>
-          <div><span class="sender">梦君：</span>啊？为什么呀？</div>
-          <div><span class="sender">小芝士：</span>因为异地恋嘛，要克服的困难比想象中要多很多。</div>
-          <div><span class="sender">梦君：</span>你们以前是因为什么在一起的呢？</div>
-          <div><span class="sender">小芝士：</span>从前是大学同学，经常一起做小组作业，自然而然就熟啦。</div>
-          <div><span class="sender">梦君：</span>这样的啊……</div>
-          <div><span class="sender">小芝士：</span>师姐你怎么突然还关心起恋爱来了？老实交代你是不是有情况！</div>
-          <div><span class="sender">梦君：</span>这种事情的时候怎么会这么敏锐？</div>
-          <div><span class="sender">小A：</span>好恶心，最讨厌看别人谈恋爱了。</div>
-          <div><span class="sender">小芝士：</span>？？？？真的啊！！</div>
-          <div><span class="sender">小芝士：</span>是谁！</div>
-          <div><span class="sender">小芝士：</span>可我最近没有看见师姐你和谁走得近呀ovo</div>
-          <div><span class="sender">梦君：</span>嗯……</div>
-          <div><span class="sender">梦君：</span>没在一起</div>
-          <div><span class="sender">小芝士：</span>异地恋？！</div>
-          <div><span class="sender">梦君：</span>差不多吧。</div>
-          <div><span class="sender">小芝士：</span>天啊……师姐你不要把我前面的话放心上。其实只要两个人有心，就没什么不能克服的。</div>
-        </div>
+    const printChatLine = (index = 0) => {
+      if (index >= chatMessages.length) return;
 
-        <div class="block">
-          <div><span class="sender">小芝士：</span>师姐你最近几天怎么都没来实验室</div>
-          <div><span class="sender">小芝士：</span>师姐你生病了吗？</div>
-        </div>
-
-        <div class="block">
-          <div><span class="sender">小芝士：</span>师姐那个……是怎么回事？</div>
-        </div>
-
-        <div class="block">
-          <div><span class="sender">小芝士：</span>师姐你别太伤心了……虽然不了解具体发生了什么，但是我永远支持你！</div>
-        </div>
-      `;
-      terminal.appendChild(box);
+      const block = document.createElement("div");
+      block.className = "chat-box block";
+      block.innerHTML = `<span class="sender">${chatMessages[index].sender}：</span>${chatMessages[index].text}`;
+      terminal.appendChild(block);
       terminal.scrollTop = terminal.scrollHeight;
+
+      setTimeout(() => printChatLine(index + 1), 700);
     };
 
     new TypeIt("#terminal", {
@@ -77,16 +69,16 @@
       cursorChar: "_",
       startDelay: 500
     })
-    .type(">>> 已进入用户21的系统")
-    .break().pause(500)
-    .type(">>> 尝试恢复照片中...")
-    .pause(1000)
-    .exec(() => appendImageSection())
-    .break()
-    .type(">>> 尝试恢复微信数据...")
-    .pause(1200)
-    .exec(() => appendChatBox())
-    .go();
+      .type(">>> 已进入用户21的系统")
+      .break().pause(500)
+      .type(">>> 尝试恢复照片中...")
+      .pause(1000)
+      .exec(() => appendImageSection())
+      .break()
+      .type(">>> 尝试恢复微信数据...")
+      .pause(800)
+      .exec(() => printChatLine(0))
+      .go();
   </script>
 </body>
 </html>
