@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: lime;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    #terminal {
+      white-space: pre-wrap;
+      line-height: 1.4;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .progress {
+      margin-top: 20px;
+      width: 80%;
+      height: 22px;
+      background-color: #222;
+      border: 1px solid lime;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: lime;
+      width: 99%;
+      text-align: center;
+      color: black;
+      font-weight: bold;
+      line-height: 22px;
+    }
+
+    .photo-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .photo-gallery img {
+      border: 2px solid lime;
+      width: 220px;
+      height: 150px;
+      object-fit: cover;
+      background: #222;
+    }
+
+    .caption {
+      color: #0ff;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+  <script src="typeit.min.js"></script>
+</head>
+<body>
+  <div id="terminal"></div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+
+    function appendProgressBar() {
+      const wrapper = document.createElement("div");
+      wrapper.className = "progress";
+
+      const fill = document.createElement("div");
+      fill.className = "progress-fill";
+      fill.textContent = "99%";
+
+      wrapper.appendChild(fill);
+      terminal.appendChild(wrapper);
+      terminal.scrollTop = terminal.scrollHeight;
+
+      // 动画推进到100%
+      setTimeout(() => {
+        fill.style.width = "100%";
+        fill.textContent = "100%";
+      }, 1200);
+    }
+
+    function appendGallery() {
+      const div = document.createElement("div");
+      div.className = "caption";
+      div.innerText = ">>> 系统图库自动弹出，已修复 13 张照片：";
+      terminal.appendChild(div);
+
+      const gallery = document.createElement("div");
+      gallery.className = "photo-gallery";
+      gallery.innerHTML = `
+        <img src="terminal_image/id_photo.jpg" alt="证件照">
+        <img src="terminal_image/experiment1.png" alt="实验数据1">
+        <img src="terminal_image/experiment2.png" alt="实验数据2">
+        <img src="terminal_image/phd_offer.jpg" alt="博士录取通知书">
+        <img src="terminal_image/travel1.jpg" alt="旅行照1">
+        <img src="terminal_image/travel2.jpg" alt="旅行照2">
+        <img src="terminal_image/travel3.jpg" alt="旅行照3">
+        <img src="terminal_image/corrupted1.png" alt="研究文件1（损毁）">
+        <img src="terminal_image/corrupted2.png" alt="研究文件2（损毁）">
+      `;
+      terminal.appendChild(gallery);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    new TypeIt("#terminal", {
+      speed: 20,
+      cursorChar: "_",
+      startDelay: 300
+    })
+      .type(">>> 修复图库进度：99%")
+      .pause(1000)
+      .exec(() => appendProgressBar())
+      .pause(1500)
+      .break()
+      .type(">>> 修复完成！正在加载照片……")
+      .pause(1500)
+      .exec(() => appendGallery())
+      .go();
+  </script>
+</body>
+</html>
