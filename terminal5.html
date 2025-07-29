@@ -3,63 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Terminal</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: black;
-      color: lime;
-      font-family: 'Courier New', monospace;
-      padding: 20px;
-      overflow: hidden;
-    }
-
-    #terminal {
-      white-space: pre-wrap;
-      line-height: 1.4;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .progress {
-      margin-top: 20px;
-      width: 80%;
-      height: 22px;
-      background-color: #222;
-      border: 1px solid lime;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background-color: lime;
-      width: 99%;
-      text-align: center;
-      color: black;
-      font-weight: bold;
-      line-height: 22px;
-    }
-
-    .photo-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 30px;
-    }
-
-    .photo-gallery img {
-      border: 2px solid lime;
-      width: 220px;
-      height: 150px;
-      object-fit: cover;
-      background: #222;
-    }
-
-    .caption {
-      color: #0ff;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-  </style>
+  <link rel="stylesheet" href="terminal_logic.css">
   <script src="typeit.min.js"></script>
 </head>
 <body>
