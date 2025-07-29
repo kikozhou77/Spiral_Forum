@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: lime;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    #terminal {
+      white-space: pre-wrap;
+      line-height: 1.4;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .chat-reply {
+      margin-top: 20px;
+      background-color: #111;
+      padding: 12px 18px;
+      border-left: 4px solid lime;
+      font-weight: bold;
+      color: #0ff;
+    }
+
+    .exposed {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+      animation: blink 0.5s steps(2, start) infinite;
+    }
+
+    @keyframes blink {
+      0% { background-color: red; }
+      50% { background-color: black; }
+      100% { background-color: red; }
+    }
+
+    .cam-flash {
+      margin-top: 30px;
+      border: 3px solid red;
+      width: 100%;
+      height: 200px;
+      background-image: url("terminal_image/exposed_face.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .caption {
+      color: yellow;
+      margin-top: 16px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  </style>
+  <script src="typeit.min.js"></script>
+</head>
+<body>
+  <div id="terminal"></div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+
+    function appendUser21Line(text) {
+      const div = document.createElement("div");
+      div.className = "chat-reply";
+      div.innerText = "用户21：" + text;
+      terminal.appendChild(div);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function appendExposeEffect() {
+      const div = document.createElement("div");
+      div.className = "exposed";
+      div.innerText = "⚠️ 摄像头已开启 · 直播中...";
+      terminal.appendChild(div);
+
+      const cam = document.createElement("div");
+      cam.className = "cam-flash";
+      terminal.appendChild(cam);
+
+      const cap = document.createElement("div");
+      cap.className = "caption";
+      cap.innerText = ">> 小A 的真实面孔正在被直播曝光...";
+      terminal.appendChild(cap);
+
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    new TypeIt("#terminal", {
+      speed: 20,
+      cursorChar: "_",
+      startDelay: 300
+    })
+      .type(">>> 更新头像：set_avatar user21 terminal_image/avatar_updated.jpg")
+      .pause(1000)
+      .break()
+      .exec(() => appendUser21Line("我怎么有了一个头像？"))
+      .pause(1200)
+      .type(">>> 小A：因为很适合你。")
+      .break()
+      .pause(1000)
+      .type(">>> 正在建立远程连接……")
+      .pause(1500)
+      .type(">>> ……")
+      .pause(800)
+      .exec(() => appendExposeEffect())
+      .pause(3000)
+      .type(">>> 门铃响了。")
+      .go();
+  </script>
+</body>
+</html>
